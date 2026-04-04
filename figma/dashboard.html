@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard | Glowpath</title>
+  <title>Dashboard | Gestão de Iluminação Pública</title>
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="./js/components.js"></script>
 </head>
 <body data-page="dashboard">
@@ -16,51 +17,213 @@
     <main class="main-content">
       <div data-include="./components/topbar.html"></div>
 
+      <!-- Header da Dashboard -->
+      <section class="dashboard-header">
+        <h1 class="page-title">Gestão de Postes de Luz</h1>
+        <div class="filters">
+          <select name="zona" id="zona-filter">
+            <option value="">Filtrar por Zona</option>
+            <!-- Zonas preenchidas dinamicamente -->
+          </select>
+          <select name="periodo" id="periodo-filter">
+            <option value="">Filtrar por Período</option>
+            <option value="semana">Última Semana</option>
+            <option value="mes">Último Mês</option>
+            <option value="ano">Último Ano</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Linha de Sumário (Cards) -->
       <section class="grid dashboard-metrics">
         <article class="card">
-          <p class="page-subtitle">Total Balance</p>
-          <h2>$84,254.32</h2>
-          <span class="badge badge-success">+12.5%</span>
+          <p class="page-subtitle">Total de Postes</p>
+          <h2>1,250</h2>
+          <span class="badge badge-success">+2.5%</span>
         </article>
         <article class="card">
-          <p class="page-subtitle">Total Profit</p>
-          <h2>$12,847.00</h2>
-          <span class="badge badge-success">+8.2%</span>
+          <p class="page-subtitle">Avarias Ativas</p>
+          <h2>15</h2>
+          <span class="badge badge-danger">+5.1%</span>
         </article>
         <article class="card">
-          <p class="page-subtitle">Pending Orders</p>
-          <h2>7</h2>
-          <span class="badge">3 buy / 4 sell</span>
+          <p class="page-subtitle">Lâmpadas a vencer</p>
+          <h2>82</h2>
+          <span class="badge badge-warning">-1.2%</span>
+        </article>
+        <article class="card">
+          <p class="page-subtitle">Consumo Total (kWh)</p>
+          <h2>4,580</h2>
+          <span class="badge badge-success">+3.8%</span>
         </article>
       </section>
 
+      <!-- Área de Gráficos -->
       <section class="grid dashboard-charts" style="margin-top: 16px;">
         <article class="card">
-          <h3>Portfolio Overview</h3>
-          <div class="chart-placeholder"></div>
+          <h3>Consumo de Energia por Zona</h3>
+          <canvas id="consumoEnergiaChart"></canvas>
         </article>
         <article class="card">
-          <h3>Asset Allocation</h3>
-          <ul class="tx-list">
-            <li class="tx-item"><span>BTC</span><strong>40%</strong></li>
-            <li class="tx-item"><span>ETH</span><strong>25%</strong></li>
-            <li class="tx-item"><span>USDT</span><strong>20%</strong></li>
-            <li class="tx-item"><span>Others</span><strong>15%</strong></li>
-          </ul>
+          <h3>Distribuição de Avarias</h3>
+          <canvas id="distribuicaoAvariasChart"></canvas>
         </article>
       </section>
 
+      <!-- Tabela de Avarias Recentes -->
       <section class="card" style="margin-top: 16px;">
-        <h3>Recent Transactions</h3>
+        <h3>Avarias Recentes</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Zona</th>
+              <th>Tipo de Avaria</th>
+              <th>Data</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Linhas da tabela preenchidas dinamicamente -->
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Tabela de Manutenções -->
+      <section class="card" style="margin-top: 16px;">
+        <h3>Próximas Manutenções</h3>
         <ul class="tx-list">
-          <li class="tx-item"><span>Buy BTC</span><span class="badge badge-success">+0.0234 BTC</span></li>
-          <li class="tx-item"><span>Sell ETH</span><span class="badge badge-danger">-1.35 ETH</span></li>
-          <li class="tx-item"><span>Stake SOL</span><span class="badge badge-success">+12.00 SOL</span></li>
+            <!-- Itens da lista preenchidos dinamicamente -->
         </ul>
       </section>
 
       <div data-include="./components/footer.html"></div>
     </main>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('./zonas.txt')
+        .then(response => response.json())
+        .then(zonas => {
+          const zonaFilter = document.getElementById('zona-filter');
+          const avariasTbody = document.querySelector('.table tbody');
+          const manutencoesList = document.querySelector('.tx-list');
+
+          // Preencher filtro de zonas
+          for (const zonaKey in zonas) {
+            if (zonas.hasOwnProperty(zonaKey)) {
+              const option = document.createElement('option');
+              option.value = zonaKey;
+              option.textContent = zonas[zonaKey].nome;
+              zonaFilter.appendChild(option);
+            }
+          }
+
+          // Dados de exemplo para avarias e manutenções
+          const avariasRecentes = [
+            { id: '#001', zona: 'Lisboa - Baixa', tipo: 'Lâmpada Queimada', data: '03/04/2026', status: 'Aberta', statusClass: 'badge-danger' },
+            { id: '#002', zona: 'Porto - Ribeira', tipo: 'Poste Danificado', data: '02/04/2026', status: 'Em Análise', statusClass: 'badge-warning' },
+            { id: '#003', zona: 'Coimbra - Alta', tipo: 'Falha no Sensor', data: '01/04/2026', status: 'Resolvida', statusClass: 'badge-success' },
+            { id: '#004', zona: 'Braga - Centro', tipo: 'Lâmpada Queimada', data: '31/03/2026', status: 'Resolvida', statusClass: 'badge-success' },
+            { id: '#005', zona: 'Algarve - Faro', tipo: 'Poste com corrosão', data: '30/03/2026', status: 'Aberta', statusClass: 'badge-danger' },
+          ];
+
+          const proximasManutencoes = [
+            { desc: 'Substituição em massa - Lisboa (Avenidas Novas)', data: '15/04/2026' },
+            { desc: 'Inspeção de rotina - Porto (Foz)', data: '22/04/2026' },
+            { desc: 'Reparação de poste - Coimbra (Santa Clara)', data: '25/04/2026' },
+            { desc: 'Verificação de sensores - Braga (Sé)', data: '28/04/2026' },
+            { desc: 'Manutenção preventiva - Algarve (Vilamoura)', data: '05/05/2026' },
+          ];
+
+          // Preencher tabela de avarias
+          avariasRecentes.forEach(avaria => {
+            const row = `
+              <tr>
+                <td>${avaria.id}</td>
+                <td>${avaria.zona}</td>
+                <td>${avaria.tipo}</td>
+                <td>${avaria.data}</td>
+                <td><span class="badge ${avaria.statusClass}">${avaria.status}</span></td>
+                <td>
+                  <button class="button">Ver</button>
+                  <button class="button-outline">Editar</button>
+                </td>
+              </tr>`;
+            avariasTbody.innerHTML += row;
+          });
+
+          // Preencher lista de manutenções
+          proximasManutencoes.forEach(manutencao => {
+            const item = `<li class="tx-item"><span>${manutencao.desc}</span><strong>${manutencao.data}</strong></li>`;
+            manutencoesList.innerHTML += item;
+          });
+
+
+          // Dados e configuração para o gráfico de consumo de energia
+          const consumoData = {
+            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
+            datasets: Object.keys(zonas).map((zonaKey, index) => {
+              const zona = zonas[zonaKey];
+              const colors = [
+                'rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)', 
+                'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(54, 162, 235, 1)', 
+                'rgba(201, 203, 207, 1)', 'rgba(255, 99, 71, 1)', 'rgba(60, 179, 113, 1)',
+                'rgba(106, 90, 205, 1)', 'rgba(255, 140, 0, 1)'
+              ];
+              // Utilizar os dados flutuantes reais em vez de progressão baseada num número
+              const historicoConsumo = zona.consumo_mensal || [0, 0, 0, 0];
+              
+              return {
+                label: zona.nome,
+                data: historicoConsumo,
+                borderColor: colors[index % colors.length],
+                backgroundColor: colors[index % colors.length],
+                tension: 0.1
+              }
+            })
+          };
+          const consumoConfig = {
+            type: 'line',
+            data: consumoData,
+          };
+          new Chart(document.getElementById('consumoEnergiaChart'), consumoConfig);
+
+          // Dados e configuração para o gráfico de distribuição de avarias
+          const avariasLabels = [];
+          const avariasCounts = [];
+          const bgColors = [
+            'rgba(255, 99, 132, 0.7)', 'rgba(54, 162, 235, 0.7)', 'rgba(255, 206, 86, 0.7)', 
+            'rgba(75, 192, 192, 0.7)', 'rgba(153, 102, 255, 0.7)', 'rgba(201, 203, 207, 0.7)',
+            'rgba(255, 99, 71, 0.7)', 'rgba(60, 179, 113, 0.7)', 'rgba(106, 90, 205, 0.7)',
+            'rgba(255, 140, 0, 0.7)', 'rgba(218, 112, 214, 0.7)'
+          ];
+          
+          Object.keys(zonas).forEach(zonaKey => {
+            if(zonas[zonaKey].avarias > 0) {
+              avariasLabels.push(zonas[zonaKey].nome);
+              avariasCounts.push(zonas[zonaKey].avarias);
+            }
+          });
+
+          const avariasData = {
+            labels: avariasLabels,
+            datasets: [{
+              label: 'Distribuição de Avarias por Zona',
+              data: avariasCounts,
+              backgroundColor: bgColors.slice(0, avariasLabels.length),
+            }]
+          };
+          const avariasConfig = {
+            type: 'doughnut',
+            data: avariasData,
+          };
+          new Chart(document.getElementById('distribuicaoAvariasChart'), avariasConfig);
+        })
+        .catch(console.error);
+    });
+  </script>
 </body>
 </html>

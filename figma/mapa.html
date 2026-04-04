@@ -20,10 +20,14 @@
         <article class="card">
           <h3>Parceiros por Regiao</h3>
           <ul class="partner-list">
+<<<<<<< Updated upstream
             <li>Sao Paulo, BR - 18 parceiros</li>
             <li>Lisboa, PT - 9 parceiros</li>
             <li>Madrid, ES - 7 parceiros</li>
             <li>Miami, US - 14 parceiros</li>
+=======
+            <!-- As zonas serão preenchidas dinamicamente -->
+>>>>>>> Stashed changes
           </ul>
         </article>
 
@@ -46,5 +50,88 @@
       <div data-include="./components/footer.html"></div>
     </main>
   </div>
+<<<<<<< Updated upstream
+=======
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var map = L.map('map').setView([39.5, -8], 7);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      fetch('./zonas.txt')
+        .then(response => response.json())
+        .then(zonas => {
+          const partnerList = document.querySelector('.partner-list');
+          const markers = {};
+
+          for (const zonaKey in zonas) {
+            if (zonas.hasOwnProperty(zonaKey)) {
+              const zona = zonas[zonaKey];
+              
+              // Adicionar à lista
+              const listItem = document.createElement('li');
+              listItem.textContent = zona.nome;
+              listItem.dataset.lat = zona.lat;
+              listItem.dataset.lon = zona.lon;
+              listItem.dataset.key = zonaKey;
+              partnerList.appendChild(listItem);
+
+              // Adicionar marcador ao mapa
+              markers[zonaKey] = L.marker([zona.lat, zona.lon]).addTo(map).bindPopup(`<b>${zona.nome}</b>`);
+            }
+          }
+
+          if (markers.porto) {
+            markers.porto.openPopup();
+          }
+
+          partnerList.querySelectorAll('li').forEach(function(item) {
+            item.addEventListener('click', function() {
+              // Remove selected class and info from all items
+              partnerList.querySelectorAll('li').forEach(function(el) {
+                el.classList.remove('selected');
+                const existingInfo = el.querySelector('.zona-info-details');
+                if (existingInfo) {
+                  existingInfo.remove();
+                }
+              });
+              // Add selected class to the clicked item
+              this.classList.add('selected');
+
+              var lat = this.getAttribute('data-lat');
+              var lon = this.getAttribute('data-lon');
+              var zoom = (this.innerText === 'Madeira' || this.innerText === 'Açores') ? 9 : 13;
+              map.setView([lat, lon], zoom);
+
+              var markerKey = this.dataset.key;
+              if (markers[markerKey]) {
+                markers[markerKey].openPopup();
+              }
+
+              // Mostrar e preencher informações da zona
+              var zonaInfo = zonas[markerKey];
+              if (zonaInfo) {
+                const infoTemplate = document.getElementById('zona-info-template').cloneNode(true);
+                infoTemplate.removeAttribute('id');
+                infoTemplate.style.display = 'block';
+                infoTemplate.classList.add('zona-info-details');
+                infoTemplate.querySelector('.zona-postes').innerText = zonaInfo.postes;
+                infoTemplate.querySelector('.zona-avarias').innerText = zonaInfo.avarias;
+                infoTemplate.querySelector('.zona-status').innerText = zonaInfo.status;
+                infoTemplate.querySelector('.zona-consumo').innerText = zonaInfo.consumo;
+                infoTemplate.querySelector('.zona-vencimento').innerText = zonaInfo.vencimento;
+                infoTemplate.querySelector('.zona-substituicao').innerText = zonaInfo.substituicao;
+                this.appendChild(infoTemplate);
+              }
+            });
+          });
+        })
+        .catch(console.error);
+    });
+  </script>
+>>>>>>> Stashed changes
 </body>
 </html>
