@@ -7,6 +7,25 @@
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/mapa.css" />
+  <style>
+    .partner-list li {
+      cursor: pointer;
+      padding: 8px;
+      margin-bottom: 4px;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    .partner-list li.selected {
+      background-color: #1E90FF;
+      color: white;
+    }
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
   <script defer src="./js/components.js"></script>
 </head>
 <body data-page="mapa">
@@ -18,27 +37,37 @@
 
       <section class="map-layout">
         <article class="card">
-          <h3>Parceiros por Regiao</h3>
+          <h3>Zonas</h3>
           <ul class="partner-list">
-            <li>Sao Paulo, BR - 18 parceiros</li>
-            <li>Lisboa, PT - 9 parceiros</li>
-            <li>Madrid, ES - 7 parceiros</li>
-            <li>Miami, US - 14 parceiros</li>
+            <li data-lat="41.1579" data-lon="-8.6291">Porto</li>
+            <li data-lat="38.7223" data-lon="-9.1393">Lisboa</li>
+            <li data-lat="40.6570" data-lon="-7.9138">Viseu</li>
+            <li data-lat="40.4229" data-lon="-7.7036">Seia</li>
+            <li data-lat="41.5454" data-lon="-8.4265">Braga</li>
+            <li data-lat="40.2033" data-lon="-8.4103">Coimbra</li>
+            <li data-lat="38.799" data-lon="-9.386">Sintra</li>
+            <li data-lat="38.5714" data-lon="-7.9077">Alentejo</li>
+            <li data-lat="37.0194" data-lon="-7.9322">Algarve</li>
+            <li data-lat="32.6669" data-lon="-16.9241">Madeira</li>
+            <li data-lat="37.7412" data-lon="-25.6756">Açores</li>
           </ul>
+
+          <div id="zona-info-template" style="display: none; margin-top: 10px; padding-left: 20px;">
+            <p><strong>Quantidade de Postes:</strong> <span class="zona-postes"></span></p>
+            <p><strong>Avarias Atuais:</strong> <span class="zona-avarias"></span></p>
+            <p><strong>Status:</strong> <span class="zona-status"></span></p>
+            <p><strong>Consumo Mensal:</strong> <span class="zona-consumo"></span></p>
+            <p><strong>Lâmpadas a Vencer:</strong> <span class="zona-vencimento"></span></p>
+            <p><strong>Última Substituição:</strong> <span class="zona-substituicao"></span></p>
+            <button>Ver Detalhes</button>
+            <button>Editar</button>
+          </div>
         </article>
 
         <article class="card">
           <h3>Mapa de Cobertura</h3>
           <div class="map-frame">
-            <iframe
-              title="Mapa de cobertura"
-              width="100%"
-              height="100%"
-              style="border:0; min-height:520px;"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=-74.1%2C-34.8%2C-30.0%2C6.5&amp;layer=mapnik">
-            </iframe>
+            <div id="map" style="height: 720px; width: 95%;"></div>
           </div>
         </article>
       </section>
@@ -46,5 +75,86 @@
       <div data-include="./components/footer.html"></div>
     </main>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var map = L.map('map').setView([39.5, -8], 7);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      var markers = {
+        porto: L.marker([41.1579, -8.6291]).addTo(map).bindPopup("<b>Porto</b>"),
+        lisboa: L.marker([38.7223, -9.1393]).addTo(map).bindPopup("<b>Lisboa</b>"),
+        viseu: L.marker([40.6570, -7.9138]).addTo(map).bindPopup("<b>Viseu</b>"),
+        seia: L.marker([40.4229, -7.7036]).addTo(map).bindPopup("<b>Seia</b>"),
+        braga: L.marker([41.5454, -8.4265]).addTo(map).bindPopup("<b>Braga</b>"),
+        coimbra: L.marker([40.2033, -8.4103]).addTo(map).bindPopup("<b>Coimbra</b>"),
+        sintra: L.marker([38.799, -9.386]).addTo(map).bindPopup("<b>Sintra</b>"),
+        alentejo: L.marker([38.5714, -7.9077]).addTo(map).bindPopup("<b>Alentejo</b>"),
+        algarve: L.marker([37.0194, -7.9322]).addTo(map).bindPopup("<b>Algarve</b>"),
+        madeira: L.marker([32.6669, -16.9241]).addTo(map).bindPopup("<b>Madeira</b>"),
+        acores: L.marker([37.7412, -25.6756]).addTo(map).bindPopup("<b>Açores</b>")
+      };
+
+      markers.porto.openPopup();
+
+      document.querySelectorAll('.partner-list li').forEach(function(item) {
+        item.addEventListener('click', function() {
+          // Remove selected class and info from all items
+          document.querySelectorAll('.partner-list li').forEach(function(el) {
+            el.classList.remove('selected');
+            const existingInfo = el.querySelector('.zona-info-details');
+            if (existingInfo) {
+              existingInfo.remove();
+            }
+          });
+          // Add selected class to the clicked item
+          this.classList.add('selected');
+
+          var lat = this.getAttribute('data-lat');
+          var lon = this.getAttribute('data-lon');
+          var zoom = (this.innerText === 'Madeira' || this.innerText === 'Açores') ? 9 : 13;
+          map.setView([lat, lon], zoom);
+
+          var markerKey = this.innerText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+          if (markers[markerKey]) {
+            markers[markerKey].openPopup();
+          }
+
+          // Mostrar e preencher informações da zona
+          var zonaInfo = zonas[markerKey];
+          if (zonaInfo) {
+            const infoTemplate = document.getElementById('zona-info-template').cloneNode(true);
+            infoTemplate.removeAttribute('id');
+            infoTemplate.style.display = 'block';
+            infoTemplate.classList.add('zona-info-details');
+            infoTemplate.querySelector('.zona-postes').innerText = zonaInfo.postes;
+            infoTemplate.querySelector('.zona-avarias').innerText = zonaInfo.avarias;
+            infoTemplate.querySelector('.zona-status').innerText = zonaInfo.status;
+            infoTemplate.querySelector('.zona-consumo').innerText = zonaInfo.consumo;
+            infoTemplate.querySelector('.zona-vencimento').innerText = zonaInfo.vencimento;
+            infoTemplate.querySelector('.zona-substituicao').innerText = zonaInfo.substituicao;
+            this.appendChild(infoTemplate);
+          }
+        });
+      });
+
+      var zonas = {
+        porto: { postes: 1500, avarias: 5, status: 'Operacional', consumo: '2500 kWh', vencimento: 120, substituicao: '2023-10-15' },
+        lisboa: { postes: 2200, avarias: 12, status: 'Operacional', consumo: '3200 kWh', vencimento: 200, substituicao: '2023-11-01' },
+        viseu: { postes: 800, avarias: 2, status: 'Operacional', consumo: '1200 kWh', vencimento: 50, substituicao: '2024-01-20' },
+        seia: { postes: 400, avarias: 1, status: 'Operacional', consumo: '600 kWh', vencimento: 30, substituicao: '2024-02-10' },
+        braga: { postes: 1100, avarias: 3, status: 'Operacional', consumo: '1600 kWh', vencimento: 80, substituicao: '2023-12-05' },
+        coimbra: { postes: 950, avarias: 7, status: 'Atenção', consumo: '1400 kWh', vencimento: 65, substituicao: '2023-11-22' },
+        sintra: { postes: 700, avarias: 4, status: 'Operacional', consumo: '1000 kWh', vencimento: 45, substituicao: '2024-01-05' },
+        alentejo: { postes: 1800, avarias: 15, status: 'Avaria', consumo: '2800 kWh', vencimento: 150, substituicao: '2023-09-10' },
+        algarve: { postes: 1300, avarias: 6, status: 'Operacional', consumo: '2000 kWh', vencimento: 100, substituicao: '2023-10-30' },
+        madeira: { postes: 600, avarias: 2, status: 'Operacional', consumo: '900 kWh', vencimento: 40, substituicao: '2024-02-15' },
+        acores: { postes: 500, avarias: 1, status: 'Operacional', consumo: '750 kWh', vencimento: 35, substituicao: '2024-03-01' }
+      };
+    });
+  </script>
 </body>
 </html>
