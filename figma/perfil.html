@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings | Glowpath</title>
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/perfil.css" />
+  <script defer src="./js/components.js"></script>
+</head>
+<body data-page="perfil">
+  <div class="app-shell">
+    <div data-include="./components/sidebar.html"></div>
+
+    <main class="main-content">
+      <div data-include="./components/topbar.html"></div>
+
+      <section class="card">
+        <div class="settings-tabs">
+          <span class="settings-tab active">Profile</span>
+          <span class="settings-tab">Security</span>
+          <span class="settings-tab">Notifications</span>
+          <span class="settings-tab">Preferences</span>
+        </div>
+
+        <div class="profile-head">
+          <div class="avatar" style="width:72px; height:72px; border-radius:18px; font-size:24px;">AM</div>
+          <div class="profile-meta">
+            <h2>Alex Morgan</h2>
+            <p class="page-subtitle">alex.morgan@email.com</p>
+          </div>
+        </div>
+
+        <form class="form-grid">
+          <label>First Name<input type="text" value="Alex" /></label>
+          <label>Last Name<input type="text" value="Morgan" /></label>
+          <label>Email<input type="email" value="alex.morgan@email.com" /></label>
+          <label>Phone<input type="tel" value="+1 (555) 123-4567" /></label>
+          <label>Bio<textarea rows="3">Crypto enthusiast and day trader since 2017</textarea></label>
+          <div class="actions">
+            <button type="submit" class="btn btn-primary" style="width:auto;">Save Changes</button>
+            <button type="button" class="btn btn-secondary" style="width:auto;">Cancel</button>
+          </div>
+        </form>
+      </section>
+
+      <div data-include="./components/footer.html"></div>
+    </main>
+  </div>
+</body>
+</html>

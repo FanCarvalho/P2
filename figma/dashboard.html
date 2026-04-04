@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Glowpath</title>
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/dashboard.css" />
+  <script defer src="./js/components.js"></script>
+</head>
+<body data-page="dashboard">
+  <div class="app-shell">
+    <div data-include="./components/sidebar.html"></div>
+
+    <main class="main-content">
+      <div data-include="./components/topbar.html"></div>
+
+      <section class="grid dashboard-metrics">
+        <article class="card">
+          <p class="page-subtitle">Total Balance</p>
+          <h2>$84,254.32</h2>
+          <span class="badge badge-success">+12.5%</span>
+        </article>
+        <article class="card">
+          <p class="page-subtitle">Total Profit</p>
+          <h2>$12,847.00</h2>
+          <span class="badge badge-success">+8.2%</span>
+        </article>
+        <article class="card">
+          <p class="page-subtitle">Pending Orders</p>
+          <h2>7</h2>
+          <span class="badge">3 buy / 4 sell</span>
+        </article>
+      </section>
+
+      <section class="grid dashboard-charts" style="margin-top: 16px;">
+        <article class="card">
+          <h3>Portfolio Overview</h3>
+          <div class="chart-placeholder"></div>
+        </article>
+        <article class="card">
+          <h3>Asset Allocation</h3>
+          <ul class="tx-list">
+            <li class="tx-item"><span>BTC</span><strong>40%</strong></li>
+            <li class="tx-item"><span>ETH</span><strong>25%</strong></li>
+            <li class="tx-item"><span>USDT</span><strong>20%</strong></li>
+            <li class="tx-item"><span>Others</span><strong>15%</strong></li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="card" style="margin-top: 16px;">
+        <h3>Recent Transactions</h3>
+        <ul class="tx-list">
+          <li class="tx-item"><span>Buy BTC</span><span class="badge badge-success">+0.0234 BTC</span></li>
+          <li class="tx-item"><span>Sell ETH</span><span class="badge badge-danger">-1.35 ETH</span></li>
+          <li class="tx-item"><span>Stake SOL</span><span class="badge badge-success">+12.00 SOL</span></li>
+        </ul>
+      </section>
+
+      <div data-include="./components/footer.html"></div>
+    </main>
+  </div>
+</body>
+</html>

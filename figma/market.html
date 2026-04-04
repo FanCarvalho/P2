@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Markets | Glowpath</title>
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/market.css" />
+  <script defer src="./js/components.js"></script>
+</head>
+<body data-page="market">
+  <div class="app-shell">
+    <div data-include="./components/sidebar.html"></div>
+
+    <main class="main-content">
+      <div data-include="./components/topbar.html"></div>
+
+      <section class="grid market-top">
+        <article class="card"><p class="page-subtitle">Market Cap</p><h3>$2.48T</h3></article>
+        <article class="card"><p class="page-subtitle">24h Volume</p><h3>$84.2B</h3></article>
+        <article class="card"><p class="page-subtitle">BTC Dominance</p><h3>52.4%</h3></article>
+        <article class="card"><p class="page-subtitle">Active Coins</p><h3>12,847</h3></article>
+      </section>
+
+      <section class="card" style="margin-top: 16px; overflow-x: auto;">
+        <table class="market-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Coin</th>
+              <th>Price</th>
+              <th>24h</th>
+              <th>Volume</th>
+              <th>Market Cap</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Bitcoin (BTC)</td><td>$43,256.00</td><td class="badge-success">+2.34%</td><td>$28.4B</td><td>$847.2B</td></tr>
+            <tr><td>2</td><td>Ethereum (ETH)</td><td>$2,284.50</td><td class="badge-success">+1.87%</td><td>$12.8B</td><td>$274.5B</td></tr>
+            <tr><td>3</td><td>Tether (USDT)</td><td>$1.00</td><td class="badge-success">+0.01%</td><td>$45.2B</td><td>$95.8B</td></tr>
+            <tr><td>4</td><td>BNB</td><td>$312.45</td><td class="badge-danger">-0.82%</td><td>$842M</td><td>$48.2B</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div data-include="./components/footer.html"></div>
+    </main>
+  </div>
+</body>
+</html>
