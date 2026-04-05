@@ -1,34 +1,93 @@
 .map-layout {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 16px;
+  display: block;
 }
 
-.partner-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 10px;
+.map-card {
+  min-height: 820px;
 }
 
-.partner-list li {
+.map-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.map-heading {
+  margin-bottom: 16px;
+}
+
+.zona-info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: min(320px, calc(100% - 40px));
+  max-height: calc(100% - 40px);
+  overflow: auto;
+  padding: 16px;
+  border-radius: 12px;
   border: 1px solid var(--border);
+  background: #1E90FF;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  z-index: 1000;
+}
+
+.zona-info[hidden] {
+  display: none;
+}
+
+.zona-info.is-empty {
+  color: var(--muted);
+}
+
+.zona-info h4 {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+}
+
+.zona-info p {
+  margin: 0 0 8px;
+}
+
+.zona-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.zona-actions button {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
   border-radius: 10px;
-  padding: 10px;
-  background: #252527;
+  padding: 10px 12px;
+  cursor: pointer;
 }
 
 .map-frame {
+  position: relative;
   width: 100%;
-  min-height: 520px;
+  height: 740px;
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
 }
 
+#map {
+  width: 100%;
+  height: 100%;
+}
+
 @media (max-width: 1024px) {
-  .map-layout {
-    grid-template-columns: 1fr;
+  .map-card {
+    min-height: auto;
+  }
+
+  .map-frame {
+    height: 620px;
+  }
+
+  .zona-info {
+    left: 12px;
+    bottom: 12px;
+    width: calc(100% - 24px);
   }
 }
