@@ -1,0 +1,179 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel de Administração | Gestão de Iluminação Pública</title>
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/admin.css" />
+  <script defer src="./js/components.js"></script>
+</head>
+<body data-page="admin">
+  <div class="app-shell">
+    <div data-include="./components/sidebar.html"></div>
+    <main class="main-content">
+      <div data-include="./components/topbar.html"></div>
+
+      <section class="admin-grid">
+        <!-- Gestão de Zonas -->
+        <article class="card">
+          <header class="card-header">
+            <h2>Gestão de Zonas</h2>
+            <button class="btn btn-primary">+ Nova Zona</button>
+          </header>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                   <th>Nome / Região</th>
+                   <th>Postes Totais</th>
+                   <th>Avarias</th>
+                   <th>Consumo</th>
+                   <th>Última Substituição</th>
+                   <th>Estado</th>
+                   <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                 <tr>
+                   <td>Porto</td>
+                   <td>1500</td>
+                   <td>5</td>
+                   <td>2500 kWh</td>
+                   <td>2023-10-15</td>
+                   <td><span class="badge badge-success">Operacional</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Lisboa</td>
+                   <td>2200</td>
+                   <td>12</td>
+                   <td>3200 kWh</td>
+                   <td>2023-11-01</td>
+                   <td><span class="badge badge-success">Operacional</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Viseu</td>
+                   <td>800</td>
+                   <td>2</td>
+                   <td>1200 kWh</td>
+                   <td>2024-01-20</td>
+                   <td><span class="badge badge-success">Operacional</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Seia</td>
+                   <td>400</td>
+                   <td>1</td>
+                   <td>600 kWh</td>
+                   <td>2024-02-10</td>
+                   <td><span class="badge badge-success">Operacional</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Braga</td>
+                   <td>1100</td>
+                   <td>3</td>
+                   <td>1600 kWh</td>
+                   <td>2023-12-05</td>
+                   <td><span class="badge badge-success">Operacional</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Coimbra</td>
+                   <td>950</td>
+                   <td>7</td>
+                   <td>1400 kWh</td>
+                   <td>2023-11-22</td>
+                   <td><span class="badge badge-warning">Atenção</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Sintra</td>
+                   <td>700</td>
+                   <td>4</td>
+                   <td>1000 kWh</td>
+                   <td>2024-01-05</td>
+                   <td><span class="badge badge-success">Operacional</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Alentejo</td>
+                   <td>1800</td>
+                   <td>15</td>
+                   <td>2800 kWh</td>
+                   <td>2023-09-10</td>
+                   <td><span class="badge badge-danger">Avaria</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Algarve</td>
+                   <td>1300</td>
+                   <td>6</td>
+                   <td>2000 kWh</td>
+                   <td>2023-10-30</td>
+                   <td><span class="badge badge-success">Operacional</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Madeira</td>
+                   <td>600</td>
+                   <td>2</td>
+                   <td>900 kWh</td>
+                   <td>2024-02-15</td>
+                   <td><span class="badge badge-success">Operacional</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+                 <tr>
+                   <td>Açores</td>
+                   <td>500</td>
+                   <td>1</td>
+                   <td>750 kWh</td>
+                   <td>2024-03-01</td>
+                   <td><span class="badge badge-success">Operacional</span></td>
+                   <td>
+                     <button class="btn btn-outline btn-sm">Editar</button> 
+                     <button class="btn btn-danger btn-sm">Excluir</button>
+                   </td>
+                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

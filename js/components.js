@@ -68,7 +68,7 @@ function applyPageState() {
 
   const titleMap = {
     dashboard: ["Dashboard", "Visao geral do portfolio"],
-    market: ["Markets", "Cotacoes e volume de mercado em tempo real"],
+    market: ["Glowpath Engenharia", "Promocao da empresa e sede principal no Porto"],
     mapa: ["Map", "Parceiros e cobertura geolocalizada"],
     perfil: ["Settings", "Preferencias e seguranca da conta"]
   };

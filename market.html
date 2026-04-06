@@ -16,32 +16,70 @@
     <main class="main-content">
       <div data-include="./components/topbar.html"></div>
 
-      <section class="grid market-top">
-        <article class="card"><p class="page-subtitle">Market Cap</p><h3>$2.48T</h3></article>
-        <article class="card"><p class="page-subtitle">24h Volume</p><h3>$84.2B</h3></article>
-        <article class="card"><p class="page-subtitle">BTC Dominance</p><h3>52.4%</h3></article>
-        <article class="card"><p class="page-subtitle">Active Coins</p><h3>12,847</h3></article>
+      <section class="card market-hero">
+        <div>
+          <p class="market-kicker">Infraestrutura Urbana Inteligente</p>
+          <h2>Manutencao especializada de postes e sensores para cidades mais seguras.</h2>
+          <p class="market-lead">
+            A Glowpath Engenharia garante operacao continua da iluminacao publica e dos sensores urbanos,
+            com equipas de resposta rapida, manutencao preventiva e monitorizacao 24/7.
+          </p>
+          <div class="market-cta-row">
+            <a class="cta-primary" href="#sede">Conhecer sede no Porto</a>
+            <a class="cta-secondary" href="#servicos">Ver servicos</a>
+          </div>
+        </div>
+        <div class="market-hero-highlight" aria-label="Indicadores de desempenho">
+          <div>
+            <span>Postes assistidos/ano</span>
+            <strong>18.400+</strong>
+          </div>
+          <div>
+            <span>Sensores monitorizados</span>
+            <strong>52.000+</strong>
+          </div>
+          <div>
+            <span>Tempo medio de resposta</span>
+            <strong>2h 10m</strong>
+          </div>
+        </div>
       </section>
 
-      <section class="card" style="margin-top: 16px; overflow-x: auto;">
-        <table class="market-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Coin</th>
-              <th>Price</th>
-              <th>24h</th>
-              <th>Volume</th>
-              <th>Market Cap</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1</td><td>Bitcoin (BTC)</td><td>$43,256.00</td><td class="badge-success">+2.34%</td><td>$28.4B</td><td>$847.2B</td></tr>
-            <tr><td>2</td><td>Ethereum (ETH)</td><td>$2,284.50</td><td class="badge-success">+1.87%</td><td>$12.8B</td><td>$274.5B</td></tr>
-            <tr><td>3</td><td>Tether (USDT)</td><td>$1.00</td><td class="badge-success">+0.01%</td><td>$45.2B</td><td>$95.8B</td></tr>
-            <tr><td>4</td><td>BNB</td><td>$312.45</td><td class="badge-danger">-0.82%</td><td>$842M</td><td>$48.2B</td></tr>
-          </tbody>
-        </table>
+      <section id="servicos" class="grid market-services">
+        <article class="card service-card">
+          <h3>Manutencao Preventiva</h3>
+          <p>Inspecoes programadas, substituicao de componentes criticos e relatorios tecnicos completos.</p>
+        </article>
+        <article class="card service-card">
+          <h3>Intervencao Corretiva</h3>
+          <p>Resolucao de avarias em postes e sensores com equipas moveis e rastreamento em tempo real.</p>
+        </article>
+        <article class="card service-card">
+          <h3>Gestao de Sensores</h3>
+          <p>Calibracao, troca e validacao de sensores ambientais, trafego e seguranca urbana.</p>
+        </article>
+      </section>
+
+      <section id="sede" class="card market-headquarters">
+        <div>
+          <p class="market-kicker">Sede Principal</p>
+          <h3>Porto, Portugal</h3>
+          <p>
+            O nosso centro operacional no Porto coordena equipas tecnicas para toda a regiao Norte,
+            com laboratorio de testes, central de monitorizacao e centro de formacao continua.
+          </p>
+          <ul class="market-list">
+            <li>Centro de comando ativo 24/7</li>
+            <li>Armazem de pecas com reposicao imediata</li>
+            <li>Equipe certificada para trabalhos em altura</li>
+          </ul>
+        </div>
+        <aside class="hq-panel" aria-label="Dados da sede">
+          <h4>Contacto Direto</h4>
+          <p>Rua da Industria Urbana, 88<br />4050-211 Porto</p>
+          <p>+351 22 400 81 00<br />operacoes@glowpath.pt</p>
+          <span class="badge badge-success">Atendimento tecnico imediato</span>
+        </aside>
       </section>
 
       <div data-include="./components/footer.html"></div>
