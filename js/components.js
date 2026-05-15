@@ -1,5 +1,11 @@
 async function includeComponents() {
   const placeholders = [...document.querySelectorAll("[data-include]")];
+  const currentUser = getAuthenticatedUser();
+  const userInitials = currentUser ? currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'AM';
+  
+  const adminMenuItems = isAdmin() ? `
+      <a href="./admin.html" data-page-link="admin">Admin Panel</a>` : '';
+  
   const fallbackComponents = {
     "./components/sidebar.html": `
 <nav class="sidebar">
@@ -12,14 +18,14 @@ async function includeComponents() {
     <div class="nav">
       <a href="./dashboard.html" data-page-link="dashboard">Dashboard</a>
       <a href="./market.html" data-page-link="market">Markets</a>
-      <a href="./mapa.html" data-page-link="mapa">Map</a>
+      <a href="./mapa.html" data-page-link="mapa">Map</a>${adminMenuItems}
     </div>
   </div>
   <div>
     <div class="menu-label">Account</div>
     <div class="nav">
       <a href="./perfil.html" data-page-link="perfil">Settings</a>
-      <a href="./login.html" data-page-link="login">Logout</a>
+      <a href="#" onclick="logout(); return false;">Logout</a>
     </div>
   </div>
 </nav>`,
@@ -31,7 +37,7 @@ async function includeComponents() {
   </div>
   <div class="topbar-right">
     <input class="search" type="search" placeholder="Search..." aria-label="Search" />
-    <div class="avatar">AM</div>
+    <div class="avatar" title="${currentUser ? currentUser.email : 'Usuário'}">${userInitials}</div>
   </div>
 </header>`,
     "./components/footer.html": `
@@ -70,7 +76,8 @@ function applyPageState() {
     dashboard: ["Dashboard", "Visao geral do portfolio"],
     market: ["Glowpath Engenharia", "Promocao da empresa e sede principal no Porto"],
     mapa: ["Map", "Parceiros e cobertura geolocalizada"],
-    perfil: ["Settings", "Preferencias e seguranca da conta"]
+    perfil: ["Settings", "Preferencias e seguranca da conta"],
+    admin: ["Admin Panel", "Gerenciar a infraestrutura de rede"]
   };
 
   const [title, subtitle] = titleMap[page] || ["Crypto Dashboard", ""];
@@ -80,7 +87,23 @@ function applyPageState() {
   if (subtitleNode) subtitleNode.textContent = subtitle;
 }
 
+// Adicionar Admin Panel ao menu lateral apenas para admins
+function addAdminMenuItemIfNeeded() {
+  if (isAdmin()) {
+    const mainMenu = document.querySelector('.sidebar .nav');
+    if (mainMenu && !mainMenu.querySelector('[data-page-link="admin"]')) {
+      const adminLink = document.createElement('a');
+      adminLink.href = './admin.html';
+      adminLink.setAttribute('data-page-link', 'admin');
+      adminLink.textContent = 'Admin Panel';
+      mainMenu.appendChild(adminLink);
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   await includeComponents();
+  addAdminMenuItemIfNeeded();
+  hideAdminElements();
   applyPageState();
 });

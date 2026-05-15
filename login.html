@@ -6,6 +6,36 @@
   <title>Login | Glowpath</title>
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/login.css" />
+  <script src="./js/auth.js"></script>
+  <style>
+    .login-error {
+      color: #ff6b6b;
+      font-size: 14px;
+      margin-bottom: 16px;
+      padding: 8px 12px;
+      background-color: rgba(255, 107, 107, 0.1);
+      border-radius: 4px;
+      display: none;
+    }
+    .login-error.show {
+      display: block;
+    }
+    .demo-users {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 12px;
+      color: #666;
+    }
+    .demo-users strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+    .demo-users p {
+      margin: 4px 0;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body class="page-login" data-page="login">
   <div class="login-layout">
@@ -23,20 +53,61 @@
       <h2>Welcome Back</h2>
       <p class="page-subtitle">Entre para acessar sua conta.</p>
 
-      <form>
+      <div class="login-error" id="loginError"></div>
+
+      <form id="loginForm">
         <label class="form-field">
           <span>Email</span>
-          <input class="input" type="email" placeholder="Enter your email" />
+          <input class="input" type="email" placeholder="Enter your email" id="emailInput" required />
         </label>
 
         <label class="form-field">
           <span>Password</span>
-          <input class="input" type="password" placeholder="Enter your password" />
+          <input class="input" type="password" placeholder="Enter your password" id="passwordInput" required />
         </label>
 
         <button class="btn btn-primary" type="submit">Sign In</button>
       </form>
+
+      <div class="demo-users">
+        <strong>Contas de demonstração:</strong>
+        <p><strong>Admin:</strong> admin@glowpath.com / admin123</p>
+        <p><strong>Usuário:</strong> user@glowpath.com / user123</p>
+      </div>
     </section>
   </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('emailInput').value.trim();
+      const password = document.getElementById('passwordInput').value;
+      const errorDiv = document.getElementById('loginError');
+      
+      const result = login(email, password);
+      
+      if (result.success) {
+        // Login bem-sucedido - redirecionar para dashboard
+        window.location.href = './dashboard.html';
+      } else {
+        // Mostrar erro
+        errorDiv.textContent = result.message;
+        errorDiv.classList.add('show');
+        
+        // Limpar formulário
+        document.getElementById('passwordInput').value = '';
+      }
+    });
+
+    // Limpar mensagem de erro ao digitar
+    document.getElementById('emailInput').addEventListener('input', function() {
+      document.getElementById('loginError').classList.remove('show');
+    });
+
+    document.getElementById('passwordInput').addEventListener('input', function() {
+      document.getElementById('loginError').classList.remove('show');
+    });
+  </script>
 </body>
 </html>

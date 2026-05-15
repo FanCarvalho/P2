@@ -8,7 +8,19 @@
   <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./js/auth.js"></script>
   <script defer src="./js/components.js"></script>
+  <style>
+    .dashboard-charts {
+      transition: grid-template-columns 0.3s ease;
+    }
+    
+    .dashboard-charts .card h3 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+  </style>
 </head>
 <body data-page="dashboard">
   <div class="app-shell">
@@ -41,12 +53,12 @@
           <h2>1,250</h2>
           <span class="badge badge-success">+2.5%</span>
         </article>
-        <article class="card">
+        <article class="card admin-only">
           <p class="page-subtitle">Avarias Ativas</p>
           <h2>15</h2>
           <span class="badge badge-danger">+5.1%</span>
         </article>
-        <article class="card">
+        <article class="card admin-only">
           <p class="page-subtitle">Lâmpadas a vencer</p>
           <h2>82</h2>
           <span class="badge badge-warning">-1.2%</span>
@@ -59,19 +71,19 @@
       </section>
 
       <!-- Área de Gráficos -->
-      <section class="grid dashboard-charts" style="margin-top: 16px;">
+      <section class="grid dashboard-charts" style="margin-top: 16px;" id="chartsSection">
         <article class="card">
           <h3>Consumo de Energia por Zona</h3>
           <canvas id="consumoEnergiaChart"></canvas>
         </article>
-        <article class="card">
+        <article class="card admin-only">
           <h3>Distribuição de Avarias</h3>
           <canvas id="distribuicaoAvariasChart"></canvas>
         </article>
       </section>
 
       <!-- Tabela de Avarias Recentes -->
-      <section class="card" style="margin-top: 16px;">
+      <section class="card admin-only" style="margin-top: 16px;">
         <h3>Avarias Recentes</h3>
         <table class="table">
           <thead>
@@ -91,7 +103,7 @@
       </section>
 
       <!-- Tabela de Manutenções -->
-      <section class="card" style="margin-top: 16px;">
+      <section class="card admin-only" style="margin-top: 16px;">
         <h3>Próximas Manutenções</h3>
         <ul class="tx-list">
             <!-- Itens da lista preenchidos dinamicamente -->
