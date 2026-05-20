@@ -70,16 +70,23 @@
 
         zoneInfoPanel.hidden = false;
         zoneInfoPanel.classList.remove('is-empty');
-        zoneInfoPanel.innerHTML = [
+
+        var parts = [
           '<h4>' + zonaInfo.nome + '</h4>',
           '<p><strong>Quantidade de Postes:</strong> ' + zonaInfo.postes + '</p>',
           '<p><strong>Avarias Atuais:</strong> ' + zonaInfo.avarias + '</p>',
           '<p><strong>Status:</strong> ' + zonaInfo.status + '</p>',
           '<p><strong>Consumo Mensal:</strong> ' + zonaInfo.consumo + '</p>',
           '<p><strong>Lâmpadas a Vencer:</strong> ' + zonaInfo.vencimento + '</p>',
-          '<p><strong>Última Substituição:</strong> ' + zonaInfo.substituicao + '</p>',
-          '<div class="zona-actions"><button type="button">Ver Detalhes</button><button type="button">Editar</button></div>'
-        ].join('');
+          '<p><strong>Última Substituição:</strong> ' + zonaInfo.substituicao + '</p>'
+        ];
+
+        // Mostrar ações apenas para admins. Utilizadores normais não veem os botões.
+        if (typeof isAdmin === 'function' && isAdmin()) {
+          parts.push('<div class="zona-actions"><button type="button">Ver Detalhes</button><button type="button">Editar</button></div>');
+        }
+
+        zoneInfoPanel.innerHTML = parts.join('');
       }
 
       Object.keys(zonas).forEach(function (zoneKey) {
