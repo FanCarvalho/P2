@@ -23,8 +23,8 @@ function loadEnv(filePath) {
 
 loadEnv(path.join(__dirname, '.env'));
 
-const host = process.env.HOST || '127.0.0.1';
-const port = Number(process.env.PORT) || 3000;
+const host = '127.0.0.1';
+const port = 3000;
 const rootDir = __dirname;
 
 const mimeTypes = {
@@ -77,16 +77,66 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  if (req.url.startsWith('/api/config')) {
-    sendJson(res, 200, {
-      host: process.env.HOST || '',
-      port: process.env.PORT || '',
-      user: process.env.USER || '',
-      passwordDefined: Boolean(process.env.PASSWORD)
-    });
+  // Handle API routes first
+  if (req.url.startsWith('/api/')) {
+    if (req.url === '/api/config') {
+      sendJson(res, 200, {
+        host: process.env.HOST || '',
+        port: process.env.PORT || '',
+        user: process.env.USER || '',
+        passwordDefined: Boolean(process.env.PASSWORD)
+      });
+      return;
+    }
+
+    if (req.url === '/api/user' && req.method === 'GET') {
+      const usersDbPath = path.join(rootDir, 'users.json');
+      fs.readFile(usersDbPath, 'utf8', (err, data) => {
+        if (err) {
+          return sendJson(res, 500, { message: 'Error reading user data' });
+        }
+        const users = JSON.parse(data);
+        const currentUser = users[0]; // Assuming first user is the logged-in one
+        sendJson(res, 200, currentUser);
+      });
+      return;
+    }
+
+    if (req.url === '/api/user' && req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => {
+        body += chunk.toString();
+      });
+      req.on('end', () => {
+        const updatedUser = JSON.parse(body);
+        const usersDbPath = path.join(rootDir, 'users.json');
+
+        fs.readFile(usersDbPath, 'utf8', (err, data) => {
+          if (err) {
+            return sendJson(res, 500, { message: 'Error reading user data' });
+          }
+          let users = JSON.parse(data);
+          if (users.length > 0) {
+            // Merge new data with existing data
+            users[0] = { ...users[0], ...updatedUser };
+          }
+          fs.writeFile(usersDbPath, JSON.stringify(users, null, 2), writeErr => {
+            if (writeErr) {
+              return sendJson(res, 500, { message: 'Error saving user data' });
+            }
+            sendJson(res, 200, { message: 'Changes saved successfully!' });
+          });
+        });
+      });
+      return;
+    }
+
+    // If no API route matches, send a 404
+    sendJson(res, 404, { message: 'API endpoint not found' });
     return;
   }
 
+  // Handle static file serving
   const filePath = resolveStaticFile(req.url);
   if (!filePath) {
     res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
@@ -98,16 +148,14 @@ const server = http.createServer((req, res) => {
     if (err || !stats.isFile()) {
       const fallbackFile = path.join(rootDir, 'login.html');
       if (req.url === '/' || req.url === '/login.html') {
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('404 - Not Found');
+      } else {
         sendFile(res, fallbackFile);
-        return;
       }
-
-      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('404 - File not found');
-      return;
+    } else {
+      sendFile(res, filePath);
     }
-
-    sendFile(res, filePath);
   });
 });
 

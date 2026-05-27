@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./css/perfil.css" />
   <script src="./js/auth.js"></script>
   <script defer src="./js/components.js"></script>
+  <script defer src="./js/perfil.js"></script>
 </head>
 <body data-page="perfil">
   <div class="app-shell">
@@ -33,12 +34,12 @@
           </div>
         </div>
 
-        <form class="form-grid">
-          <label>First Name<input type="text" value="Alex" /></label>
-          <label>Last Name<input type="text" value="Morgan" /></label>
-          <label>Email<input type="email" value="alex.morgan@email.com" /></label>
-          <label>Phone<input type="tel" value="+1 (555) 123-4567" /></label>
-          <label>Bio<textarea rows="3">Crypto enthusiast and day trader since 2017</textarea></label>
+        <form class="form-grid" id="profile-form">
+          <label>First Name<input type="text" id="firstName" /></label>
+          <label>Last Name<input type="text" id="lastName" /></label>
+          <label>Email<input type="email" id="email" /></label>
+          <label>Phone<input type="tel" id="phone" /></label>
+          <label>Bio<textarea rows="3" id="bio">Crypto enthusiast and day trader since 2017</textarea></label>
           <div class="actions">
             <button type="submit" class="btn btn-primary" style="width:auto;">Save Changes</button>
             <button type="button" class="btn btn-secondary" style="width:auto;">Cancel</button>
