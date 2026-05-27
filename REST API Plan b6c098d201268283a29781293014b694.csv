@@ -1,0 +1,691 @@
+﻿Endpoint,Authentication,BODY Parameters,Description,ERROR responses,Method,PATH Parameters,QUERY Parameters,Resource,SUCCESS response,Status,Use Cases
+POST /operadores/login,None,"• email: mandatory
+• password: mandatory","Logs an user, using credentials from the request body, and returns a JWT(authentication token)","400 Bad Request:
+{ 
+   description: ""Validation failed"",
+   errors: {
+      ""email"": [""Email is mandatory.""],
+      ""password"": [""Password is mandatory.""] 
+      }
+}
+
+401 Unauthorized:
+{ 
+   description: ""Authentication failed"",
+   errors: {
+      ""credentials"": [""Invalid email or password""] 
+      }
+}",POST,N/A,N/A,USERS,"200 OK:
+{ ""accessToken"": <token>, 
+    ""_links"": {
+    ""cart"": { ""href"": ""/users/me/cart"" },
+    ""orders"": { ""href"": ""/users/me/orders"" }
+  }   
+}",Not started,UC14: Autenticação (https://www.notion.so/UC14-Autentica-o-dde3d227cf9f4ffab3d510d00553a19b?pvs=21)
+POST /operadores,None,"  • email: mandatory, must contain @ character and be unique
+  • password: mandatory, minimum 10 characters
+  • nome:mandatory(VARCHAR 100)",Creates an user account in the system,"400 Bad Request:
+{ 
+   description: ""Validation failed."",
+   errors: {
+      ""email"": [""Email is mandatory."",""Email must be a valid email address.""],
+      ""password"": [""Password is mandatory."", ""Password must have at least 10 characters.""] 
+      }
+}
+
+409 Conflict:
+{ description: ""Resource conflict"",
+   errors: {
+      ""email"": [""A user with this email already exists""]
+      }
+}",POST,N/A,N/A,USERS,"201 Created:
+{
+   id: 1,
+   links: {
+      login: { ""href"": ""/users/login"" }
+   }
+}",Not started,UC20: Gerir utilizadores (https://www.notion.so/UC20-Gerir-utilizadores-02c1ebb8265c400e8b8be35379dea8a5?pvs=21)
+PATCH /lampadas/{id_lampada},Mandatory,"• estado: Mandatory (VARCHAR)
+• potencia_watts: optional (integer)
+• luminosidade_max: Mandatory (FLOAT)
+• luminosidade_min: Mandatory(FLOAT)",Atualiza parcialmente os dados de uma lâmpada.,"400 Bad Request
+404 Not Found
+401 Unauthorized
+403 Forbidden",PATCH,- id_lampada: mandatory (integer),N/A,LAMPADA,"200 OK
+{ ""id_lampada"": 5, ""estado"": ""ativa"", ""_links"": { ""self"": ""/lampadas/5"" } }",Not started,"UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21), UC5: Ajustar intensidade luminosa (https://www.notion.so/UC5-Ajustar-intensidade-luminosa-fcdc15b53e60430f89ad4b8b1ff7d71b?pvs=21)"
+GET /zonas,Mandatory,N/A,Lista todas as zonas registadas no sistema.,"401 Unauthorized
+403 Forbidden",GET,N/A,"nome — optional
+codigo_postal — optional
+id_sensor — optional",ZONA,"200 OK
+[
+  {
+    ""id_zona"": 7,
+    ""nome"": ""Zona Norte"",
+    ""rua"": ""Rua Principal"",
+    ""codigo_postal"": ""4420-123"",
+    ""id_sensor"": 3
+  }
+]
+",Not started,"UC12: Gerir zonas (https://www.notion.so/UC12-Gerir-zonas-4a190a30daf34559b906c1a75236449d?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /postes/{id_poste},Mandatory,N/A,Obtém detalhes de um poste.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_poste — mandatory,N/A,POSTE,"200 OK
+
+{
+  ""id_poste"": 15,
+  ""estado"": ""ativo"",
+  ""intensidade_atual"": 70,
+  ""latitude"": 41.123456,
+  ""longitude"": -8.567890,
+  ""altura"": 8.5,
+  ""data_instalacao"": ""2025-03-10"",
+  ""id_zona"": 2,
+  ""id_perfil"": 1
+}
+",Not started,UC9: Gerir postes (https://www.notion.so/UC9-Gerir-postes-d91c22ff11b8405a8b9d8a70928ef798?pvs=21)
+GET /lampadas,Mandatory,N/A,Lista todas as lâmpadas registadas no sistema.,"401 Unauthorized
+403 Forbidden",GET,N/A,"• id_poste: Mandatory (filter by post)
+• page: Mandatory(default 1)
+• limit: Mandatory (default 20)",LAMPADA,"200 OK
+
+[
+  {
+    ""id_lampada"": 1,
+    ""id_poste"": 3,
+    ""modelo"": ""LED-XPTO"",
+    ""estado"": ""ativa"",
+    ""potencia_watts"": 50,
+    ""luminosidade_max"": 800,
+    ""luminosidade_min"": 200,
+    ""tempo_vida_horas"": 50000
+  }
+]
+",Not started,"UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /postes,Mandatory,N/A,Lista todos os postes registados no sistema.,"401 Unauthorized
+403 Forbidden",GET,N/A,"id_zona — optional
+id_perfil — optional
+estado — optional",POSTE,"200 OK
+[
+  {
+    ""id_poste"": 15,
+    ""estado"": ""ativo"",
+    ""intensidade_atual"": 70,
+    ""latitude"": 41.123456,
+    ""longitude"": -8.567890,
+    ""altura"": 8.5,
+    ""data_instalacao"": ""2025-03-10"",
+    ""id_zona"": 2,
+    ""id_perfil"": 1
+  }
+]
+",Not started,"UC9: Gerir postes (https://www.notion.so/UC9-Gerir-postes-d91c22ff11b8405a8b9d8a70928ef798?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /sensores-movimento,Mandatory,N/A,Lista todos os sensores de movimento registados no sistema.,"401 Unauthorized
+403 Forbidden",GET,N/A,"• page: optional (default 1)
+• limit: optional (default 20)
+• estado: optional filter",SENSOR_MOVIMENTO,"200 OK
+[
+  {
+    ""id_sensor"": 5,
+    ""modelo"": ""SM-200"",
+    ""sensibilidade"": 80,
+    ""alcance"": 12.5,
+    ""estado"": ""ativo"",
+    ""ultimo_calibracao"": ""2026-03-10""
+  }
+]",Not started,"UC11: Gerir sensores (https://www.notion.so/UC11-Gerir-sensores-a36e414528874f3cb0cb0f9ec062d39a?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+POST /postes,Mandatory,"id_zona — mandatory
+id_perfil — mandatory
+estado — optional
+intensidade_atual — optional
+latitude — mandatory
+longitude — mandatory
+altura — mandatory
+data_instalacao — mandatory",Cria um novo poste.,"400 Bad Request
+401 Unauthorized
+403 Forbidden",POST,N/A,N/A,POSTE,"201 Created
+{
+  ""id_poste"": 15,
+  ""_links"": {
+    ""self"": ""/postes/15"",
+    ""zona"": ""/zonas/{id_zona}"",
+    ""perfil"": ""/perfis-iluminacao/{id_perfil}""
+  }
+}
+",Not started,"UC9: Gerir postes (https://www.notion.so/UC9-Gerir-postes-d91c22ff11b8405a8b9d8a70928ef798?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+POST /perfis-iluminacao,Mandatory,"nome — mandatory
+hora_inicio — mandatory
+hora_fim — mandatory
+intensidade — mandatory","Cria um novo perfil de iluminação, definindo horários e intensidade luminosa.","400 Bad Request
+401 Unauthorized
+403 Forbidden",POST,N/A,N/A,PERFIL_ILUMINACAO,"201 Created
+
+{
+  ""id_perfil"": 4,
+  ""_links"": {
+    ""self"": ""/perfis-iluminacao/4""
+  }
+}
+",Not started,"UC1: Criar perfil de iluminação (https://www.notion.so/UC1-Criar-perfil-de-ilumina-o-1d4c18e679604daea514fbfec86cb6da?pvs=21), UC2: Aplicar perfil a poste (https://www.notion.so/UC2-Aplicar-perfil-a-poste-ad8a70ff883c45cb85a287ca360fbbc4?pvs=21)"
+POST /zonas,Mandatory,"nome — mandatory
+rua — mandatory
+codigo_postal — mandatory
+id_sensor — optional",Cria uma nova zona.,"400 Bad Request
+401 Unauthorized
+403 Forbidden",POST,N/A,N/A,ZONA,"201 Created
+
+
+{
+  ""id_zona"": 7,
+  ""_links"": {
+    ""self"": ""/zonas/7"",
+    ""sensor"": ""/sensores-movimento/{id_sensor}""
+  }
+}",Not started,UC12: Gerir zonas (https://www.notion.so/UC12-Gerir-zonas-4a190a30daf34559b906c1a75236449d?pvs=21)
+PATCH /postes/{id_poste},Mandatory,"• estado: optional (VARCHAR 50)
+• intensidade_atual: Mandatory(integer)
+• id_perfil: Mandatory(integer)",Atualiza parcialmente os dados de um poste.,"400 Bad Request
+404 Not Found
+401 Unauthorized
+403 Forbidden",PATCH,- id_poste: mandatory (integer),N/A,POSTE,"200 OK
+{ ""id_poste"": 3, ""estado"": ""ativo"", ""intensidade_atual"": 80, ""_links"": { ""self"": ""/postes/3"" } }",Not started,"UC9: Gerir postes (https://www.notion.so/UC9-Gerir-postes-d91c22ff11b8405a8b9d8a70928ef798?pvs=21), UC2: Aplicar perfil a poste (https://www.notion.so/UC2-Aplicar-perfil-a-poste-ad8a70ff883c45cb85a287ca360fbbc4?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+POST /registos-lampada,Mandatory,"id_poste — mandatory
+modelo — mandatory
+estado — optional
+potencia_watts — mandatory
+luminosidade_max — mandatory
+luminosidade_min — mandatory
+tempo_vida_horas — optional
+","Regista um evento/medição de uma lâmpada (ex.: ligar/desligar, luminosidade, duração).","400 Bad Request { description: 'Validation error' }
+401 Unauthorized
+403 Forbidden",POST,N/A,N/A,REGISTO_LAMPADA,"201 Created
+{ ""id_registo"": 1, ""_links"": { ""lampada"": ""/lampadas/{id}"" } }",Not started,"UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+POST /operadores,Mandatory,"nome — mandatory
+email — mandatory
+password — mandatory
+nivel_acesso — mandatory 
+ativo — optional","Cria um novo operador do sistema, definindo permissões e nível de acesso.","400 Bad Request
+401 Unauthorized
+403 Forbidden",POST,N/A,N/A,OPERADOR,"201 Created
+{
+  ""id_operador"": 8,
+  ""_links"": {
+    ""self"": ""/operadores/8"",
+    ""nivel_acesso"": ""/niveis-acesso/{nivel_acesso}""
+  }
+}",Not started,"UC13: Gerir operadores (https://www.notion.so/UC13-Gerir-operadores-04f7b5ec75c24a1aac9c46b1ce84a656?pvs=21), UC20: Gerir utilizadores (https://www.notion.so/UC20-Gerir-utilizadores-02c1ebb8265c400e8b8be35379dea8a5?pvs=21)"
+GET /operadores,Mandatory,N/A,Lista operadores (utilizadores do sistema).,"401 Unauthorized
+403 Forbidden",GET,N/A,"nome — optional
+nivel_acesso — optional
+ativo — optional",OPERADOR,"200 OK
+
+[
+  {
+    ""id_operador"": 8,
+    ""nome"": ""João Silva"",
+    ""email"": ""joao@empresa.com"",
+    ""nivel_acesso"": ""operador"",
+    ""ativo"": true
+  }
+]",Not started,"UC13: Gerir operadores (https://www.notion.so/UC13-Gerir-operadores-04f7b5ec75c24a1aac9c46b1ce84a656?pvs=21), UC20: Gerir utilizadores (https://www.notion.so/UC20-Gerir-utilizadores-02c1ebb8265c400e8b8be35379dea8a5?pvs=21)"
+POST /agendamentos-manutencao,Mandatory,"id_poste — optional
+id_lampada — optional
+id_zona — optional
+data_manutencao — mandatory
+descricao — mandatory
+prioridade — optional 
+estado — optional ","Cria um novo agendamento de manutenção para um poste, lâmpada ou zona.","400 Bad Request { description: 'Validation error' }
+401 Unauthorized
+403 Forbidden",POST,N/A,N/A,AGENDAMENTO_MANUTENCAO,"201 Created
+
+{
+  ""id_agendamento"": 22,
+  ""_links"": {
+    ""self"": ""/agendamentos-manutencao/22""
+  }
+}",Not started,"UC8: Agenda manutenção (https://www.notion.so/UC8-Agenda-manuten-o-b91378642b9c44229afc3a7628a7a68c?pvs=21), UC15: Gerir avarias (https://www.notion.so/UC15-Gerir-avarias-c98d3c2417b4476eb4e82fcba0d67893?pvs=21)"
+GET /agendamentos-manutencao,Mandatory,N/A,Lista todos os agendamentos de manutenção existentes.,"401 Unauthorized
+403 Forbidden",GET,N/A,"estado — optional
+prioridade — optional
+id_poste — optional
+id_lampada — optional
+id_zona — optional",AGENDAMENTO_MANUTENCAO,"200 OK
+
+[
+  {
+    ""id_agendamento"": 22,
+    ""data_manutencao"": ""2026-06-10"",
+    ""descricao"": ""Substituição de lâmpada"",
+    ""prioridade"": ""alta"",
+    ""estado"": ""pendente"",
+    ""id_poste"": 15
+  }
+]",Not started,"UC8: Agenda manutenção (https://www.notion.so/UC8-Agenda-manuten-o-b91378642b9c44229afc3a7628a7a68c?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /perfis-iluminacao,Mandatory,N/A,Lista todos os perfis de iluminação disponíveis no sistema.,"401 Unauthorized
+403 Forbidden",GET,N/A,"nome — optional
+intensidade — optional",PERFIL_ILUMINACAO,"200 OK
+
+[
+  {
+    ""id_perfil"": 4,
+    ""nome"": ""Noite"",
+    ""hora_inicio"": ""20:00"",
+    ""hora_fim"": ""06:00"",
+    ""intensidade"": 40
+  }
+]
+",Not started,"UC1: Criar perfil de iluminação (https://www.notion.so/UC1-Criar-perfil-de-ilumina-o-1d4c18e679604daea514fbfec86cb6da?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /avarias,Mandatory,N/A,Lista todas as avarias registadas no sistema.,"401 Unauthorized
+403 Forbidden",GET,N/A,"estado — optional
+severidade — optional
+id_poste — optional
+id_lampada — optional
+id_zona — optional",AVARIA,"200 OK
+
+[
+  {
+    ""id_avaria"": 31,
+    ""descricao"": ""Lâmpada não acende"",
+    ""severidade"": ""alta"",
+    ""estado"": ""pendente"",
+    ""id_lampada"": 12
+  }
+]",Not started,"UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21), UC7: Consultar lista de avarias (https://www.notion.so/UC7-Consultar-lista-de-avarias-d841af74607b400bba68dd81f72f4d6b?pvs=21), UC15: Gerir avarias (https://www.notion.so/UC15-Gerir-avarias-c98d3c2417b4476eb4e82fcba0d67893?pvs=21)"
+PATCH /avarias/{id_avaria},Mandatory,"Todos opcionais:
+• descricao
+• severidade
+• estado
+• id_poste
+• id_lampada
+• id_zona",Atualiza parcialmente os dados de uma avaria.,"400 Bad Request
+404 Not Found
+401 Unauthorized
+403 Forbidden",PATCH,id_avaria — mandatory,N/A,AVARIA,"200 OK
+{ ""id_avaria"": 1, ""estado"": ""resolvida"", ""_links"": { ""self"": ""/avarias/1"" } }",Not started,UC15: Gerir avarias (https://www.notion.so/UC15-Gerir-avarias-c98d3c2417b4476eb4e82fcba0d67893?pvs=21)
+DELETE /lampadas/{lampadaId},Mandatory,N/A,"Remove uma lâmpada (ex.: lâmpada avariada/substituída).
+
+Comportamento esperado:
+- O ID da lâmpada removida deixa de existir.
+- Uma lâmpada substituta deve ser criada com novo ID (não reutilizar).","404 Not Found
+401 Unauthorized
+403 Forbidden",DELETE,id_lampada — mandatory,N/A,LAMPADA,"204 No Content ",Not started,UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21)
+DELETE /postes/{posteId},Mandatory,N/A,"Remove (soft/hard) um poste. Ex.: quando um poste é partido/removido.
+
+Comportamento esperado:
+- Se o poste existir: o recurso deixa de estar disponível; o ID removido não deve voltar a aparecer.
+- Se existir hardware novo/substituição: deve ser criado um novo poste com novo ID (não reutilizar o anterior).","404 Not Found
+409 Conflict (has lamps/sensors/dependencies)
+401 Unauthorized
+403 Forbidden",DELETE,id_poste — mandatory,N/A,POSTE,204 No Content (ou 200 com confirmação),Not started,UC9: Gerir postes (https://www.notion.so/UC9-Gerir-postes-d91c22ff11b8405a8b9d8a70928ef798?pvs=21)
+DELETE /sensores-movimento/{sensorId},Mandatory,N/A,"Remove um sensor de movimento (ex.: sensor danificado/substituído).
+
+Comportamento esperado:
+- O ID removido deixa de existir.
+- Novo sensor => novo ID.","404 Not Found
+409 Conflict (associado a um posto)
+401 Unauthorized
+403 Forbidden",DELETE,sensorId (obrigatório),N/A,SENSOR_MOVIMENTO,204 No Content (ou 200 com confirmação),Not started,UC11: Gerir sensores (https://www.notion.so/UC11-Gerir-sensores-a36e414528874f3cb0cb0f9ec062d39a?pvs=21)
+DELETE /perfis-iluminacao/{perfilId},Mandatory,N/A,"Remove um perfil de iluminação.
+
+Comportamento esperado:
+- O ID removido deixa de existir.
+- Se for necessário um perfil semelhante, criar novo com novo ID.
+- Se o perfil estiver atribuído a postes/zonas, decidir regra: bloquear (409) ou remover associação automaticamente.","404 Not Found
+409 Conflict (perfil em uso)
+401 Unauthorized
+403 Forbidden",DELETE,perfilId (obrigatório),N/A,PERFIL_ILUMINACAO,204 No Content (ou 200 com confirmação),Not started,UC1: Criar perfil de iluminação (https://www.notion.so/UC1-Criar-perfil-de-ilumina-o-1d4c18e679604daea514fbfec86cb6da?pvs=21)
+GET /registos-lampada,Mandatory,N/A,Lista todos os registos de funcionamento de todas as lâmpadas.,"401 Unauthorized
+403 Forbidden",GET,N/A,"limit — optional
+offset — optional",REGISTO_LAMPADA,"200 OK
+[
+{
+""id_registo"": 1,
+""id_lampada"": 10,
+""hora_ligar"": ""..."",
+""hora_desligar"": ""..."",
+""luminosidade"": 55.2
+}
+]
+",Not started,"UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /registos-lampada/{id_registo},Mandatory,N/A,Obtém um registo individual de funcionamento.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_registo — mandatory,N/A,REGISTO_LAMPADA,"200 OK
+
+[
+{
+""id_lampada"": 1,
+""id_poste"": 3,
+""modelo"": ""LED-XPTO"",
+""estado"": ""ativa"",
+""potencia_watts"": 50,
+""luminosidade_max"": 800,
+""luminosidade_min"": 200,
+""tempo_vida_horas"": 50000
+}
+]
+",Not started,
+GET /lampadas/{id_lampada}/registos,Mandatory,N/A,Lista todos os registos associados a uma lâmpada específica.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_lampada — mandatory,"limit — optional
+offset — optional",REGISTO_LAMPADA,"200 OK
+[
+{
+""id_registo"": 1,
+""hora_ligar"": ""..."",
+""hora_desligar"": ""..."",
+""luminosidade"": 55.2
+}
+]
+",Not started,"UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21), UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21)"
+DELETE /registos-lampada/{id_registo},Mandatory,N/A,Remove uma lâmpada do sistema.,"404 Not Found
+401 Unauthorized
+403 Forbidden",DELETE,id_lampada — mandatory,N/A,REGISTO_LAMPADA,204 No Content,Not started,UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21)
+POST /lampadas,Mandatory,"id_poste — mandatory
+modelo — mandatory
+estado — optional
+potencia_watts — mandatory
+luminosidade_max — mandatory
+luminosidade_min — mandatory
+tempo_vida_horas — optional",Cria uma nova lâmpada associada a um poste.,"400 Bad Request
+401 Unauthorized
+403 Forbidden",POST,N/A,N/A,LAMPADA,"201 Created
+
+{
+""id_lampada"": 12,
+""_links"": {
+""self"": ""/lampadas/12"",
+""poste"": ""/postes/{id_poste}""
+}
+}
+",Not started,"UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /lampadas/{id_lampada},Mandatory,N/A,Obtém os detalhes de uma lâmpada específica.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_lampada — mandatory,N/A,LAMPADA,"200 OK
+
+{
+""id_lampada"": 1,
+""id_poste"": 3,
+""modelo"": ""LED-XPTO"",
+""estado"": ""ativa"",
+""potencia_watts"": 50,
+""luminosidade_max"": 800,
+""luminosidade_min"": 200,
+""tempo_vida_horas"": 50000
+}
+",Not started,"UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /lampadas/{id_lampada}/registos,Mandatory,N/A,Lista todos os registos associados a uma lâmpada específica.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_lampada — mandatory,"limit — optional
+offset — optional",LAMPADA,"200 OK
+
+[
+{
+""id_registo"": 1,
+""hora_ligar"": ""..."",
+""hora_desligar"": ""..."",
+""luminosidade"": 55.2
+}
+]
+",Not started,"UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21), UC10: Gerir lâmpadas (https://www.notion.so/UC10-Gerir-l-mpadas-7b9e1dfd7e964664bdb9687804f8f61d?pvs=21)"
+GET /zonas/{id_zona}/postes,Mandatory,N/A,Lista todos os postes pertencentes a uma zona específica.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_zona — mandatory,N/A,POSTE,"200 OK
+
+[
+{
+""id_poste"": 15,
+""estado"": ""ativo"",
+""intensidade_atual"": 70
+}
+]
+",Not started,"UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21), UC9: Gerir postes (https://www.notion.so/UC9-Gerir-postes-d91c22ff11b8405a8b9d8a70928ef798?pvs=21), UC12: Gerir zonas (https://www.notion.so/UC12-Gerir-zonas-4a190a30daf34559b906c1a75236449d?pvs=21)"
+GET /perfis-iluminacao/{id_perfil}/postes,Mandatory,"404 Not Found
+401 Unauthorized
+403 Forbidden",Lista todos os postes que utilizam um determinado perfil de iluminação.,N/A,GET,id_perfil — mandatory,N/A,POSTE,"200 OK
+
+[
+{
+""id_poste"": 15,
+""estado"": ""ativo"",
+""intensidade_atual"": 70
+}
+]
+",Not started,"UC1: Criar perfil de iluminação (https://www.notion.so/UC1-Criar-perfil-de-ilumina-o-1d4c18e679604daea514fbfec86cb6da?pvs=21), UC3: Aplicar perfil automaticamente (https://www.notion.so/UC3-Aplicar-perfil-automaticamente-6ba9d9bd5f17422bbb504291a8345311?pvs=21), UC2: Aplicar perfil a poste (https://www.notion.so/UC2-Aplicar-perfil-a-poste-ad8a70ff883c45cb85a287ca360fbbc4?pvs=21)"
+GET /zonas/{id_zona},Mandatory,N/A,Obtém os detalhes de uma zona específica.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_zona — mandatory,N/A,ZONA,"200 OK
+
+{
+  ""id_zona"": 7,
+  ""nome"": ""Zona Norte"",
+  ""rua"": ""Rua Principal"",
+  ""codigo_postal"": ""4420-123"",
+  ""id_sensor"": 3
+}",Not started,"UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21), UC12: Gerir zonas (https://www.notion.so/UC12-Gerir-zonas-4a190a30daf34559b906c1a75236449d?pvs=21)"
+PATCH /zonas/{id_zona},Mandatory,"nome
+rua
+codigo_postal
+id_sensor",Atualiza parcialmente os dados de uma zona.,"400 Bad Request
+404 Not Found
+401 Unauthorized
+403 Forbidden",PATCH,id_zona — mandatory,N/A,ZONA,"200 OK
+
+{
+  ""message"": ""Zona atualizada com sucesso""
+}",Not started,UC12: Gerir zonas (https://www.notion.so/UC12-Gerir-zonas-4a190a30daf34559b906c1a75236449d?pvs=21)
+DELETE /zonas/{id_zona},Mandatory,N/A,Remove uma zona do sistema.,"404 Not Found
+401 Unauthorized
+403 Forbidden",DELETE,id_zona — mandatory,N/A,ZONA,204 No Content,Not started,UC12: Gerir zonas (https://www.notion.so/UC12-Gerir-zonas-4a190a30daf34559b906c1a75236449d?pvs=21)
+GET /sensores-movimento/{id_sensor}/zonas,Mandatory,N/A,Lista todas as zonas que utilizam um determinado sensor de movimento.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_sensor — mandatory,N/A,ZONA,"200 OK
+
+[
+{
+""id_zona"": 7,
+""nome"": ""Zona Norte""
+}
+]",Not started,"UC12: Gerir zonas (https://www.notion.so/UC12-Gerir-zonas-4a190a30daf34559b906c1a75236449d?pvs=21), UC11: Gerir sensores (https://www.notion.so/UC11-Gerir-sensores-a36e414528874f3cb0cb0f9ec062d39a?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+POST /sensores-movimento,Mandatory,"modelo — mandatory
+sensibilidade — mandatory
+alcance — mandatory
+estado — optional
+ultimo_calibracao — optional","Cria um novo sensor de movimento, que poderá ser associado a zonas ou postes.","400 Bad Request
+401 Unauthorized
+403 Forbidden",POST,N/A,N/A,SENSOR_MOVIMENTO,"201 Created
+
+{
+""id_sensor"": 5,
+""_links"": {
+""self"": ""/sensores-movimento/5""
+}
+}
+",Not started,"UC11: Gerir sensores (https://www.notion.so/UC11-Gerir-sensores-a36e414528874f3cb0cb0f9ec062d39a?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /sensores-movimento/{id_sensor},Mandatory,N/A,Obtém os detalhes de um sensor de movimento específico.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_sensor — mandatory,N/A,SENSOR_MOVIMENTO,"200 OK
+
+{
+""id_sensor"": 5,
+""modelo"": ""SM-200"",
+""sensibilidade"": 80,
+""alcance"": 12.5,
+""estado"": ""ativo"",
+""ultimo_calibracao"": ""2026-03-10""
+}",Not started,"UC11: Gerir sensores (https://www.notion.so/UC11-Gerir-sensores-a36e414528874f3cb0cb0f9ec062d39a?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+PATCH /sensores-movimento/{id_sensor},Mandatory,"modelo
+sensibilidade
+alcance
+estado
+ultimo_calibracao",Atualiza parcialmente os dados de um sensor de movimento.,"400 Bad Request
+404 Not Found
+401 Unauthorized
+403 Forbidden",PATCH,id_sensor — mandatory,N/A,SENSOR_MOVIMENTO,"200 OK
+
+{
+""message"": ""Sensor atualizado com sucesso""
+}",Not started,UC11: Gerir sensores (https://www.notion.so/UC11-Gerir-sensores-a36e414528874f3cb0cb0f9ec062d39a?pvs=21)
+GET /sensores-movimento/{id_sensor}/zonas,Mandatory,N/A,Lista todas as zonas que utilizam um determinado sensor de movimento.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_sensor — mandatory,N/A,SENSOR_MOVIMENTO,"200 OK
+
+[
+{
+""id_zona"": 7,
+""nome"": ""Zona Norte""
+}
+]",Not started,"UC11: Gerir sensores (https://www.notion.so/UC11-Gerir-sensores-a36e414528874f3cb0cb0f9ec062d39a?pvs=21), UC12: Gerir zonas (https://www.notion.so/UC12-Gerir-zonas-4a190a30daf34559b906c1a75236449d?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /perfis-iluminacao/{id_perfil},Mandatory,N/A,Obtém os detalhes de um perfil de iluminação específico.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_perfil — mandatory,N/A,PERFIL_ILUMINACAO,"200 OK
+
+{
+""id_perfil"": 4,
+""nome"": ""Noite"",
+""hora_inicio"": ""20:00"",
+""hora_fim"": ""06:00"",
+""intensidade"": 40
+}
+",Not started,"UC1: Criar perfil de iluminação (https://www.notion.so/UC1-Criar-perfil-de-ilumina-o-1d4c18e679604daea514fbfec86cb6da?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+PATCH /perfis-iluminacao/{id_perfil},Mandatory,"nome
+hora_inicio
+hora_fim
+intensidade",Atualiza parcialmente os dados de um perfil de iluminação.,"400 Bad Request
+404 Not Found
+401 Unauthorized
+403 Forbidden",PATCH,id_perfil — mandatory,N/A,PERFIL_ILUMINACAO,"200 OK
+{
+  ""message"": ""Perfil atualizado com sucesso""
+}",Not started,"UC1: Criar perfil de iluminação (https://www.notion.so/UC1-Criar-perfil-de-ilumina-o-1d4c18e679604daea514fbfec86cb6da?pvs=21), UC2: Aplicar perfil a poste (https://www.notion.so/UC2-Aplicar-perfil-a-poste-ad8a70ff883c45cb85a287ca360fbbc4?pvs=21)"
+GET /perfis-iluminacao/{id_perfil}/postes,Mandatory,N/A,Lista todos os postes que utilizam um determinado perfil de iluminação.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_perfil — mandatory,N/A,PERFIL_ILUMINACAO,"200 OK
+
+[
+{
+""id_poste"": 15,
+""estado"": ""ativo"",
+""intensidade_atual"": 70
+}
+]",Not started,"UC2: Aplicar perfil a poste (https://www.notion.so/UC2-Aplicar-perfil-a-poste-ad8a70ff883c45cb85a287ca360fbbc4?pvs=21), UC3: Aplicar perfil automaticamente (https://www.notion.so/UC3-Aplicar-perfil-automaticamente-6ba9d9bd5f17422bbb504291a8345311?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /operadores/{id_operador},Mandatory,N/A,Obtém os detalhes de um operador específico.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_operador — mandatory,N/A,OPERADOR,"200 OK
+
+{
+""id_operador"": 8,
+""nome"": ""João Silva"",
+""email"": ""mailto:joao@empresa.com"",
+""nivel_acesso"": ""operador"",
+""ativo"": true
+}",Not started,UC13: Gerir operadores (https://www.notion.so/UC13-Gerir-operadores-04f7b5ec75c24a1aac9c46b1ce84a656?pvs=21)
+PATCH /operadores/{id_operador},Mandatory,"Todos opcionais:
+• nome
+• email
+• password
+• nivel_acesso
+• ativo",Atualiza parcialmente os dados de um operador.,"400 Bad Request
+404 Not Found
+401 Unauthorized
+403 Forbidden",PATCH,id_operador — mandatory,N/A,OPERADOR,"200 OK
+
+{
+""message"": ""Operador atualizado com sucesso""
+}",Not started,"UC13: Gerir operadores (https://www.notion.so/UC13-Gerir-operadores-04f7b5ec75c24a1aac9c46b1ce84a656?pvs=21), UC20: Gerir utilizadores (https://www.notion.so/UC20-Gerir-utilizadores-02c1ebb8265c400e8b8be35379dea8a5?pvs=21)"
+DELETE /operadores/{id_operador},Mandatory,N/A,Remove um operador do sistema.,"404 Not Found
+401 Unauthorized
+403 Forbidden",DELETE,id_operador — mandatory,N/A,OPERADOR,204 No Content,Not started,UC13: Gerir operadores (https://www.notion.so/UC13-Gerir-operadores-04f7b5ec75c24a1aac9c46b1ce84a656?pvs=21)
+GET /niveis-acesso/{nivel}/operadores,Mandatory,N/A,Lista todos os operadores que possuem um determinado nível de acesso.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,nivel — mandatory,N/A,OPERADOR,"200 OK
+
+[
+  {
+    ""id_operador"": 8,
+    ""nome"": ""João Silva"",
+    ""email"": ""joao@empresa.com""
+  }
+]",Not started,"UC13: Gerir operadores (https://www.notion.so/UC13-Gerir-operadores-04f7b5ec75c24a1aac9c46b1ce84a656?pvs=21), UC20: Gerir utilizadores (https://www.notion.so/UC20-Gerir-utilizadores-02c1ebb8265c400e8b8be35379dea8a5?pvs=21)"
+GET /agendamentos-manutencao/{id_agendamento},Mandatory,N/A,Obtém os detalhes de um agendamento de manutenção específico.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_agendamento — mandatory,N/A,AGENDAMENTO_MANUTENCAO,"200 OK
+
+{
+  ""id_agendamento"": 22,
+  ""data_manutencao"": ""2026-06-10"",
+  ""descricao"": ""Substituição de lâmpada"",
+  ""prioridade"": ""alta"",
+  ""estado"": ""pendente"",
+  ""id_poste"": 15
+}",Not started,UC8: Agenda manutenção (https://www.notion.so/UC8-Agenda-manuten-o-b91378642b9c44229afc3a7628a7a68c?pvs=21)
+PATCH /agendamentos-manutencao/{id_agendamento},Mandatory,"Todos opcionais:
+• data_manutencao
+• descricao
+• prioridade
+• estado
+• id_poste
+• id_lampada
+• id_zona",Atualiza parcialmente os dados de um agendamento de manutenção.,"400 Bad Request
+404 Not Found
+401 Unauthorized
+403 Forbidden",PATCH,id_agendamento — mandatory,N/A,AGENDAMENTO_MANUTENCAO,"200 OK
+
+{
+  ""message"": ""Agendamento atualizado com sucesso""
+}",Not started,"UC8: Agenda manutenção (https://www.notion.so/UC8-Agenda-manuten-o-b91378642b9c44229afc3a7628a7a68c?pvs=21), UC15: Gerir avarias (https://www.notion.so/UC15-Gerir-avarias-c98d3c2417b4476eb4e82fcba0d67893?pvs=21)"
+DELETE /agendamentos-manutencao/{id_agendamento},Mandatory,N/A,Remove um agendamento de manutenção do sistema.,"404 Not Found
+401 Unauthorized
+403 Forbidden",DELETE,id_agendamento — mandatory,N/A,AGENDAMENTO_MANUTENCAO,204 No Content,Not started,UC8: Agenda manutenção (https://www.notion.so/UC8-Agenda-manuten-o-b91378642b9c44229afc3a7628a7a68c?pvs=21)
+GET /postes/{id_poste}/agendamentos-manutencao,Mandatory,N/A,Lista todos os agendamentos associados a um poste específico.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_poste — mandatory,N/A,AGENDAMENTO_MANUTENCAO,"200 OK
+
+[
+  {
+    ""id_agendamento"": 22,
+    ""data_manutencao"": ""2026-06-10"",
+    ""descricao"": ""Substituição de lâmpada"",
+    ""prioridade"": ""alta"",
+    ""estado"": ""pendente""
+  }
+]",Not started,"UC8: Agenda manutenção (https://www.notion.so/UC8-Agenda-manuten-o-b91378642b9c44229afc3a7628a7a68c?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21), UC9: Gerir postes (https://www.notion.so/UC9-Gerir-postes-d91c22ff11b8405a8b9d8a70928ef798?pvs=21)"
+POST /avarias,Mandatory,"id_poste — optional
+id_lampada — optional
+id_zona — optional
+descricao — mandatory
+severidade — mandatory (“baixa”, “media”, “alta”)
+estado — optional (“pendente”, “em_resolucao”, “resolvida”)","Regista uma nova avaria associada a um poste, lâmpada ou zona.","400 Bad Request
+401 Unauthorized
+403 Forbidden",POST,N/A,N/A,AVARIA,"201 Created
+
+{
+  ""id_avaria"": 31,
+  ""_links"": {
+    ""self"": ""/avarias/31""
+  }
+}",Not started,"UC15: Gerir avarias (https://www.notion.so/UC15-Gerir-avarias-c98d3c2417b4476eb4e82fcba0d67893?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
+GET /avarias/{id_avaria},Mandatory,N/A,Obtém os detalhes de uma avaria específica.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_avaria — mandatory,N/A,AVARIA,"200 OK
+
+{
+  ""id_avaria"": 31,
+  ""descricao"": ""Lâmpada não acende"",
+  ""severidade"": ""alta"",
+  ""estado"": ""pendente"",
+  ""id_lampada"": 12
+}",Not started,UC15: Gerir avarias (https://www.notion.so/UC15-Gerir-avarias-c98d3c2417b4476eb4e82fcba0d67893?pvs=21)
+DELETE /avarias/{id_avaria},Mandatory,N/A,Remove uma avaria do sistema.,"404 Not Found
+401 Unauthorized
+403 Forbidden",DELETE,id_avaria — mandatory,N/A,AVARIA,204 No Content,Not started,UC15: Gerir avarias (https://www.notion.so/UC15-Gerir-avarias-c98d3c2417b4476eb4e82fcba0d67893?pvs=21)
+GET /postes/{id_poste}/avarias,Mandatory,N/A,Lista todas as avarias associadas a um poste específico.,"404 Not Found
+401 Unauthorized
+403 Forbidden",GET,id_poste — mandatory,N/A,AVARIA,"200 OK
+
+[
+  {
+    ""id_avaria"": 31,
+    ""descricao"": ""Lâmpada não acende"",
+    ""severidade"": ""alta"",
+    ""estado"": ""pendente""
+  }
+]",Not started,"UC9: Gerir postes (https://www.notion.so/UC9-Gerir-postes-d91c22ff11b8405a8b9d8a70928ef798?pvs=21), UC7: Consultar lista de avarias (https://www.notion.so/UC7-Consultar-lista-de-avarias-d841af74607b400bba68dd81f72f4d6b?pvs=21), UC6: Visualizar estado do sistema (https://www.notion.so/UC6-Visualizar-estado-do-sistema-9d89212969744e17916a005e1029deb3?pvs=21)"
