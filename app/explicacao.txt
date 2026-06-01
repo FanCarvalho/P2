@@ -1,0 +1,22 @@
+Pasta app
+
+Esta pasta junta a lógica principal da API e do servidor.
+
+O que existe aqui:
+- config.js: lê o .env e guarda configurações base do projecto.
+- dataStore.js: carrega, guarda e cria a base de dados local em JSON.
+	Tenta ligar ao MySQL com as credenciais do `.env` e, se falhar, usa o JSON local.
+- httpHelpers.js: funções para responder à API, ler pedidos e validar dados.
+- auth.js: login, token de acesso e validação de autenticação.
+- filters.js: filtros usados para pesquisar listas.
+- apiHandlers.js: funções de cada rota da API.
+- router.js: decide que função deve responder a cada URL.
+
+Funções mais importantes:
+- handleRequest: ponto principal que recebe o pedido HTTP.
+- handleLogin: faz o login e cria o token.
+- requireAuth: verifica se o pedido tem acesso autorizado.
+- loadApiDb / saveApiDb: lêem e gravam os dados do ficheiro JSON.
+	Também fazem a ponte para o MySQL quando a ligação está disponível.
+- validateBody: valida os campos enviados pelo utilizador.
+- paginate: divide listas grandes em páginas.
