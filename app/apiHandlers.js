@@ -1258,7 +1258,17 @@ function handleApiConfig(req, res) {
   });
 }
 
+function handleApiMe(req, res) {
+  const currentUser = requireAuth(req, res);
+  if (!currentUser) return;
+
+  sendJson(res, 200, { operator: operatorPublic(currentUser) });
+}
+
 function handleApiUserGet(req, res) {
+  const currentUser = requireAuth(req, res);
+  if (!currentUser) return;
+
   const fs = require('fs');
   const { usersDbPath } = require('./config');
 
@@ -1273,6 +1283,9 @@ function handleApiUserGet(req, res) {
 }
 
 function handleApiUserPost(req, res) {
+  const currentUser = requireAuth(req, res);
+  if (!currentUser) return;
+
   const fs = require('fs');
   const { usersDbPath } = require('./config');
 
@@ -1326,6 +1339,7 @@ module.exports = {
   getSensor,
   getZone,
   handleApiConfig,
+  handleApiMe,
   handleApiUserGet,
   handleApiUserPost,
   handleLogin,

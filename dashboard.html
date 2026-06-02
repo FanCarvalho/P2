@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/dashboard.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    window.API_BASE_URL = "http://127.0.0.1:3000";
+  </script>
   <script src="./js/auth.js"></script>
   <script defer src="./js/components.js"></script>
   <style>
@@ -115,7 +118,12 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', async function () {
+      if (typeof ensureAuthenticated === 'function') {
+        const ok = await ensureAuthenticated();
+        if (!ok) return;
+      }
+
       fetch('./zonas.txt')
         .then(response => response.json())
         .then(zonas => {

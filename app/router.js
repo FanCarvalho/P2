@@ -22,6 +22,11 @@ function handleApiRoute(req, res, pathname) {
     return true;
   }
 
+  if (pathname === '/api/me' && req.method === 'GET') {
+    handlers.handleApiMe(req, res);
+    return true;
+  }
+
   if (pathname === '/api/user' && req.method === 'GET') {
     handlers.handleApiUserGet(req, res);
     return true;
@@ -352,6 +357,22 @@ async function handleRequest(req, res) {
   if (!req.url) {
     res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Bad Request');
+    return;
+  }
+
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204);
+    res.end();
     return;
   }
 

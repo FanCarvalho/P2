@@ -1,4 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    if (typeof ensureAuthenticated === 'function') {
+        const ok = await ensureAuthenticated();
+        if (!ok) return;
+    }
+
     const profileForm = document.getElementById('profile-form');
     const firstNameInput = document.getElementById('firstName');
     const lastNameInput = document.getElementById('lastName');
@@ -11,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para carregar os dados do utilizador
     async function loadUserData() {
         try {
-            const response = await fetch('/api/user');
+            const response = await authFetch('/api/user');
             if (!response.ok) {
                 throw new Error('Failed to load user data');
             }
@@ -45,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetch('/api/user', {
+            const response = await authFetch('/api/user', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -6,6 +6,9 @@
   <title>Login | Glowpath</title>
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/login.css" />
+  <script>
+    window.API_BASE_URL = "http://127.0.0.1:3000";
+  </script>
   <script src="./js/auth.js"></script>
   <style>
     .login-error {
@@ -72,20 +75,20 @@
       <div class="demo-users">
         <strong>Contas de demonstração:</strong>
         <p><strong>Admin:</strong> admin@glowpath.com / admin123</p>
-        <p><strong>Usuário:</strong> user@glowpath.com / user123</p>
+        <p><strong>Operador:</strong> joao@empresa.com / joao123</p>
       </div>
     </section>
   </div>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
       const email = document.getElementById('emailInput').value.trim();
       const password = document.getElementById('passwordInput').value;
       const errorDiv = document.getElementById('loginError');
       
-      const result = login(email, password);
+      const result = await login(email, password);
       
       if (result.success) {
         // Login bem-sucedido - redirecionar para dashboard
