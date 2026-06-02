@@ -7,19 +7,9 @@
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/admin.css" />
-  <script>
-    window.API_BASE_URL = "http://127.0.0.1:3000";
-  </script>
   <script src="./js/auth.js"></script>
   <script defer src="./js/components.js"></script>
-  <script>
-    // Verificar se é admin, senão redirecionar para dashboard
-    window.addEventListener('load', function() {
-      if (!isAdmin()) {
-        window.location.href = './dashboard.html';
-      }
-    });
-  </script>
+  <script defer src="./js/admin.js"></script>
 </head>
 <body data-page="admin">
   <div class="app-shell">

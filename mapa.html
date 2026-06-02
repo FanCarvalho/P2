@@ -13,11 +13,9 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
-  <script>
-    window.API_BASE_URL = "http://127.0.0.1:3000";
-  </script>
   <script src="./js/auth.js"></script>
   <script defer src="./js/components.js"></script>
+    <script defer src="./js/mapa.js"></script>
 </head>
 <body data-page="mapa">
   <div class="app-shell">
@@ -41,7 +39,7 @@
       <div data-include="./components/footer.html"></div>
     </main>
   </div>
-  <script>
+  <script type="text/plain">
     document.addEventListener('DOMContentLoaded', async function () {
       if (typeof ensureAuthenticated === 'function') {
         const ok = await ensureAuthenticated();
