@@ -18,6 +18,146 @@
   </script>
   <script src="./js/auth.js"></script>
   <script defer src="./js/components.js"></script>
+  <style>
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 20, 22, 0.8);
+      display: grid;
+      place-items: center;
+      z-index: 3000;
+      padding: 24px;
+    }
+
+    .modal-backdrop[hidden] {
+      display: none;
+    }
+
+    .modal {
+      width: min(720px, 100%);
+      background: #1e1e24;
+      color: #ffffff;
+      border: 1px solid #2d2d35;
+      border-radius: 12px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid #2d2d35;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .modal-body {
+      padding: 20px 22px 22px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-grid label {
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #b3b3b3;
+    }
+
+    .form-grid input,
+    .form-grid select,
+    .form-grid textarea {
+      padding: 10px 12px;
+      border: 1px solid #2d2d35;
+      border-radius: 8px;
+      background: #141416;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    .form-grid input:focus,
+    .form-grid select:focus,
+    .form-grid textarea:focus {
+      outline: 2px solid rgba(0, 123, 255, 0.6);
+      border-color: #007bff;
+    }
+
+    .form-grid .span-2 {
+      grid-column: span 2;
+    }
+
+    .readonly-box {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid #2d2d35;
+      border-radius: 8px;
+      background: #141416;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      font-size: 13px;
+      color: #b3b3b3;
+    }
+
+    .readonly-box strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn.primary {
+      background: #007bff;
+      color: #ffffff;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      border-color: #2d2d35;
+      color: #b3b3b3;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: #b3b3b3;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .icon-btn:hover,
+    .btn.ghost:hover {
+      color: #ffffff;
+    }
+
+    .btn.primary:hover {
+      filter: brightness(1.05);
+    }
+  </style>
 </head>
 <body data-page="mapa">
   <div class="app-shell">
@@ -37,6 +177,74 @@
           <aside id="zona-info" class="zona-info is-empty" hidden></aside>
         </div>
       </section>
+
+      <div class="modal-backdrop" id="editRegionModal" hidden>
+        <div class="modal">
+          <header class="modal-header">
+            <h3>Editar Regiao</h3>
+            <button class="icon-btn" type="button" aria-label="Fechar" data-close>✕</button>
+          </header>
+
+          <form class="modal-body" id="editRegionForm">
+            <div class="form-grid">
+              <label>
+                Nome da Regiao
+                <input type="text" name="name" required />
+              </label>
+
+              <label>
+                Status
+                <select name="status" required>
+                  <option>Operacional</option>
+                  <option>Atencao</option>
+                  <option>Avaria</option>
+                  <option>Manutencao</option>
+                </select>
+              </label>
+
+              <label>
+                Quantidade de Postes
+                <input type="number" name="poles" min="0" step="1" required />
+              </label>
+
+              <label>
+                Avarias Atuais
+                <input type="number" name="faults" min="0" step="1" required />
+              </label>
+
+              <label>
+                Consumo Mensal (kWh)
+                <input type="number" name="consumption" min="0" step="1" required />
+              </label>
+
+              <label>
+                Lampadas a Vencer
+                <input type="number" name="expiring" min="0" step="1" required />
+              </label>
+
+              <label>
+                Ultima Substituicao
+                <input type="date" name="lastReplacement" required />
+              </label>
+
+              <label class="span-2">
+                Notas (opcional)
+                <textarea name="notes" rows="3" placeholder="Adicione notas de manutencao..."></textarea>
+              </label>
+            </div>
+
+            <div class="readonly-box">
+              <div>Taxa de Avarias: <strong id="faultRate">-</strong></div>
+              <div>Nivel de Risco: <strong id="riskLevel">-</strong></div>
+            </div>
+
+            <footer class="modal-footer">
+              <button type="button" class="btn ghost" data-close>Cancelar</button>
+              <button type="submit" class="btn primary">Guardar</button>
+            </footer>
+          </form>
+        </div>
+      </div>
 
       <div data-include="./components/footer.html"></div>
     </main>
@@ -91,7 +299,7 @@
 
         // Mostrar ações apenas para admins. Utilizadores normais não veem os botões.
         if (typeof isAdmin === 'function' && isAdmin()) {
-          parts.push('<div class="zona-actions"><button type="button">Ver Detalhes</button><button type="button">Editar</button></div>');
+          parts.push('<div class="zona-actions"><button type="button">Ver Detalhes</button><button type="button" class="js-edit-zone" data-zone="' + zoneKey + '">Editar</button></div>');
         }
 
         zoneInfoPanel.innerHTML = parts.join('');
@@ -112,12 +320,81 @@
           acores: [37.7412, -25.6756]
         };
         var zona = zonas[zoneKey];
-        var marker = L.marker(coords[zoneKey]).addTo(map).bindPopup('<b>' + zona.nome + '</b>');
+        var marker = L.marker(coords[zoneKey]).addTo(map).bindPopup('<strong>' + zona.nome + '</strong>');
         marker.on('click', function () {
           renderZoneInfo(zoneKey);
         });
 
         markers[zoneKey] = marker;
+      });
+
+      var modal = document.getElementById('editRegionModal');
+      var form = document.getElementById('editRegionForm');
+      var faultRateEl = document.getElementById('faultRate');
+      var riskLevelEl = document.getElementById('riskLevel');
+
+      function calculateRiskLevel(rate) {
+        if (rate >= 10) return 'Alto';
+        if (rate >= 5) return 'Medio';
+        return 'Baixo';
+      }
+
+      function updateDerivedFields() {
+        var totalPoles = Number(form.elements.poles.value) || 0;
+        var faults = Number(form.elements.faults.value) || 0;
+        var rate = totalPoles > 0 ? (faults / totalPoles) * 100 : 0;
+        faultRateEl.textContent = rate.toFixed(1) + '%';
+        riskLevelEl.textContent = calculateRiskLevel(rate);
+      }
+
+      function openEditModal(regionData) {
+        if (!regionData) return;
+
+        var regionName = regionData.name || regionData.nome || '';
+        var regionStatus = regionData.status || 'Operacional';
+        var regionPoles = regionData.poles !== undefined ? regionData.poles : regionData.postes;
+        var regionFaults = regionData.faults !== undefined ? regionData.faults : regionData.avarias;
+        var regionConsumption = regionData.consumption !== undefined ? regionData.consumption : regionData.consumo;
+        var regionExpiring = regionData.expiring !== undefined ? regionData.expiring : regionData.vencimento;
+        var regionLastReplacement = regionData.lastReplacement || regionData.substituicao || '';
+
+        form.elements.name.value = regionName;
+        form.elements.status.value = regionStatus;
+        form.elements.poles.value = regionPoles || 0;
+        form.elements.faults.value = regionFaults || 0;
+        form.elements.consumption.value = Number(String(regionConsumption || '').replace(/\D/g, '')) || 0;
+        form.elements.expiring.value = regionExpiring || 0;
+        form.elements.lastReplacement.value = regionLastReplacement;
+
+        updateDerivedFields();
+        modal.hidden = false;
+      }
+
+      function closeEditModal() {
+        modal.hidden = true;
+      }
+
+      document.addEventListener('click', function (event) {
+        var target = event.target;
+        if (target && target.classList.contains('js-edit-zone')) {
+          var zoneKey = target.getAttribute('data-zone');
+          openEditModal(zonas[zoneKey]);
+        }
+
+        if (target && target.hasAttribute('data-close')) {
+          closeEditModal();
+        }
+      });
+
+      form.addEventListener('input', function (event) {
+        if (event.target.name === 'poles' || event.target.name === 'faults') {
+          updateDerivedFields();
+        }
+      });
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        closeEditModal();
       });
     });
   </script>
