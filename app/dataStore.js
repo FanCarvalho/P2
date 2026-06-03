@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
-const { apiDataPath, dbConfig } = require('./config');
+const { apiDataPath } = require('./config');
+const { mysqlConfig } = require('../db');
 
 // Esta camada tenta usar MySQL e, se isso falhar, mantém o fallback em JSON.
 const entityTables = {
@@ -199,6 +200,8 @@ const mysql = require('mysql2/promise');
 const entityTables = ${JSON.stringify(entityTables)};
 const entityOrder = ['operadores', 'perfisIluminacao', 'sensoresMovimento', 'zonas', 'postes', 'lampadas', 'registosLampada', 'agendamentosManutencao', 'avarias'];
 
+  const systemDatabases = new Set(['information_schema', 'mysql', 'performance_schema', 'sys']);
+
 function pickTable(existingTables, candidates) {
   const normalized = new Map(existingTables.map(name => [name.toLowerCase(), name]));
   for (const candidate of candidates) {
@@ -227,12 +230,38 @@ function normalizeRows(rows) {
   });
 }
 
+async function listTableNames(connection) {
+  try {
+    const [tableRows] = await connection.query('SHOW TABLES');
+    return tableRows.map(row => Object.values(row)[0]);
+  } catch {
+    const [tableRows] = await connection.query('SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE()');
+    return tableRows.map(row => row.table_name || row.TABLE_NAME || Object.values(row)[0]);
+  }
+}
+
+async function listColumnNames(connection, table) {
+  try {
+    const [columns] = await connection.query('SHOW COLUMNS FROM ??', [table]);
+    return columns.map(column => column.Field);
+  } catch {
+    const [columns] = await connection.query(
+      'SELECT column_name FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = ? ORDER BY ordinal_position',
+      [table]
+    );
+    return columns.map(column => column.column_name || column.COLUMN_NAME || Object.values(column)[0]);
+  }
+}
+
+async function resolveDatabaseConnection() {
+  return mysql.createConnection(config);
+}
+
 (async () => {
-  const connection = await mysql.createConnection(config);
+  const connection = await resolveDatabaseConnection();
 
   if (mode === 'load') {
-    const [tableRows] = await connection.query('SHOW TABLES');
-    const tableNames = tableRows.map(row => Object.values(row)[0]);
+    const tableNames = await listTableNames(connection);
     const db = {};
 
     for (const entity of entityOrder) {
@@ -252,8 +281,7 @@ function normalizeRows(rows) {
 
   if (mode === 'save') {
     const db = JSON.parse(fs.readFileSync(0, 'utf8') || '{}');
-    const [tableRows] = await connection.query('SHOW TABLES');
-    const tableNames = tableRows.map(row => Object.values(row)[0]);
+    const tableNames = await listTableNames(connection);
 
     const tableMap = {};
     for (const entity of entityOrder) {
@@ -273,8 +301,7 @@ function normalizeRows(rows) {
       const rows = Array.isArray(db[entity]) ? db[entity] : [];
       if (!rows.length) continue;
 
-      const [columns] = await connection.query('SHOW COLUMNS FROM ??', [table]);
-      const columnNames = columns.map(column => column.Field);
+      const columnNames = await listColumnNames(connection, table);
       const values = rows.map(row => columnNames.map(columnName => normalizeValue(row[columnName])));
       await connection.query('INSERT INTO ?? (??) VALUES ?', [table, columnNames, values]);
     }
@@ -292,10 +319,11 @@ function normalizeRows(rows) {
 });
 `;
 
-  const result = spawnSync(process.execPath, ['-e', workerScript, mode, JSON.stringify(dbConfig)], {
+  const result = spawnSync(process.execPath, ['-e', workerScript, mode, JSON.stringify(mysqlConfig)], {
     input: payload === null ? '' : JSON.stringify(payload),
     encoding: 'utf8',
-    maxBuffer: 10 * 1024 * 1024
+    maxBuffer: 10 * 1024 * 1024,
+    cwd: path.resolve(__dirname, '..')
   });
 
   if (result.status !== 0) {

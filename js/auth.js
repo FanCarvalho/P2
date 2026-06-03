@@ -1,6 +1,23 @@
 // Sistema de autenticação
 const AUTH_STORAGE_KEY = 'glowpath_auth';
-const DEFAULT_API_BASE_URL = window.API_BASE_URL || (window.location.port === '5500' ? 'http://127.0.0.1:3000' : '');
+
+function getDefaultApiBaseUrl() {
+  if (typeof window.API_BASE_URL === 'string' && window.API_BASE_URL.trim()) {
+    return window.API_BASE_URL.trim();
+  }
+
+  if (window.location.protocol === 'file:') {
+    return 'http://127.0.0.1:3000';
+  }
+
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return window.location.port === '3000' ? '' : 'http://127.0.0.1:3000';
+  }
+
+  return '';
+}
+
+const DEFAULT_API_BASE_URL = getDefaultApiBaseUrl();
 
 function buildApiUrl(path) {
   if (!path) return path;

@@ -76,6 +76,138 @@
   height: 100%;
 }
 
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 20, 22, 0.8);
+  display: grid;
+  place-items: center;
+  z-index: 3000;
+  padding: 24px;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal {
+  width: min(720px, 100%);
+  background: #1e1e24;
+  color: #ffffff;
+  border: 1px solid #2d2d35;
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-bottom: 1px solid #2d2d35;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.modal-body {
+  padding: 20px 22px 22px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-grid label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+  padding: 10px 12px;
+  border: 1px solid #2d2d35;
+  border-radius: 8px;
+  background: #141416;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus {
+  outline: 2px solid rgba(0, 123, 255, 0.6);
+  border-color: #007bff;
+}
+
+.form-grid .span-2 {
+  grid-column: span 2;
+}
+
+.readonly-box {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #2d2d35;
+  border-radius: 8px;
+  background: #141416;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.readonly-box strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn.primary {
+  background: #007bff;
+  color: #ffffff;
+}
+
+.btn.ghost {
+  background: transparent;
+  border-color: #2d2d35;
+  color: #ffffff;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.btn.primary:hover {
+  filter: brightness(1.05);
+}
+
 @media (max-width: 1024px) {
   .map-card {
     min-height: auto;
