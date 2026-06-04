@@ -18,8 +18,12 @@ function sendFile(res, filePath) {
   const stream = fs.createReadStream(filePath);
 
   stream.on('error', () => {
-    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end('404 - File not found');
+    if (!res.headersSent) {
+      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+    }
+    if (!res.writableEnded) {
+      res.end('404 - File not found');
+    }
   });
 
   res.writeHead(200, { 'Content-Type': contentType });

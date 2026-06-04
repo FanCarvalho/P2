@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
-const { apiDataPath } = require('./config');
+const { apiDataPath, dbConfig } = require('./config');
 const { mysqlConfig } = require('../db');
 
 // Esta camada tenta usar MySQL e, se isso falhar, mantém o fallback em JSON.

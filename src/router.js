@@ -6,7 +6,9 @@ const handlers = require('./apiHandlers');
 
 function resolveStaticFile(requestPath) {
   let pathname = decodeURIComponent(requestPath.split('?')[0]);
-  if (pathname === '/') pathname = '/login.html';
+  if (pathname === '/' || pathname === '/login.html') {
+    pathname = '/html/login.html';
+  }
 
   const normalizedPath = path.normalize(pathname).replace(/^([.]{2}[\/])+/, '');
   const filePath = path.join(rootDir, normalizedPath);
@@ -338,13 +340,8 @@ function serveStaticAsset(req, res) {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      const fallbackFile = path.join(rootDir, 'login.html');
-      if (req.url === '/' || req.url === '/login.html') {
-        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-        res.end('404 - Not Found');
-      } else {
-        sendFile(res, fallbackFile);
-      }
+      const fallbackFile = path.join(rootDir, 'html', 'login.html');
+      sendFile(res, fallbackFile);
       return;
     }
 
