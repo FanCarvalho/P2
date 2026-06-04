@@ -1,0 +1,6 @@
+# Dependencies
+/node_modules
+
+# Generated data
+/data/*.json
+/dadosIluminacaoPublica.json 

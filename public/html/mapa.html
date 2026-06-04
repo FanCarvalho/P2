@@ -35,6 +35,34 @@
         </div>
       </section>
 
+      <section class="card details-card" id="detailsView" hidden>
+        <div class="details-header">
+          <div>
+            <h3 id="detailsTitle">Postes da Regiao</h3>
+            <p class="details-subtitle" id="detailsSubtitle">Selecione uma regiao para ver os postes associados.</p>
+          </div>
+          <button class="btn ghost js-back-map" type="button">Voltar ao Mapa</button>
+        </div>
+
+        <div class="details-table-wrapper">
+          <table class="data-table" aria-label="Tabela de postes">
+            <thead>
+              <tr>
+                <th>ID do Poste</th>
+                <th>Rua/Localizacao</th>
+                <th>Tipo de Lampada</th>
+                <th>Estado</th>
+                <th>Acoes</th>
+              </tr>
+            </thead>
+            <tbody id="detailsTableBody"></tbody>
+          </table>
+          <div class="details-empty" id="detailsEmpty" hidden>
+            Nenhum poste encontrado para esta regiao.
+          </div>
+        </div>
+      </section>
+
       <div class="modal-backdrop" id="editRegionModal" hidden>
         <div class="modal">
           <header class="modal-header">
@@ -134,12 +162,70 @@
         acores: { nome: 'Açores', postes: 500, avarias: 1, status: 'Operacional', consumo: '750 kWh', vencimento: 35, substituicao: '2024-03-01' }
       };
 
+      var postes = [
+        { id: 'PT-001', zone: 'porto', rua: 'Rua das Flores', lampada: 'LED 80W', estado: 'Normal' },
+        { id: 'PT-002', zone: 'porto', rua: 'Avenida dos Aliados', lampada: 'LED 60W', estado: 'Avaria' },
+        { id: 'PT-003', zone: 'porto', rua: 'Rua de Cedofeita', lampada: 'LED 100W', estado: 'Normal' },
+        { id: 'LX-010', zone: 'lisboa', rua: 'Avenida da Liberdade', lampada: 'LED 90W', estado: 'Normal' },
+        { id: 'LX-011', zone: 'lisboa', rua: 'Rua Augusta', lampada: 'LED 80W', estado: 'Avaria' },
+        { id: 'LX-012', zone: 'lisboa', rua: 'Parque das Nacoes', lampada: 'LED 70W', estado: 'Normal' },
+        { id: 'BR-101', zone: 'braga', rua: 'Rua do Souto', lampada: 'LED 60W', estado: 'Normal' },
+        { id: 'CB-201', zone: 'coimbra', rua: 'Rua Ferreira Borges', lampada: 'LED 80W', estado: 'Avaria' },
+        { id: 'AL-401', zone: 'alentejo', rua: 'Praca do Giraldo', lampada: 'LED 70W', estado: 'Normal' }
+      ];
+
       var markers = {};
       var zoneInfoPanel = document.getElementById('zona-info');
+      var mapCard = document.querySelector('.map-card');
+      var detailsView = document.getElementById('detailsView');
+      var detailsTitle = document.getElementById('detailsTitle');
+      var detailsSubtitle = document.getElementById('detailsSubtitle');
+      var detailsTableBody = document.getElementById('detailsTableBody');
+      var detailsEmpty = document.getElementById('detailsEmpty');
+      var activeZoneKey = null;
+
+      function getStatusClass(status) {
+        if (status === 'Avaria') return 'status-bad';
+        if (status === 'Manutencao') return 'status-warning';
+        return 'status-ok';
+      }
+
+      function renderDetails(zoneKey) {
+        if (!zoneKey || !zonas[zoneKey]) return;
+
+        var zoneInfo = zonas[zoneKey];
+        var zonePosts = postes.filter(function (poste) {
+          return poste.zone === zoneKey;
+        });
+
+        detailsTitle.textContent = 'Postes em ' + zoneInfo.nome;
+        detailsSubtitle.textContent = 'Total: ' + zonePosts.length + ' postes';
+        detailsTableBody.innerHTML = zonePosts.map(function (poste) {
+          return '<tr>' +
+            '<td>' + poste.id + '</td>' +
+            '<td>' + poste.rua + '</td>' +
+            '<td>' + poste.lampada + '</td>' +
+            '<td><span class="status-pill ' + getStatusClass(poste.estado) + '">' + poste.estado + '</span></td>' +
+            '<td><button type="button" class="action-btn">Ver</button></td>' +
+          '</tr>';
+        }).join('');
+
+        detailsEmpty.hidden = zonePosts.length > 0;
+        mapCard.hidden = true;
+        detailsView.hidden = false;
+        zoneInfoPanel.hidden = true;
+      }
+
+      function showMapView() {
+        detailsView.hidden = true;
+        mapCard.hidden = false;
+      }
 
       function renderZoneInfo(zoneKey) {
         var zonaInfo = zonas[zoneKey];
         if (!zonaInfo) return;
+
+        activeZoneKey = zoneKey;
 
         zoneInfoPanel.hidden = false;
         zoneInfoPanel.classList.remove('is-empty');
@@ -156,7 +242,7 @@
 
         // Mostrar ações apenas para admins. Utilizadores normais não veem os botões.
         if (typeof isAdmin === 'function' && isAdmin()) {
-          parts.push('<div class="zona-actions"><button type="button">Ver Detalhes</button><button type="button" class="js-edit-zone" data-zone="' + zoneKey + '">Editar</button></div>');
+          parts.push('<div class="zona-actions"><button type="button" class="js-view-details" data-zone="' + zoneKey + '">Ver Detalhes</button><button type="button" class="js-edit-zone" data-zone="' + zoneKey + '">Editar</button></div>');
         }
 
         zoneInfoPanel.innerHTML = parts.join('');
@@ -236,6 +322,15 @@
         if (target && target.classList.contains('js-edit-zone')) {
           var zoneKey = target.getAttribute('data-zone');
           openEditModal(zonas[zoneKey]);
+        }
+
+        if (target && target.classList.contains('js-view-details')) {
+          var detailsZoneKey = target.getAttribute('data-zone') || activeZoneKey;
+          renderDetails(detailsZoneKey);
+        }
+
+        if (target && target.classList.contains('js-back-map')) {
+          showMapView();
         }
 
         if (target && target.hasAttribute('data-close')) {
