@@ -1,0 +1,2570 @@
+{
+    "sistema": {
+        "id": "b438b6fa-765b-4706-8b22-88adb9b5534a",
+        "nome": "Sistema de Iluminação Pública Inteligente",
+        "versao": "1.0.0",
+        "data_criacao": "2025-02-11T04:34:38.255Z"
+    },
+    "zonas": [
+        {
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "nome": "Zona Binghamton",
+            "coordenadas": "47.4629, -92.2801"
+        },
+        {
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "nome": "Zona New Calvin",
+            "coordenadas": "-32.0435, 58.1632"
+        },
+        {
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "nome": "Zona South Edmund",
+            "coordenadas": "76.9652, 24.8414"
+        },
+        {
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "nome": "Zona North Jeannestad",
+            "coordenadas": "-67.9962, -107.4962"
+        },
+        {
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "nome": "Zona Fayehaven",
+            "coordenadas": "-56.3574, -29.7752"
+        },
+        {
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "nome": "Zona Wisokyfurt",
+            "coordenadas": "65.7828, -170.9128"
+        },
+        {
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "nome": "Zona Toddville",
+            "coordenadas": "79.2053, 119.7779"
+        },
+        {
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "nome": "Zona Fort Leannfield",
+            "coordenadas": "-29.6021, -54.1562"
+        },
+        {
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "nome": "Zona New Kip",
+            "coordenadas": "-48.1165, 88.8112"
+        },
+        {
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "nome": "Zona Lake Andreatown",
+            "coordenadas": "-30.1044, 160.9631"
+        },
+        {
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "nome": "Zona Fort Johnnyland",
+            "coordenadas": "-73.1832, 121.4878"
+        },
+        {
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "nome": "Zona Kleinboro",
+            "coordenadas": "55.8925, -132.7986"
+        },
+        {
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "nome": "Zona Darrelborough",
+            "coordenadas": "-63.4099, -77.6811"
+        },
+        {
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "nome": "Zona Lake Junior",
+            "coordenadas": "67.6389, 7.4586"
+        },
+        {
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "nome": "Zona Mildredcester",
+            "coordenadas": "82.7891, 135.6137"
+        },
+        {
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "nome": "Zona Oberbrunner-Dietrichland",
+            "coordenadas": "79.7725, 160.1201"
+        },
+        {
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "nome": "Zona West Randall",
+            "coordenadas": "-10.7168, 123.8679"
+        },
+        {
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "nome": "Zona Mrazton",
+            "coordenadas": "33.1274, -109.4098"
+        },
+        {
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "nome": "Zona South Enos",
+            "coordenadas": "45.7905, -139.1368"
+        },
+        {
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "nome": "Zona South Melbamouth",
+            "coordenadas": "-31.5163, -143.9228"
+        }
+    ],
+    "postes": [
+        {
+            "id_poste": "564680de-84f6-4bb6-a3f1-734d513df4a1",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "79.4641, 1.1691"
+        },
+        {
+            "id_poste": "5a333f7c-799f-4a30-b376-cc1f896adafb",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-71.6858, 123.2595"
+        },
+        {
+            "id_poste": "91973059-54cc-4b18-88be-56ba853211d6",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-54.9904, 168.3004"
+        },
+        {
+            "id_poste": "1bead3ab-7dbe-4c87-9708-62170f660600",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-60.6204, 86.3722"
+        },
+        {
+            "id_poste": "bc55c6b9-511e-47f5-a355-a0c667775768",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-86.9494, 7.3777"
+        },
+        {
+            "id_poste": "36d5704a-534f-4170-982a-4b504174a705",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-28.1344, -114.1484"
+        },
+        {
+            "id_poste": "c1eb706a-d967-4d51-97f6-30259a0e328a",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "68.5251, -154.3701"
+        },
+        {
+            "id_poste": "2b0d5b03-1267-4eab-b14f-8c0110e4fb4f",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-75.9096, 30.429"
+        },
+        {
+            "id_poste": "13f79472-800a-4084-b394-722118ccf227",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-19.5727, 78.9645"
+        },
+        {
+            "id_poste": "509bb256-6168-4b96-8e9f-daef3be0c1e9",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "79.1175, -147.2885"
+        },
+        {
+            "id_poste": "d6dcd7b5-0305-4700-9a11-7bf411310420",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "41.1723, -170.7997"
+        },
+        {
+            "id_poste": "f2b6df3d-8fa9-43b4-9df0-f57ec31dbd67",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "45.5528, 130.9875"
+        },
+        {
+            "id_poste": "dc5bfef0-933d-4c58-830e-b8066222913f",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "17.1515, -131.8968"
+        },
+        {
+            "id_poste": "7f63e9b8-0cfb-4cdf-9478-274d510dde16",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "41.8909, -115.1811"
+        },
+        {
+            "id_poste": "ab23bcf4-8264-45cc-bb14-f7908b015f30",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-57.7739, -81.1193"
+        },
+        {
+            "id_poste": "09e91ba2-de64-49fb-8ccf-d43333ef11d9",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-64.8088, 110.3592"
+        },
+        {
+            "id_poste": "fb192daf-2781-4a95-b6c5-fe1da0fddee3",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "59.6102, -81.7052"
+        },
+        {
+            "id_poste": "cc1ed9b5-727c-482d-bb0c-d861d055e7e1",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-1.7335, -81.5564"
+        },
+        {
+            "id_poste": "7caae03b-6aeb-4e2c-8b00-08c602f3d587",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-6.2577, 17.6917"
+        },
+        {
+            "id_poste": "49b143be-6a02-46aa-832f-571ea8603d93",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "4.8663, 132.8151"
+        },
+        {
+            "id_poste": "ddb64f09-d4fe-434e-8139-29994df4d45c",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-75.6805, 31.9421"
+        },
+        {
+            "id_poste": "24b1f48c-3536-4bb2-a7bb-a3d458dab352",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "34.8058, -24.0389"
+        },
+        {
+            "id_poste": "1fb9d5a7-18a7-421a-ade6-fd6651034b2b",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "74.4565, -48.1754"
+        },
+        {
+            "id_poste": "cb00ade2-943b-467d-b38d-29dce0b38c6b",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-19.7953, 131.6149"
+        },
+        {
+            "id_poste": "3e0f1e88-ffca-4a27-b610-0b774822d0e5",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "78.8049, -147.5988"
+        },
+        {
+            "id_poste": "c9af558a-4b13-40bf-bc24-a4648d38a049",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-19.0665, 112.851"
+        },
+        {
+            "id_poste": "d411e7a6-cdea-4ed4-a94a-e7d0df5bd163",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-53.4056, -153.0835"
+        },
+        {
+            "id_poste": "853e528e-c243-4e42-b792-01a24adf63bb",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "44.5204, 178.3532"
+        },
+        {
+            "id_poste": "3bc4e134-13c4-4829-b931-ba7efbf22f68",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "64.0579, -10.6931"
+        },
+        {
+            "id_poste": "f2c39cb7-e2b4-4b30-9cd2-c599e9d6a3be",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "73.401, 111.3446"
+        },
+        {
+            "id_poste": "61583d43-2b8b-446e-b5ef-079050974c85",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "15.7687, 135.1291"
+        },
+        {
+            "id_poste": "400607ba-b9f3-4ef0-a6a9-fa9eed6bf37c",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-5.1817, 59.3333"
+        },
+        {
+            "id_poste": "99173b89-9416-4493-8352-6dd1593eb311",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-83.4368, 141.0122"
+        },
+        {
+            "id_poste": "55864bcd-cb3b-44b1-a660-eaca58225a9c",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "62.3137, 157.1813"
+        },
+        {
+            "id_poste": "228db473-991a-410d-a37f-a5d37990687d",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-53.4206, 56.2961"
+        },
+        {
+            "id_poste": "4aa1b534-e9a3-45c5-8d3b-1daf0200daa6",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "68.1381, -71.6691"
+        },
+        {
+            "id_poste": "008d5ada-082c-4674-8326-8e65db1bf77b",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-60.9088, -117.3764"
+        },
+        {
+            "id_poste": "74d6ad4b-64e9-472e-9af0-1e77377bacc6",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "45.984, -150.2129"
+        },
+        {
+            "id_poste": "65204c4d-9cfa-454f-9b83-7cfa07d85d98",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-38.0672, -118.1285"
+        },
+        {
+            "id_poste": "d52264b5-922e-4de7-b14e-65487564330f",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "47.51, 117.373"
+        },
+        {
+            "id_poste": "0482f481-51ef-4855-8e96-c8334049c1f7",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-7.3177, -63.226"
+        },
+        {
+            "id_poste": "2281b5f1-045d-4dbd-8bd7-4a51dd7712cd",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-4.4113, 76.6979"
+        },
+        {
+            "id_poste": "01df36ba-ce48-42fc-a2bc-27d505c14d26",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "24.2251, 130.2508"
+        },
+        {
+            "id_poste": "204d2ce8-e3bc-4791-8413-e0784c93700b",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-6.7543, -32.5936"
+        },
+        {
+            "id_poste": "aae189aa-50b0-47b4-8012-aaf5220d1e0d",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-36.4194, -159.4467"
+        },
+        {
+            "id_poste": "12bf3654-b482-4da8-a93d-1e9f4ea0191b",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-45.6598, 74.7227"
+        },
+        {
+            "id_poste": "4d67ae7a-91a0-4819-bbc9-f50d78d451a3",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "88.5076, -36.7945"
+        },
+        {
+            "id_poste": "8a7862fc-90e1-4c0c-ad78-df02da4710bb",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-44.896, 45.1108"
+        },
+        {
+            "id_poste": "a6e7ebfc-3b34-4376-ae95-95d131d4f25e",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-30.056, 91.1188"
+        },
+        {
+            "id_poste": "99519b99-b039-4240-830d-980d0c3d2808",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-84.5253, 26.692"
+        },
+        {
+            "id_poste": "ae062836-5bb6-43cd-a83c-5e4f6c3996bd",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "49.0325, -111.3527"
+        },
+        {
+            "id_poste": "1e92a52c-1fcb-43c0-b84d-c7713b1cf179",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "3.2736, -121.1487"
+        },
+        {
+            "id_poste": "debfe169-b8a1-460a-8267-acb98dd04e92",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-46.2675, -132.9852"
+        },
+        {
+            "id_poste": "984acf76-4cf9-4ab6-a349-a70e39b27004",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-37.3102, 164.5206"
+        },
+        {
+            "id_poste": "1cb9eafd-cf95-41b8-b6fe-6f63912dd3bf",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "11.6619, -93.8626"
+        },
+        {
+            "id_poste": "63bac94f-a7c4-4c51-bc3a-4a2938d7c2a2",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-59.6854, 48.7875"
+        },
+        {
+            "id_poste": "e856377f-6d28-4998-ac21-293b1efce623",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "40.9034, 104.0384"
+        },
+        {
+            "id_poste": "07712d93-7d1f-4242-874f-0595761ad827",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "15.1391, 174"
+        },
+        {
+            "id_poste": "d00b8c93-c0ca-4a03-b770-5f4aa949b644",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "23.4827, -80.4532"
+        },
+        {
+            "id_poste": "e8c81176-e2ae-46e2-b138-acc1d1ef9b58",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "65.9494, -132.8431"
+        },
+        {
+            "id_poste": "e496e383-c4fe-470f-8a79-12a0beb8cb93",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "1.2053, -44.858"
+        },
+        {
+            "id_poste": "8499397f-b2e7-4dd0-b3ec-23943f78a16e",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "87.4099, 103.3879"
+        },
+        {
+            "id_poste": "d208ff92-0745-4d11-a761-86f1125afe71",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "falha",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "5.266, -22.3662"
+        },
+        {
+            "id_poste": "bde525f1-f90d-4a25-bdb5-c48e68c37eab",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "31.7271, 66.5206"
+        },
+        {
+            "id_poste": "27b510a0-7edb-4db0-a708-373d25040706",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-81.502, -45.2681"
+        },
+        {
+            "id_poste": "65e63cd5-db15-4d5d-b796-98df425b35ec",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-10.8995, 68.1609"
+        },
+        {
+            "id_poste": "2365ad5c-4602-419a-a08c-87a69edbd4c4",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "0.8826, 6.8986"
+        },
+        {
+            "id_poste": "056bb66b-6940-4ba1-9002-3d6af7c6b4e0",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-30.2604, -131.0191"
+        },
+        {
+            "id_poste": "a98f577b-3c2f-4f6e-a68b-ce7998b41868",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-17.9128, 119.9284"
+        },
+        {
+            "id_poste": "ce129b30-dce4-48ba-b08f-37c46b7fd408",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-0.4182, 172.5126"
+        },
+        {
+            "id_poste": "c28edfdf-8916-45e5-ae39-815f9dbe531d",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "14.8853, -137.5941"
+        },
+        {
+            "id_poste": "795b9dd0-ab2e-4d2e-bacc-21a542d9d803",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-13.9724, 58.342"
+        },
+        {
+            "id_poste": "ccd853f9-f769-4fd6-806c-0d45e5775167",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-71.9345, 28.0177"
+        },
+        {
+            "id_poste": "7bf3b664-5179-4477-aa9f-89852038050a",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "68.8009, 142.7833"
+        },
+        {
+            "id_poste": "5969ff71-f10b-4d99-85ad-57aca286aa12",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "50.8996, 24.7153"
+        },
+        {
+            "id_poste": "b7ed732d-a4b4-44bb-bdd8-494c15072f5c",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-36.3421, 91.5842"
+        },
+        {
+            "id_poste": "44c56b2b-5d90-42c3-90ba-3aaf124c7568",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-25.1186, -7.5962"
+        },
+        {
+            "id_poste": "c0389239-b776-44fa-8544-589a099e30f9",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-42.4219, 161.8985"
+        },
+        {
+            "id_poste": "9189fefa-aa04-44c2-9b64-e4cc65072092",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "73.4612, 5.4514"
+        },
+        {
+            "id_poste": "f588003e-ea1f-4189-8be5-58385e4a6fe5",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "28.543, -60.6042"
+        },
+        {
+            "id_poste": "5e498425-55d8-4f43-b0d7-4094a182abcc",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "67.5982, -5.1311"
+        },
+        {
+            "id_poste": "2cc7b116-3dd2-4471-9179-22be0c0f5c85",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-27.9643, 94.4505"
+        },
+        {
+            "id_poste": "20b16d60-0eda-40c6-a1cb-35f1da3990b0",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-77.7669, 136.2918"
+        },
+        {
+            "id_poste": "c62bba47-0574-494a-99d3-cd0650cecb53",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "72.3906, 146.2373"
+        },
+        {
+            "id_poste": "f1b5b8f7-1a75-49d3-babf-38b0d5a6ec7f",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "10.6579, -140.5026"
+        },
+        {
+            "id_poste": "e67fd1c3-2d87-4116-bf3b-88fdd0ff1801",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-42.9829, 156.1361"
+        },
+        {
+            "id_poste": "5bc06346-0931-475f-8c49-82cb2ba00819",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-55.5165, 55.2525"
+        },
+        {
+            "id_poste": "f7453988-a023-402d-8a20-3b788322ffba",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-55.9039, 152.9139"
+        },
+        {
+            "id_poste": "24202782-b895-43c5-a8be-7f8c1196c992",
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "22.1182, -122.761"
+        },
+        {
+            "id_poste": "f92c2492-1a05-43e9-a165-2b2df1aa8aec",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-50.9402, 131.1142"
+        },
+        {
+            "id_poste": "110b0ef3-0f38-4a9d-b78f-832d5fcf80d9",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-39.2183, -127.8557"
+        },
+        {
+            "id_poste": "218a3e11-eb2f-4014-bbbc-895611b07a71",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "20.6171, 152.6997"
+        },
+        {
+            "id_poste": "4da0d6d3-837e-48f4-b9fc-bb5429ecff68",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "15.6396, 123.6388"
+        },
+        {
+            "id_poste": "fcc2df43-2062-42bc-8ba8-0ffecc91da19",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "49.7083, -162.1197"
+        },
+        {
+            "id_poste": "1fa436fb-f863-48a8-822c-312e9c3a3818",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "36.3409, -70.4597"
+        },
+        {
+            "id_poste": "415576b7-d89b-4aeb-9f5f-9428fdb0cbd1",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "0.0034, -49.0627"
+        },
+        {
+            "id_poste": "120ce0c4-8b5f-4faf-910d-b486798958d5",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "19.2149, 86.9327"
+        },
+        {
+            "id_poste": "01661c97-ab57-4902-a600-893ecd7da10f",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "27.1697, 144.6148"
+        },
+        {
+            "id_poste": "459e415a-f2c3-48b1-8c15-0d92170cf099",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-52.1809, -148.4362"
+        },
+        {
+            "id_poste": "4ec713f2-4854-4a27-8145-a74a7b6b9382",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-6.1199, -23.001"
+        },
+        {
+            "id_poste": "58fc6d8f-f02d-4538-ba5d-83a72191f3f5",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-19.4329, -28.7942"
+        },
+        {
+            "id_poste": "9941b7a9-0cc6-4c06-8633-0afe38c520b4",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-79.9067, 154.3206"
+        },
+        {
+            "id_poste": "74b026f0-0144-42bb-8689-d6ed84bb2e31",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "84.9493, -142.7849"
+        },
+        {
+            "id_poste": "90798a2b-04e2-4266-b433-a112edff0d5c",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "4.3744, 161.4229"
+        },
+        {
+            "id_poste": "613a6c82-af8e-4f48-b083-61c9a61598c5",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "12.6333, 114.4457"
+        },
+        {
+            "id_poste": "5ddc6196-52a7-45f6-820f-6d1764ba144e",
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "0.9545, -45.696"
+        },
+        {
+            "id_poste": "73f521d4-54be-442b-8716-1fefd02a2732",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "20.5057, -96.9183"
+        },
+        {
+            "id_poste": "e9a7aaf9-2b43-4780-a9ae-819dad288d5b",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-2.7993, -175.1572"
+        },
+        {
+            "id_poste": "36ae531b-bac7-4152-afea-ffe408a7fb9c",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-54.3672, -19.1412"
+        },
+        {
+            "id_poste": "7e617b3d-0b3b-49e1-a79d-0c7e137a2965",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-83.4035, -43.8198"
+        },
+        {
+            "id_poste": "eab4afbd-2739-4a0f-9ca5-5115cb340be6",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "87.5458, 162.5287"
+        },
+        {
+            "id_poste": "12286c31-a2c4-465f-8466-ddd9431960b7",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "24.9826, -26.1501"
+        },
+        {
+            "id_poste": "52605952-65f9-47fc-b578-3225131067b9",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "5.3014, 168.1433"
+        },
+        {
+            "id_poste": "68b76a0d-f977-49b4-852b-5d71fd410c14",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "39.0951, 53.9518"
+        },
+        {
+            "id_poste": "58a6cbd1-9b09-45ed-84c2-cad8cb088e8e",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-28.7979, -122.0331"
+        },
+        {
+            "id_poste": "2db7c239-1a5e-4a78-8300-6dbafe6b8b79",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "9.0403, 51.9406"
+        },
+        {
+            "id_poste": "4e82e9b5-d995-4efa-a0c7-f41d856f083d",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "54.8636, 32.7"
+        },
+        {
+            "id_poste": "d92cdc7a-c42f-4ea9-8fc6-dd8558d6150e",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "46.9155, -165.4042"
+        },
+        {
+            "id_poste": "660bc963-3a7a-4ea1-9a0f-48932cb92ca9",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-50.2524, 147.1356"
+        },
+        {
+            "id_poste": "2a690531-00b7-4512-a47e-55b74203efc7",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-60.7528, 26.646"
+        },
+        {
+            "id_poste": "0f73839d-6b92-438d-87ac-cac9e5da9b0c",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "9.0028, -95.8581"
+        },
+        {
+            "id_poste": "bebce8ec-553a-4e19-abd8-a8314d11346d",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-42.8898, 17.4345"
+        },
+        {
+            "id_poste": "7d390573-a53d-4397-873d-acbc39c7947d",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "29.6069, -15.8212"
+        },
+        {
+            "id_poste": "262ff63c-556b-49fd-9fc6-e613f26d8ad1",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-28.5065, -107.1043"
+        },
+        {
+            "id_poste": "2bdcaa6a-1997-4c55-a155-1b0e132afd11",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-85.3835, 174.948"
+        },
+        {
+            "id_poste": "c9b9b5c1-7f93-4835-a0e2-cb0055818ccd",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-42.1256, -47.5188"
+        },
+        {
+            "id_poste": "80d65373-df52-409c-ae0f-501b59d69dfb",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "falha",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-20.5349, -28.3412"
+        },
+        {
+            "id_poste": "0bb54c3a-d505-4a7e-a8fa-da89d9e467ac",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-89.5628, -89.9642"
+        },
+        {
+            "id_poste": "1cc18e2a-be98-4757-a2a3-07c3cba94732",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "36.8907, -17.1698"
+        },
+        {
+            "id_poste": "b5c5aa6b-e141-423f-9b99-15e004ad08a0",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "12.439, -130.5647"
+        },
+        {
+            "id_poste": "782c13a4-1757-42f2-b47e-192a9c01b30e",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "26.2222, -25.0481"
+        },
+        {
+            "id_poste": "1acf6127-bac8-4d35-8169-752b8b99fd84",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "falha",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-63.5545, 73.8651"
+        },
+        {
+            "id_poste": "a63dcaad-6b4f-45cb-acd9-332b97e16205",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "falha",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-5.5716, 94.9744"
+        },
+        {
+            "id_poste": "6282da08-7ddb-4d99-8568-7a6b58dc5b61",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-19.8479, -101.7301"
+        },
+        {
+            "id_poste": "38f98522-8653-4cf4-ab2b-4e28b2beb540",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "61.5238, 38.3631"
+        },
+        {
+            "id_poste": "1a10bd51-698b-4df7-9453-a6a3aedf724d",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-84.81, 63.6913"
+        },
+        {
+            "id_poste": "94068bde-3374-41fa-8bc1-ea375e7e4ebe",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-67.5007, -163.4115"
+        },
+        {
+            "id_poste": "cfbeeb95-78f0-4e2b-8801-25060cd82b1f",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-79.7924, 125.9428"
+        },
+        {
+            "id_poste": "cb2292c5-2435-4abd-9982-1f44f0e28109",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "31.7465, -83.8494"
+        },
+        {
+            "id_poste": "94867847-de2a-48a3-88db-fdcc663e8f1d",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-8.2792, 17.8476"
+        },
+        {
+            "id_poste": "9ddcc912-a370-4002-a76c-793d9d3f4a20",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "64.2048, 78.9449"
+        },
+        {
+            "id_poste": "9abe4db3-c318-40d5-a64d-6a2098ac5d02",
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "30.2859, -40.466"
+        },
+        {
+            "id_poste": "43ec2011-c656-4bab-9944-4e14df3fb65d",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-51.6042, 177.82"
+        },
+        {
+            "id_poste": "2e26aee3-2b3f-4031-ba08-c1222b580c0f",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-27.1204, 48.5968"
+        },
+        {
+            "id_poste": "a03a3082-edcd-4ccf-8c7a-20472ce3b454",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "65.206, -161.0782"
+        },
+        {
+            "id_poste": "a78e2463-c290-4109-b874-87a53bb2baeb",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-46.9305, 68.8097"
+        },
+        {
+            "id_poste": "8d1a5425-0c7b-44ba-9c4f-857e9ad15cbf",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "22.381, 25.2808"
+        },
+        {
+            "id_poste": "45fa6b78-ed2a-4ed6-a7ce-957d8673a55c",
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "71.0313, -6.3429"
+        },
+        {
+            "id_poste": "f830b6dc-341b-4d79-93f5-b89ff4a2c9eb",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "57.1339, 156.7254"
+        },
+        {
+            "id_poste": "dd5a9ca0-91a5-4ca8-bd7e-d0e9fbc8fb61",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "19.6875, 135.0493"
+        },
+        {
+            "id_poste": "e440ffc7-9c33-48a8-a469-0ffd5aa6e804",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "51.1195, -27.645"
+        },
+        {
+            "id_poste": "247b536c-a744-4391-8c7f-3a6faa25b5cb",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-31.0973, 64.4298"
+        },
+        {
+            "id_poste": "728e0620-0884-4a45-a016-73c8b5936943",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-56.7558, -157.5348"
+        },
+        {
+            "id_poste": "9fec3384-ad4e-467a-9cb8-dfe46cbbcb49",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-13.9016, -76.574"
+        },
+        {
+            "id_poste": "ac8a3bf5-3439-4f0d-8555-92e6bf9d3165",
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-25.0915, -166.7362"
+        },
+        {
+            "id_poste": "7f21285b-d1f8-4be4-97e5-faa1637cbb4b",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "77.6449, 43.5465"
+        },
+        {
+            "id_poste": "59ad8a46-1aa0-4619-95c6-fb41b519137c",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-83.2518, -47.327"
+        },
+        {
+            "id_poste": "412e5be1-9ef6-46fb-8dca-66bd1d88cd3c",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "61.1753, 167.0149"
+        },
+        {
+            "id_poste": "78549561-1e2d-4b73-a0da-21e449843e41",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-50.4764, 69.7111"
+        },
+        {
+            "id_poste": "4d390cfa-a4b7-43b9-be7e-c29b01e6f4a7",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "46.2199, -175.0378"
+        },
+        {
+            "id_poste": "90c0daf2-7636-4307-b586-e4d271ae9b87",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "66.9909, -100.9707"
+        },
+        {
+            "id_poste": "c2ae95d7-d823-4cff-8821-70eab4a14d53",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "66.1413, 145.1812"
+        },
+        {
+            "id_poste": "25b75f5c-58fa-4547-a992-6aa582134c90",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "0.1639, -118.7581"
+        },
+        {
+            "id_poste": "3456e590-2c65-4470-a5f2-00b9f5282b25",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "1.3227, 24.9059"
+        },
+        {
+            "id_poste": "5b186335-d2a6-4a4d-b1c2-31db0eff2a25",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-59.0241, 27.4945"
+        },
+        {
+            "id_poste": "17e08d4e-a0a6-42ef-acdf-01e9620c060b",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "falha",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-67.9488, 48.6408"
+        },
+        {
+            "id_poste": "f7b48863-af71-45a7-84d9-ef9391c17bee",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "85.9154, 131.5621"
+        },
+        {
+            "id_poste": "a96097e8-bf18-4ee5-89ac-bbb69c458378",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-73.7338, -91.7685"
+        },
+        {
+            "id_poste": "be4e5d89-7c6a-494c-a779-d4553c71b2a6",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "83.255, 129.8635"
+        },
+        {
+            "id_poste": "44e38949-ad9e-49af-bdf8-3eaf5b62348c",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-18.5541, 20.9252"
+        },
+        {
+            "id_poste": "b2579d83-4a43-4464-bbc0-74621afbff5b",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "falha",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-81.3782, -37.0489"
+        },
+        {
+            "id_poste": "f205199d-f09d-4a29-a2ef-a82cc5a3e1bb",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-53.8429, -133.3001"
+        },
+        {
+            "id_poste": "171d7dae-d4be-48b0-aab8-4f780d65e427",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "31.8373, 65.7086"
+        },
+        {
+            "id_poste": "5200d85e-e88a-4b5b-90ca-d9936c8bf737",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "86.4988, 75.446"
+        },
+        {
+            "id_poste": "606479a2-9823-48a2-8a5d-6d3b8a7fb6bb",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-16.8056, -1.3253"
+        },
+        {
+            "id_poste": "c74ad8bd-29b1-4727-80bd-dc0437e2c515",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "53.9121, -177.4554"
+        },
+        {
+            "id_poste": "19aad359-2897-4cd4-a41f-228c14e823b7",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-82.7592, -125.096"
+        },
+        {
+            "id_poste": "e183aedc-af2a-4e34-8cca-17acdb95b580",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-53.7451, 10.7029"
+        },
+        {
+            "id_poste": "a7854c40-c446-47c2-9800-ae04109e1926",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-58.2111, -30.7068"
+        },
+        {
+            "id_poste": "9f390488-f3a1-4e17-9b84-dce97ca45902",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "53.5347, -75.8514"
+        },
+        {
+            "id_poste": "1f5a6ba9-2b96-45d2-8a55-6e00a0b9b055",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-56.4635, 39.3314"
+        },
+        {
+            "id_poste": "45535363-1cee-43c7-8421-8accd3c2ad0f",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-73.9786, 173.9538"
+        },
+        {
+            "id_poste": "62490e53-72ef-460f-8d9d-ba1dea07fed8",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "80.0516, -4.8015"
+        },
+        {
+            "id_poste": "a2a86117-814b-4cb4-bf5d-a659379b312a",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "falha",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-85.1618, -147.2411"
+        },
+        {
+            "id_poste": "07b04039-6342-4ac9-962b-13b0829e610f",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "falha",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-40.491, 3.6265"
+        },
+        {
+            "id_poste": "b99293c3-41e3-4146-a27f-f2b3f66f829b",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "16.4147, 12.0335"
+        },
+        {
+            "id_poste": "c1596b8b-c8b2-45c0-a45d-137665175bf9",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-68.3233, 146.6861"
+        },
+        {
+            "id_poste": "7fc9f178-6c44-41b5-828f-f4637977a5cc",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-83.3091, 52.3162"
+        },
+        {
+            "id_poste": "a7e99d0b-168b-41ca-a2ab-77cd00de7814",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-12.949, 112.7172"
+        },
+        {
+            "id_poste": "d6736741-592d-4857-b343-755e43205aaf",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-12.309, 0.812"
+        },
+        {
+            "id_poste": "f9cfd335-da65-4590-a2c2-d5f20d41ea02",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-14.5914, 157.2868"
+        },
+        {
+            "id_poste": "580ba50e-7966-437e-afcf-a3dd7989bbd2",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "31.1982, 40.5423"
+        },
+        {
+            "id_poste": "4e6ff3b1-e22d-4373-aab6-b1db235abe56",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-63.9555, -31.3277"
+        },
+        {
+            "id_poste": "0cfe6364-f978-42e1-856c-48cf56049510",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-8.9498, 89.5642"
+        },
+        {
+            "id_poste": "3e0da220-5896-4159-9d63-d7e619cbf1f3",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "17.5054, -139.9925"
+        },
+        {
+            "id_poste": "f62d0e46-40f1-40cb-b500-2944fe293021",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "76.9506, -177.2249"
+        },
+        {
+            "id_poste": "b5669215-1dff-48cf-8be2-f20ff16ad5e2",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "70.8798, -24.2878"
+        },
+        {
+            "id_poste": "d2380c82-87a0-45c0-9a5a-4e4d2f58d125",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "42.3345, 113.8072"
+        },
+        {
+            "id_poste": "db27c3ca-c18b-481f-8a85-380f25df8be0",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-19.0187, -131.8451"
+        },
+        {
+            "id_poste": "0edc3fe8-fb0f-4815-b6d0-aea67e179191",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-40.6999, -6.2796"
+        },
+        {
+            "id_poste": "ae646682-0045-4f38-adb0-5a0f37125137",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "86.7356, 154.9139"
+        },
+        {
+            "id_poste": "26a16ed0-cc1a-4c3b-ad82-e7cca2ed985e",
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-31.294, 98.869"
+        },
+        {
+            "id_poste": "c9a97d2c-31f9-49e3-88f6-eba2c12c7882",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-59.0917, 106.5212"
+        },
+        {
+            "id_poste": "b38e1991-b14e-4b56-a00e-1c193ff5d4b2",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-9.6927, 165.1535"
+        },
+        {
+            "id_poste": "7305b472-b715-4bac-8e82-708eff3a446a",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "1.7373, -71.3986"
+        },
+        {
+            "id_poste": "226b6aff-5615-4cd0-b8ba-bf1bdc9b2a6b",
+            "id_zona": "c3d7c35f-acb3-47ca-b015-f745363d74e5",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "4.983, -153.699"
+        },
+        {
+            "id_poste": "13dabca9-8c97-4c40-aefa-c02d602983fc",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "73.4611, 109.4252"
+        },
+        {
+            "id_poste": "f10cfbe6-3e09-4b0e-aefd-78c89d1e300e",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-64.3567, 162.768"
+        },
+        {
+            "id_poste": "685388f8-cca4-4d9e-901c-16372ef93bc5",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-41.6557, -83.4097"
+        },
+        {
+            "id_poste": "27624053-837d-4a71-a0b3-d187ce502214",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-38.2348, 160.0982"
+        },
+        {
+            "id_poste": "0a28e345-fa4b-4224-bf3a-82b5e05699bf",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "60.1964, -179.5813"
+        },
+        {
+            "id_poste": "11282cd5-3287-4048-924b-62caa16390a9",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-8.6759, -30.1016"
+        },
+        {
+            "id_poste": "b787a413-b4c5-413b-bde7-a7989106944d",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "58.9202, 90.0654"
+        },
+        {
+            "id_poste": "91108cd8-3896-4d9b-ac58-ae8ea26988f8",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "63.863, -96.4306"
+        },
+        {
+            "id_poste": "22f0137c-1d2f-4441-817d-1066d2c4056a",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "79.4859, -79.7455"
+        },
+        {
+            "id_poste": "e94a1d97-8e13-4b64-a86a-313789e5d1d2",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "44.1523, 3.6622"
+        },
+        {
+            "id_poste": "661c24e3-31d6-461e-b5a6-a30ca60ce46e",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-42.1527, -72.4247"
+        },
+        {
+            "id_poste": "931682e1-ad8c-4c5d-99f4-0c1b2a5d324c",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "2.73, 2.9417"
+        },
+        {
+            "id_poste": "40b18aef-93f9-42d7-ac3e-789a12c138c2",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "20.4267, 76.2232"
+        },
+        {
+            "id_poste": "24cf0779-6266-49cf-9e01-9557d4c425c4",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "28.6991, 32.6578"
+        },
+        {
+            "id_poste": "480622de-ebb6-4afa-8f3c-8c519a1c54d2",
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "24.2, 73.4968"
+        },
+        {
+            "id_poste": "c8b8b500-dc7f-49ea-9280-eae15de103b5",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "72.2379, -45.2159"
+        },
+        {
+            "id_poste": "f189ba14-72c9-4a45-bd5b-9f23e3826f31",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "57.5192, -28.1019"
+        },
+        {
+            "id_poste": "0aa144c9-1067-4b13-9c10-b0c48f2a6ba2",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-66.8883, 21.4601"
+        },
+        {
+            "id_poste": "7db97f9f-6ffa-4449-8137-d6bdd84a82ec",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "9.2568, -3.5141"
+        },
+        {
+            "id_poste": "e892372a-d5cf-4c7d-8590-33349d78f9c0",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "15.471, 120.1098"
+        },
+        {
+            "id_poste": "daff633b-4028-46f2-80a1-c35e31732570",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "44.1199, 3.4879"
+        },
+        {
+            "id_poste": "469bff0b-05a4-4ccb-936a-f92316fc3a68",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "68.6148, -179.9024"
+        },
+        {
+            "id_poste": "a0b8262b-420d-4747-910c-827264a715b1",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-4.3768, -48.4394"
+        },
+        {
+            "id_poste": "4fc1b73d-edfc-4829-a08f-b83aa760f412",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "21.667, -78.6772"
+        },
+        {
+            "id_poste": "86c1c832-91c9-4b9e-809b-47262d377da8",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-76.2399, 100.3817"
+        },
+        {
+            "id_poste": "d7f9fc04-e83c-4e12-aac4-a6eb466df97e",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "31.4698, 151.1284"
+        },
+        {
+            "id_poste": "358a6e26-acb7-4f96-ac46-dbe71ec30dec",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "10.5972, -121.1592"
+        },
+        {
+            "id_poste": "6ad644e3-296a-4cf7-86cc-f579fcfd3c95",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "74.8842, 47.9525"
+        },
+        {
+            "id_poste": "772c4b1c-c0d1-4e5f-b6f1-271fab7d7885",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-65.7962, 100.1021"
+        },
+        {
+            "id_poste": "e5d9b12c-6049-4d55-8289-8e111a66fabd",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "6.101, 90.8597"
+        },
+        {
+            "id_poste": "dfb0c0e4-c3b8-49b7-a2ea-f33156a2a674",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "87.7665, -98.1759"
+        },
+        {
+            "id_poste": "bf0ffb91-a82e-472c-9555-f08cd8cf85fd",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "17.9891, -148.1437"
+        },
+        {
+            "id_poste": "c2cb7171-4471-45ab-8093-610c427e8144",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "21.0093, -170.6766"
+        },
+        {
+            "id_poste": "e195b1cc-32aa-448e-a81e-29cc4887f64a",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-75.937, 89.1516"
+        },
+        {
+            "id_poste": "c2b1f003-5751-4b5a-bab8-7265214d9a15",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-6.9328, -13.0108"
+        },
+        {
+            "id_poste": "a8b2ed22-b73c-434d-bcd8-6739b82f997a",
+            "id_zona": "08dd1ab4-f418-4b35-b9eb-348c989c8efe",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "69.949, -109.2576"
+        },
+        {
+            "id_poste": "cc20929f-b769-437d-973b-5f2d871b215a",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-61.9096, -4.6365"
+        },
+        {
+            "id_poste": "89dfe3d9-2951-4c2a-8af4-049cb3ef867d",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-81.0854, 178.5839"
+        },
+        {
+            "id_poste": "b7d6788e-12bf-4fdd-9c2c-874d1fbb0ce7",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "45.9724, -15.6695"
+        },
+        {
+            "id_poste": "94522763-c3fe-4e69-94f3-b9f589fd799a",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-61.3215, -114.6718"
+        },
+        {
+            "id_poste": "7030de5c-1f39-4c8b-b125-3f621f24be3c",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-36.2643, 119.7424"
+        },
+        {
+            "id_poste": "d6bfa56b-1c88-4243-bda1-762e6960d89d",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "64.9241, 123.6267"
+        },
+        {
+            "id_poste": "5c4da06e-79b8-46dd-a763-af476a28e151",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-62.2153, -167.7814"
+        },
+        {
+            "id_poste": "c2cbf08b-3723-4015-8384-4531c0ad8841",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-10.6125, -121.5001"
+        },
+        {
+            "id_poste": "73b42db3-c49b-4e0f-92bd-78350293a472",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "6.0176, 128.3973"
+        },
+        {
+            "id_poste": "f25c1728-afb8-4114-909a-6861dc6938e0",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "23.6266, -80.1059"
+        },
+        {
+            "id_poste": "23865d12-bfdb-41f8-bf32-d562d9494c25",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "25.5981, -158.3553"
+        },
+        {
+            "id_poste": "a325a164-be66-4e0b-9f71-783923e0c92f",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "30.6364, -42.0054"
+        },
+        {
+            "id_poste": "9c5efd37-4c24-44ed-b7f5-a114e835266b",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-30.9721, 178.2169"
+        },
+        {
+            "id_poste": "c4163bf2-0ddc-4b52-b728-59f39add521a",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "8.2754, -1.0268"
+        },
+        {
+            "id_poste": "2e021271-248b-4c61-b41c-ded478bc7448",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "57.8744, 48.7709"
+        },
+        {
+            "id_poste": "5e9a2cef-0654-415a-9f45-9cd866bff8b7",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "63.2861, 32.0026"
+        },
+        {
+            "id_poste": "521f1fba-7f96-47de-8901-f8f8cab8c7c4",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "68.1332, -55.32"
+        },
+        {
+            "id_poste": "68a7b82d-6137-48e5-9e23-2984c9a49d6e",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-18.1991, -30.6129"
+        },
+        {
+            "id_poste": "90fe55b5-8a74-477e-bcdf-ed019834cb25",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "60.16, 62.9146"
+        },
+        {
+            "id_poste": "3fa065bb-8f75-4b44-b7a0-80f2e429d3db",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-40.5845, -146.7173"
+        },
+        {
+            "id_poste": "72a393ee-b444-4509-8918-3984496eff2d",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-76.7761, 26.9795"
+        },
+        {
+            "id_poste": "9b647843-f94a-4925-80c7-1617d81725cd",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "29.2309, 48.1222"
+        },
+        {
+            "id_poste": "3b929f96-35b2-4bc9-b1aa-8c2bbadaad22",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-70.8306, 109.8188"
+        },
+        {
+            "id_poste": "1412ac9d-9b0c-4257-b1cd-17d4e212231d",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-3.9521, 59.9353"
+        },
+        {
+            "id_poste": "172ed43a-103b-4648-ab8e-be0e4cf0f9ea",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-72.5823, -148.8206"
+        },
+        {
+            "id_poste": "75da2349-8708-4073-84a6-9bb8dea1193f",
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "46.9832, 71.6744"
+        },
+        {
+            "id_poste": "6544cccf-9247-4056-91ca-b188894b73a5",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-13.0798, -34.9234"
+        },
+        {
+            "id_poste": "27590287-4686-473c-937a-b6a883112733",
+            "id_zona": "02c7754f-6ead-4dfb-acb9-bb08c3766187",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-87.5005, -14.4609"
+        },
+        {
+            "id_poste": "477d0f1c-b34f-4889-8f59-93f66ec54042",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-52.3708, 43.6553"
+        },
+        {
+            "id_poste": "e6da1994-9e3e-4f43-8084-f88422eb0ccb",
+            "id_zona": "6c53fe5a-4355-4edb-af63-14219593a34b",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "77.2451, -60.4789"
+        },
+        {
+            "id_poste": "0ff8b463-3546-4f61-919a-12bf73915349",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "0.9726, 59.0721"
+        },
+        {
+            "id_poste": "8070b416-c049-436a-9798-cad571187e56",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-88.0408, 174.7832"
+        },
+        {
+            "id_poste": "b4aa20ed-d9c1-41fe-bcb3-68a344965896",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "61.54, -55.1853"
+        },
+        {
+            "id_poste": "0150814d-46db-4ee2-b8f1-3705364f995c",
+            "id_zona": "6af300be-768d-4a3c-a229-3b54f0a0c31a",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "21.7286, 36.5626"
+        },
+        {
+            "id_poste": "7869be64-e5e9-4cd4-b63d-d8abe13c3d48",
+            "id_zona": "d8d6552d-5898-40fe-9348-ef49c6b29df1",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-79.5696, -108.6152"
+        },
+        {
+            "id_poste": "23a0e2b5-8a94-41b9-84ad-78cb109ddf03",
+            "id_zona": "d190b013-e589-439a-b467-e9f8807e3065",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-29.255, -69.7387"
+        },
+        {
+            "id_poste": "23878a95-1344-4c10-a84e-bff874bec62a",
+            "id_zona": "9fe30fee-6b36-4d2e-a764-e8cde4597e67",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "50.1533, -34.3367"
+        },
+        {
+            "id_poste": "443d9c27-e652-4967-879b-901cc358e3d3",
+            "id_zona": "7a7361a3-7f02-44fe-92fc-8ee6aa52745f",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-24.4059, 99.9515"
+        },
+        {
+            "id_poste": "84d2faa2-7a0c-46a7-a99d-a04115f3cab8",
+            "id_zona": "903ce754-11fc-423a-9cc2-f399fa98c10f",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "-30.5055, -131.2669"
+        },
+        {
+            "id_poste": "c37756a6-ee83-410c-9cfb-4d0b8d60eafa",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "6.2958, 73.6517"
+        },
+        {
+            "id_poste": "a0bbb19a-b166-4581-84f0-354e975717d7",
+            "id_zona": "f3ee1785-0313-4ce0-94f8-a07f617f5cc3",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-18.3896, -120.4155"
+        },
+        {
+            "id_poste": "ed256ed7-4a60-41df-ac2d-2271f71535d0",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "70.6374, 89.7938"
+        },
+        {
+            "id_poste": "ba4f978c-14b0-4d9e-b6b7-fe243611a5e8",
+            "id_zona": "391eab09-822b-45b8-86ed-5046bf5c9b26",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "68.637, -52.8571"
+        },
+        {
+            "id_poste": "9dbb09e8-8018-4412-a197-b92fa76c1d91",
+            "id_zona": "1774fe71-3475-4c7d-af39-df4b0e1bf839",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "48.9608, 48.5055"
+        },
+        {
+            "id_poste": "95359b05-98df-4bb5-80d1-1fd696a55782",
+            "id_zona": "c7c08e93-b6a0-4a0b-b718-1afc91ba0c86",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-44.0103, 114.9567"
+        },
+        {
+            "id_poste": "56148858-fd0a-49b0-830a-1fca317db8ad",
+            "id_zona": "7cb0bd2c-44a1-4aeb-b77c-919d5ec9c1dd",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "87.0727, 63.7559"
+        },
+        {
+            "id_poste": "f12889f9-eff1-420a-a730-89dea62b435d",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "operacional",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-20.0657, 46.6041"
+        },
+        {
+            "id_poste": "aa5dc526-b88c-428d-883c-ba2c1b89d9bd",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "desligado",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "25.5643, 170.5851"
+        },
+        {
+            "id_poste": "1b989250-4674-4e06-b091-eff04b8ae727",
+            "id_zona": "7646ef89-156d-447f-a891-d98546ae8a99",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Y2",
+            "coordenadas": "22.8062, -27.6483"
+        },
+        {
+            "id_poste": "2da150da-b6bf-4fa5-b1e1-25e442130571",
+            "id_zona": "c80f90a6-29ba-4388-9b5c-a08d928c1d28",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-37.889, 29.2836"
+        },
+        {
+            "id_poste": "7ce446b5-f143-4a8e-b642-5928b42dfe3f",
+            "id_zona": "959325d8-4fd5-4ff6-9a64-14462f1a765d",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "-89.9353, 34.4716"
+        },
+        {
+            "id_poste": "d1bd6ba1-b5ba-4129-a16d-e1f898c3de1a",
+            "id_zona": "481f3531-34a4-4505-b829-4a0e02c0bfdb",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-Z3",
+            "coordenadas": "61.3334, 94.9274"
+        },
+        {
+            "id_poste": "542ecf0b-d72e-4827-80a9-91da15af43c6",
+            "id_zona": "c9d698fc-82e3-4ae3-b3dd-542fde8105ef",
+            "estado": "manutencao",
+            "modelo_luminaria": "LED-X1",
+            "coordenadas": "-29.7682, 161.0113"
+        }
+    ],
+    "avarias": [
+        {
+            "id_avaria": "015e45ce-2093-4fe0-86d2-c8394173672d",
+            "id_poste": "7d390573-a53d-4397-873d-acbc39c7947d",
+            "data_deteccao": "2026-01-25T08:22:18.641Z",
+            "data_resolucao": "2026-02-07T04:57:03.399Z",
+            "custo_reparacao": 2257.507558029308
+        },
+        {
+            "id_avaria": "a592a5a9-c761-4135-b0fe-fb98876d77ed",
+            "id_poste": "1bead3ab-7dbe-4c87-9708-62170f660600",
+            "data_deteccao": "2026-01-14T17:59:39.681Z",
+            "data_resolucao": "2026-02-23T08:16:07.979Z",
+            "custo_reparacao": 1347.5342455389914
+        },
+        {
+            "id_avaria": "5d75d888-2e97-4a68-9be3-d8c64cb60571",
+            "id_poste": "853e528e-c243-4e42-b792-01a24adf63bb",
+            "data_deteccao": "2026-02-20T22:35:23.032Z",
+            "data_resolucao": "2026-03-05T23:43:25.402Z",
+            "custo_reparacao": 343.82006899449203
+        },
+        {
+            "id_avaria": "943cc037-b17a-46f4-8d09-1afc65d9a010",
+            "id_poste": "9189fefa-aa04-44c2-9b64-e4cc65072092",
+            "data_deteccao": "2026-01-27T17:08:24.901Z",
+            "data_resolucao": "2026-02-10T16:39:02.482Z",
+            "custo_reparacao": 1323.7905670578966
+        },
+        {
+            "id_avaria": "ff9ea82c-0d38-44ea-b78b-ff21a8cf02c0",
+            "id_poste": "89dfe3d9-2951-4c2a-8af4-049cb3ef867d",
+            "data_deteccao": "2026-03-09T11:12:16.880Z",
+            "data_resolucao": "2026-03-30T09:38:24.155Z",
+            "custo_reparacao": 2453.759547569644
+        },
+        {
+            "id_avaria": "9fff07f1-cf12-4610-ae0c-22f8a950bc99",
+            "id_poste": "c1596b8b-c8b2-45c0-a45d-137665175bf9",
+            "data_deteccao": "2026-01-13T12:45:31.591Z",
+            "data_resolucao": "2026-02-21T13:29:18.221Z",
+            "custo_reparacao": 2466.9644228898446
+        },
+        {
+            "id_avaria": "f6de7b05-d3bd-4389-ae14-8a12e123e640",
+            "id_poste": "d1bd6ba1-b5ba-4129-a16d-e1f898c3de1a",
+            "data_deteccao": "2026-03-31T07:29:18.176Z",
+            "data_resolucao": "2026-03-31T08:01:37.420Z",
+            "custo_reparacao": 1075.0320422407003
+        },
+        {
+            "id_avaria": "a1475e79-fe34-4867-978f-41d8ae6432c1",
+            "id_poste": "480622de-ebb6-4afa-8f3c-8c519a1c54d2",
+            "data_deteccao": "2026-01-06T06:45:37.508Z",
+            "data_resolucao": "2026-03-23T19:39:29.806Z",
+            "custo_reparacao": 170.75250823265387
+        },
+        {
+            "id_avaria": "cc351f27-93d4-4121-a665-e6641fbd7704",
+            "id_poste": "90c0daf2-7636-4307-b586-e4d271ae9b87",
+            "data_deteccao": "2026-01-03T13:09:58.928Z",
+            "data_resolucao": "2026-01-26T19:08:45.578Z",
+            "custo_reparacao": 2070.7814115464084
+        },
+        {
+            "id_avaria": "ebd26772-af18-4dab-9084-e54f553e04bb",
+            "id_poste": "0482f481-51ef-4855-8e96-c8334049c1f7",
+            "data_deteccao": "2026-03-14T22:58:31.869Z",
+            "data_resolucao": "2026-03-17T11:29:00.930Z",
+            "custo_reparacao": 1488.558960012734
+        },
+        {
+            "id_avaria": "7d688b4f-ad4b-450d-b622-7b92b8788bc2",
+            "id_poste": "f92c2492-1a05-43e9-a165-2b2df1aa8aec",
+            "data_deteccao": "2026-03-22T20:11:24.774Z",
+            "data_resolucao": "2026-03-28T16:39:39.229Z",
+            "custo_reparacao": 261.0039834490141
+        },
+        {
+            "id_avaria": "a351974d-216d-4e01-b813-c334937306f4",
+            "id_poste": "0edc3fe8-fb0f-4815-b6d0-aea67e179191",
+            "data_deteccao": "2026-01-04T22:04:13.490Z",
+            "data_resolucao": "2026-01-29T02:59:33.304Z",
+            "custo_reparacao": 1997.8013234698258
+        },
+        {
+            "id_avaria": "0528e9c9-f8fd-4ba7-83a5-a4a828c25ac5",
+            "id_poste": "07712d93-7d1f-4242-874f-0595761ad827",
+            "data_deteccao": "2026-01-24T01:18:20.021Z",
+            "data_resolucao": "2026-03-08T23:28:57.637Z",
+            "custo_reparacao": 1587.6500345555387
+        },
+        {
+            "id_avaria": "f338bb8f-c874-4555-9bce-04bbe30d61d6",
+            "id_poste": "d7f9fc04-e83c-4e12-aac4-a6eb466df97e",
+            "data_deteccao": "2026-01-04T02:30:07.019Z",
+            "data_resolucao": "2026-03-22T01:42:00.825Z",
+            "custo_reparacao": 2371.732235810472
+        },
+        {
+            "id_avaria": "18006af5-0646-40e8-b16b-ced176cef2a4",
+            "id_poste": "b38e1991-b14e-4b56-a00e-1c193ff5d4b2",
+            "data_deteccao": "2026-03-10T13:50:50.010Z",
+            "data_resolucao": "2026-03-16T00:38:56.948Z",
+            "custo_reparacao": 2173.502104698094
+        },
+        {
+            "id_avaria": "4ea7c712-f668-4b18-9952-923c9931c25a",
+            "id_poste": "a78e2463-c290-4109-b874-87a53bb2baeb",
+            "data_deteccao": "2026-03-08T15:36:53.518Z",
+            "data_resolucao": "2026-03-19T08:50:49.419Z",
+            "custo_reparacao": 602.3919364550306
+        },
+        {
+            "id_avaria": "ca9ad64c-d635-4ef2-9ddd-1e66027741e8",
+            "id_poste": "7f63e9b8-0cfb-4cdf-9478-274d510dde16",
+            "data_deteccao": "2026-02-05T10:39:43.183Z",
+            "data_resolucao": "2026-03-10T11:53:55.760Z",
+            "custo_reparacao": 2273.0004810681157
+        },
+        {
+            "id_avaria": "9f7632e2-8f20-4154-bc6d-d6493e1c6167",
+            "id_poste": "d208ff92-0745-4d11-a761-86f1125afe71",
+            "data_deteccao": "2026-02-19T16:21:59.857Z",
+            "data_resolucao": "2026-03-05T15:54:12.115Z",
+            "custo_reparacao": 995.8600979172885
+        },
+        {
+            "id_avaria": "9171f56e-4319-4990-b796-4c6c1024478d",
+            "id_poste": "a0bbb19a-b166-4581-84f0-354e975717d7",
+            "data_deteccao": "2026-02-03T03:18:54.847Z",
+            "data_resolucao": "2026-03-06T10:37:16.856Z",
+            "custo_reparacao": 2269.0572413032583
+        },
+        {
+            "id_avaria": "fd7b3ead-42c6-4716-9241-1314b2e2a128",
+            "id_poste": "be4e5d89-7c6a-494c-a779-d4553c71b2a6",
+            "data_deteccao": "2026-01-09T09:44:41.819Z",
+            "data_resolucao": "2026-03-07T13:34:00.913Z",
+            "custo_reparacao": 806.7174296062044
+        },
+        {
+            "id_avaria": "d4194be3-a196-4ccc-855d-7e81113bcb4d",
+            "id_poste": "1b989250-4674-4e06-b091-eff04b8ae727",
+            "data_deteccao": "2026-01-03T02:04:49.153Z",
+            "data_resolucao": "2026-01-27T23:12:39.298Z",
+            "custo_reparacao": 1604.0550182496233
+        },
+        {
+            "id_avaria": "b2e985a7-69b0-4081-b3d2-138752ac5b46",
+            "id_poste": "1acf6127-bac8-4d35-8169-752b8b99fd84",
+            "data_deteccao": "2026-03-26T17:43:35.254Z",
+            "data_resolucao": null
+        },
+        {
+            "id_avaria": "c469c90e-4c41-43c3-ab01-1c0f43b8f961",
+            "id_poste": "e496e383-c4fe-470f-8a79-12a0beb8cb93",
+            "data_deteccao": "2026-02-09T06:29:15.271Z",
+            "data_resolucao": "2026-03-30T18:18:30.719Z",
+            "custo_reparacao": 1742.675934289083
+        },
+        {
+            "id_avaria": "56f72c1c-fede-4808-827d-1a9afdec306a",
+            "id_poste": "80d65373-df52-409c-ae0f-501b59d69dfb",
+            "data_deteccao": "2026-01-27T07:43:30.011Z",
+            "data_resolucao": "2026-02-09T00:18:20.593Z",
+            "custo_reparacao": 1873.3185755810641
+        },
+        {
+            "id_avaria": "4925d787-402b-47da-bca0-a0970a998ecb",
+            "id_poste": "d00b8c93-c0ca-4a03-b770-5f4aa949b644",
+            "data_deteccao": "2026-02-28T22:46:16.451Z",
+            "data_resolucao": "2026-03-07T02:50:08.205Z",
+            "custo_reparacao": 1875.6606761732414
+        },
+        {
+            "id_avaria": "484d3300-f5b5-4f15-ac04-efdedafb7493",
+            "id_poste": "91973059-54cc-4b18-88be-56ba853211d6",
+            "data_deteccao": "2026-03-16T05:22:10.871Z",
+            "data_resolucao": "2026-03-28T07:22:14.603Z",
+            "custo_reparacao": 2015.7146776218817
+        },
+        {
+            "id_avaria": "08dd0b94-42dc-4f4b-8fa3-ebc8355bd6a7",
+            "id_poste": "509bb256-6168-4b96-8e9f-daef3be0c1e9",
+            "data_deteccao": "2026-01-18T15:54:27.577Z",
+            "data_resolucao": "2026-03-24T13:56:28.908Z",
+            "custo_reparacao": 2414.747476771565
+        },
+        {
+            "id_avaria": "55032e13-2648-4a40-9fa1-f6eb19710f4c",
+            "id_poste": "782c13a4-1757-42f2-b47e-192a9c01b30e",
+            "data_deteccao": "2026-02-10T13:17:53.725Z",
+            "data_resolucao": "2026-03-17T19:03:41.417Z",
+            "custo_reparacao": 484.89650553154047
+        },
+        {
+            "id_avaria": "c85140a3-257e-4ad4-b3b6-b0d48c1ce88b",
+            "id_poste": "99173b89-9416-4493-8352-6dd1593eb311",
+            "data_deteccao": "2026-03-07T22:20:13.057Z",
+            "data_resolucao": "2026-03-19T18:41:35.881Z",
+            "custo_reparacao": 175.44060554104874
+        },
+        {
+            "id_avaria": "0db30d06-ada5-4535-a1fc-b32a9ce9aabd",
+            "id_poste": "f7b48863-af71-45a7-84d9-ef9391c17bee",
+            "data_deteccao": "2026-03-21T06:23:31.007Z",
+            "data_resolucao": "2026-03-27T10:17:13.861Z",
+            "custo_reparacao": 1517.471065339947
+        },
+        {
+            "id_avaria": "0744508b-4907-4a95-b929-394a4a316fc3",
+            "id_poste": "a2a86117-814b-4cb4-bf5d-a659379b312a",
+            "data_deteccao": "2026-03-05T00:02:38.208Z",
+            "data_resolucao": null
+        },
+        {
+            "id_avaria": "ff986e15-9ec6-4d98-b221-683e1a97db54",
+            "id_poste": "61583d43-2b8b-446e-b5ef-079050974c85",
+            "data_deteccao": "2026-01-17T00:55:17.443Z",
+            "data_resolucao": "2026-01-26T12:29:18.110Z",
+            "custo_reparacao": 1874.0976450902103
+        },
+        {
+            "id_avaria": "b7024571-112f-4122-9b5b-70a17687b92f",
+            "id_poste": "d208ff92-0745-4d11-a761-86f1125afe71",
+            "data_deteccao": "2026-01-24T00:48:31.553Z",
+            "data_resolucao": null
+        },
+        {
+            "id_avaria": "edf1b5b1-e872-4f05-a6c6-1e7334539376",
+            "id_poste": "89dfe3d9-2951-4c2a-8af4-049cb3ef867d",
+            "data_deteccao": "2026-01-16T13:15:04.182Z",
+            "data_resolucao": "2026-01-20T09:21:59.963Z",
+            "custo_reparacao": 848.2818299272429
+        },
+        {
+            "id_avaria": "582b6efc-2c97-401a-9fa2-e6c5e7290e2e",
+            "id_poste": "0ff8b463-3546-4f61-919a-12bf73915349",
+            "data_deteccao": "2026-03-18T06:34:59.398Z",
+            "data_resolucao": "2026-03-28T22:52:34.797Z",
+            "custo_reparacao": 683.7653319645442
+        },
+        {
+            "id_avaria": "6db5a88e-ab94-4772-b503-c45a93c63cae",
+            "id_poste": "a96097e8-bf18-4ee5-89ac-bbb69c458378",
+            "data_deteccao": "2026-01-04T19:12:27.827Z",
+            "data_resolucao": "2026-02-09T17:31:29.342Z",
+            "custo_reparacao": 445.20592798764636
+        },
+        {
+            "id_avaria": "e2508e8f-347e-4503-a668-d5c735ab714e",
+            "id_poste": "c74ad8bd-29b1-4727-80bd-dc0437e2c515",
+            "data_deteccao": "2026-02-11T12:22:01.237Z",
+            "data_resolucao": "2026-03-09T03:35:45.474Z",
+            "custo_reparacao": 1531.9481796910682
+        },
+        {
+            "id_avaria": "e41acb50-35f8-493d-a0a6-a4d848ceddd2",
+            "id_poste": "9c5efd37-4c24-44ed-b7f5-a114e835266b",
+            "data_deteccao": "2026-03-29T19:58:08.738Z",
+            "data_resolucao": "2026-03-30T06:40:39.543Z",
+            "custo_reparacao": 1152.3303312293804
+        },
+        {
+            "id_avaria": "2b9a60dc-9459-4eb4-81c9-44ef481891fb",
+            "id_poste": "0150814d-46db-4ee2-b8f1-3705364f995c",
+            "data_deteccao": "2026-03-04T21:58:05.829Z",
+            "data_resolucao": "2026-03-28T16:13:42.577Z",
+            "custo_reparacao": 682.3785724907377
+        },
+        {
+            "id_avaria": "8cf27f6a-96c0-4f81-bca0-a6025ffaef19",
+            "id_poste": "f9cfd335-da65-4590-a2c2-d5f20d41ea02",
+            "data_deteccao": "2026-02-20T12:52:08.116Z",
+            "data_resolucao": "2026-03-26T21:25:15.320Z",
+            "custo_reparacao": 1415.1661004567975
+        },
+        {
+            "id_avaria": "d255b49d-384a-4c43-bae5-a635237b161c",
+            "id_poste": "80d65373-df52-409c-ae0f-501b59d69dfb",
+            "data_deteccao": "2026-01-31T08:45:21.995Z",
+            "data_resolucao": null
+        },
+        {
+            "id_avaria": "df901312-1988-4f56-b889-cf0bcfa17c11",
+            "id_poste": "e892372a-d5cf-4c7d-8590-33349d78f9c0",
+            "data_deteccao": "2026-03-04T13:05:57.918Z",
+            "data_resolucao": "2026-03-07T04:24:23.094Z",
+            "custo_reparacao": 293.8834701692858
+        },
+        {
+            "id_avaria": "5389f000-36b7-47af-bb20-147c0a74e71d",
+            "id_poste": "b2579d83-4a43-4464-bbc0-74621afbff5b",
+            "data_deteccao": "2026-01-29T13:25:11.318Z",
+            "data_resolucao": null
+        },
+        {
+            "id_avaria": "438a4e21-b345-46c5-b19b-13ffcd20287a",
+            "id_poste": "2e021271-248b-4c61-b41c-ded478bc7448",
+            "data_deteccao": "2026-02-10T14:11:38.416Z",
+            "data_resolucao": "2026-02-13T05:42:22.273Z",
+            "custo_reparacao": 554.7915871922321
+        },
+        {
+            "id_avaria": "ab524f0f-d0d3-44d8-8c29-fcbab6915f3a",
+            "id_poste": "7869be64-e5e9-4cd4-b63d-d8abe13c3d48",
+            "data_deteccao": "2026-01-04T15:19:53.194Z",
+            "data_resolucao": "2026-02-24T05:14:53.247Z",
+            "custo_reparacao": 1253.5629658185435
+        },
+        {
+            "id_avaria": "7ab23c37-964f-4b0e-a632-f826dc34590d",
+            "id_poste": "3bc4e134-13c4-4829-b931-ba7efbf22f68",
+            "data_deteccao": "2026-01-08T14:26:45.366Z",
+            "data_resolucao": "2026-03-10T00:55:16.572Z",
+            "custo_reparacao": 1498.9641734052764
+        },
+        {
+            "id_avaria": "bf078058-041e-48cb-a9af-2f333512f5c2",
+            "id_poste": "5a333f7c-799f-4a30-b376-cc1f896adafb",
+            "data_deteccao": "2026-03-01T23:39:03.839Z",
+            "data_resolucao": "2026-03-13T18:32:52.616Z",
+            "custo_reparacao": 44.25706531155399
+        },
+        {
+            "id_avaria": "943a5b6a-c184-4d4c-af32-fa246c7dc278",
+            "id_poste": "a63dcaad-6b4f-45cb-acd9-332b97e16205",
+            "data_deteccao": "2026-02-18T15:38:34.835Z",
+            "data_resolucao": null
+        },
+        {
+            "id_avaria": "6dc08d0c-f190-4c84-84fc-21d60897c18f",
+            "id_poste": "bf0ffb91-a82e-472c-9555-f08cd8cf85fd",
+            "data_deteccao": "2026-01-09T04:50:54.829Z",
+            "data_resolucao": "2026-01-25T22:04:34.179Z",
+            "custo_reparacao": 1962.3102027296015
+        },
+        {
+            "id_avaria": "b90d0e7a-8f12-481a-a3f8-2ae63112c028",
+            "id_poste": "17e08d4e-a0a6-42ef-acdf-01e9620c060b",
+            "data_deteccao": "2026-02-17T11:43:13.231Z",
+            "data_resolucao": null
+        },
+        {
+            "id_avaria": "059d162c-90f5-4ab0-bcde-651ac86a64f6",
+            "id_poste": "f830b6dc-341b-4d79-93f5-b89ff4a2c9eb",
+            "data_deteccao": "2026-01-25T22:41:56.877Z",
+            "data_resolucao": "2026-02-15T15:23:02.401Z",
+            "custo_reparacao": 2025.6981116859374
+        },
+        {
+            "id_avaria": "91acf311-4fa5-41c8-bd55-3e3eb448bb22",
+            "id_poste": "c1596b8b-c8b2-45c0-a45d-137665175bf9",
+            "data_deteccao": "2026-03-20T00:12:10.319Z",
+            "data_resolucao": "2026-03-30T11:48:52.226Z",
+            "custo_reparacao": 2057.0155437590047
+        },
+        {
+            "id_avaria": "3a12733a-5145-4ac9-9a83-2fac33f230d9",
+            "id_poste": "d6736741-592d-4857-b343-755e43205aaf",
+            "data_deteccao": "2026-02-28T20:26:29.943Z",
+            "data_resolucao": "2026-03-07T07:26:10.730Z",
+            "custo_reparacao": 2164.939470528338
+        },
+        {
+            "id_avaria": "00a0032d-86ea-4d53-8e10-66f784c294d5",
+            "id_poste": "07b04039-6342-4ac9-962b-13b0829e610f",
+            "data_deteccao": "2026-02-03T13:05:53.700Z",
+            "data_resolucao": null
+        },
+        {
+            "id_avaria": "a7c7c060-e777-49f4-9403-67c9fdbce0d0",
+            "id_poste": "62490e53-72ef-460f-8d9d-ba1dea07fed8",
+            "data_deteccao": "2026-02-10T12:37:08.688Z",
+            "data_resolucao": "2026-02-13T17:29:53.570Z",
+            "custo_reparacao": 375.3610688476022
+        },
+        {
+            "id_avaria": "bc19f824-ca41-4e0f-8cf0-e2d3631175ec",
+            "id_poste": "d411e7a6-cdea-4ed4-a94a-e7d0df5bd163",
+            "data_deteccao": "2026-01-17T00:36:41.177Z",
+            "data_resolucao": "2026-03-06T06:28:23.868Z",
+            "custo_reparacao": 847.9172889379752
+        },
+        {
+            "id_avaria": "bd36fb94-4e99-49f8-9397-9fcaaf9020f9",
+            "id_poste": "1f5a6ba9-2b96-45d2-8a55-6e00a0b9b055",
+            "data_deteccao": "2026-01-07T20:17:24.863Z",
+            "data_resolucao": "2026-03-21T16:44:28.769Z",
+            "custo_reparacao": 397.36941950696934
+        }
+    ]
+}
