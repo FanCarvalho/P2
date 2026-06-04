@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const { host, port } = require('./app/config');
-const { isUsingMySql } = require('./app/dataStore');
-const { handleRequest } = require('./app/router');
+const { host, port } = require('./src/config');
+const { isUsingMySql } = require('./src/dataStore');
+const { handleRequest } = require('./src/router');
 const { testConnection } = require('./db');
 
 const app = express();

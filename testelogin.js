@@ -13,7 +13,7 @@ async function main() {
     .build();
 
   try {
-    await driver.get('file:///C:/Users/franc/OneDrive/Documentos/P2/login.html');
+    await driver.get('file:///C:/Users/franc/OneDrive/Documentos/P2/public/html/login.html');
     await driver.manage().window().maximize();
 
     const email = await driver.wait(
