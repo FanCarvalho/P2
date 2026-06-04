@@ -6,7 +6,9 @@ const handlers = require('./apiHandlers');
 
 function resolveStaticFile(requestPath) {
   let pathname = decodeURIComponent(requestPath.split('?')[0]);
-  if (pathname === '/' || pathname === '/login.html') {
+  if (pathname === '/') {
+    pathname = '/html/dashboard.html';
+  } else if (pathname === '/login.html') {
     pathname = '/html/login.html';
   }
 
@@ -340,7 +342,7 @@ function serveStaticAsset(req, res) {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      const fallbackFile = path.join(rootDir, 'html', 'login.html');
+      const fallbackFile = path.join(rootDir, 'html', 'dashboard.html');
       sendFile(res, fallbackFile);
       return;
     }

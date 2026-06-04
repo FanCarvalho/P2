@@ -225,9 +225,13 @@ function hideAdminElements() {
 // Executar verificação de autenticação ao carregar a página
 document.addEventListener('DOMContentLoaded', function() {
   const currentPage = document.body.dataset.page;
-  
-  // Login page é acessível sem autenticação
-  if (currentPage !== 'login') {
+
+  // Only require authentication for admin pages.
+  // Keep the dashboard and other public pages accessible to visitors.
+  if (currentPage === 'admin') {
     checkAuthentication();
+  } else {
+    // For public pages, hide admin-only UI elements if necessary
+    hideAdminElements();
   }
 });

@@ -42,18 +42,19 @@ function groupBy(list, keyFn) {
 }
 
 async function loadDashboardData() {
+  // Use unauthenticated fetch for public dashboard data to avoid forcing login
   const [zonesResponse, postsResponse, faultsResponse, maintenanceResponse] = await Promise.all([
-    authFetch('/zonas'),
-    authFetch('/postes'),
-    authFetch('/avarias'),
-    authFetch('/agendamentos-manutencao')
+    fetch(buildApiUrl('/zonas')),
+    fetch(buildApiUrl('/postes')),
+    fetch(buildApiUrl('/avarias')),
+    fetch(buildApiUrl('/agendamentos-manutencao'))
   ]);
 
   const [zones, posts, faults, maintenance] = await Promise.all([
-    zonesResponse.json(),
-    postsResponse.json(),
-    faultsResponse.json(),
-    maintenanceResponse.json()
+    zonesResponse.ok ? zonesResponse.json().catch(() => []) : [],
+    postsResponse.ok ? postsResponse.json().catch(() => []) : [],
+    faultsResponse.ok ? faultsResponse.json().catch(() => []) : [],
+    maintenanceResponse.ok ? maintenanceResponse.json().catch(() => []) : []
   ]);
 
   return {
@@ -209,9 +210,14 @@ function renderCharts({ zones, posts, faults }) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  if (typeof ensureAuthenticated === 'function') {
-    const ok = await ensureAuthenticated();
-    if (!ok) return;
+  const currentPage = document.body && document.body.dataset ? document.body.dataset.page : null;
+
+  // Only require authentication for admin pages; dashboard remains public.
+  if (currentPage === 'admin') {
+    if (typeof ensureAuthenticated === 'function') {
+      const ok = await ensureAuthenticated();
+      if (!ok) return;
+    }
   }
 
   try {

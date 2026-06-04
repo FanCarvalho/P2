@@ -27,6 +27,10 @@ function matchesEmailFormat(value) {
   return String(value).includes('@');
 }
 
+function isAdminOperator(operator) {
+  return String(operator?.nivel_acesso || '').trim().toLowerCase() === 'administrador';
+}
+
 // Projecta apenas os campos que o frontend deve ver em listas simples.
 function toPublicLamp(lamp) { return lamp; }
 function toPublicProfile(profile) { return profile; }
@@ -59,10 +63,10 @@ function handleLogin(req, res) {
       }
 
       const operator = apiDb.operadores.find(item => item.email.toLowerCase() === String(body.email).toLowerCase());
-      if (!operator || operator.password !== String(body.password)) {
+      if (!operator || operator.password !== String(body.password) || !isAdminOperator(operator)) {
         sendJson(res, 401, {
           description: 'Authentication failed',
-          errors: { credentials: ['Invalid email or password'] }
+          errors: { credentials: ['Only administrators can sign in'] }
         });
         return;
       }
@@ -84,6 +88,14 @@ function handleLogin(req, res) {
 function createOperator(req, res) {
   const currentUser = requireAuth(req, res);
   if (!currentUser) return;
+
+  if (!isAdminOperator(currentUser)) {
+    sendJson(res, 403, {
+      description: 'Forbidden',
+      errors: { authorization: ['Only administrators can create accounts'] }
+    });
+    return;
+  }
 
   const apiDb = getApiDb();
   readBody(req)
