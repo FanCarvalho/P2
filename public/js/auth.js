@@ -226,9 +226,9 @@ function hideAdminElements() {
 document.addEventListener('DOMContentLoaded', function() {
   const currentPage = document.body.dataset.page;
 
-  // Only require authentication for admin pages.
-  // Keep the dashboard and other public pages accessible to visitors.
-  if (currentPage === 'admin') {
+  // Only require authentication for restricted pages.
+  // Keep dashboard/empresa/mapa public for visitors.
+  if (currentPage === 'admin' || currentPage === 'perfil') {
     checkAuthentication();
   } else {
     // For public pages, hide admin-only UI elements if necessary

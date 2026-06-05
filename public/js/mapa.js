@@ -11,6 +11,15 @@ function getZoneKey(zone) {
   return String(zone.id_zona ?? zone.nome ?? zone.codigo_postal ?? '');
 }
 
+function parseConsumptionKwh(value) {
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') {
+    const numeric = Number(value.replace(',', '.').replace(/[^\d.-]/g, ''));
+    return Number.isFinite(numeric) ? numeric : 0;
+  }
+  return 0;
+}
+
 function averageCoordinate(points, key) {
   if (!points.length) return null;
   const total = points.reduce((sum, point) => sum + normalizeNumber(point[key]), 0);
@@ -29,22 +38,13 @@ function groupBy(list, keyFn) {
 }
 
 async function loadMapData() {
-  const [zonesResponse, postsResponse, faultsResponse] = await Promise.all([
-    authFetch('/zonas'),
-    authFetch('/postes'),
-    authFetch('/avarias')
-  ]);
-
-  const [zones, posts, faults] = await Promise.all([
-    zonesResponse.json(),
-    postsResponse.json(),
-    faultsResponse.json()
-  ]);
+  const zonesResponse = await fetch(buildApiUrl('/zonas'));
+  const zones = zonesResponse.ok ? await zonesResponse.json().catch(() => []) : [];
 
   return {
     zones: Array.isArray(zones) ? zones : [],
-    posts: Array.isArray(posts) ? posts : [],
-    faults: Array.isArray(faults) ? faults : []
+    posts: [],
+    faults: []
   };
 }
 
@@ -70,13 +70,8 @@ function renderZoneInfoPanel(zone, metrics) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  if (typeof ensureAuthenticated === 'function') {
-    const ok = await ensureAuthenticated();
-    if (!ok) return;
-  }
-
   try {
-    const { zones, posts, faults } = await loadMapData();
+    const { zones } = await loadMapData();
     const map = L.map('map').setView([39.5, -8], 7);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -84,31 +79,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       attribution: '© OpenStreetMap'
     }).addTo(map);
 
-    const postsByZone = groupBy(posts, post => getZoneKey({ id_zona: post.id_zona }));
-    const faultsByZone = groupBy(faults, fault => getZoneKey({ id_zona: fault.id_zona || fault.id_poste || fault.id_lampada }));
     const bounds = [];
 
     zones.forEach(zone => {
-      const zonePosts = postsByZone.get(String(zone.id_zona)) || [];
-      if (!zonePosts.length) return;
-
-      const latitude = averageCoordinate(zonePosts, 'latitude');
-      const longitude = averageCoordinate(zonePosts, 'longitude');
+      const latitude = normalizeNumber(zone.lat);
+      const longitude = normalizeNumber(zone.lon);
       if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
 
-      const zoneFaults = faults.filter(fault => String(fault.id_zona || '') === String(zone.id_zona));
       const marker = L.marker([latitude, longitude]).addTo(map).bindPopup(`<b>${getZoneLabel(zone)}</b>`);
 
       marker.on('click', () => {
-        const faultCount = zoneFaults.length || (faultsByZone.get(String(zone.id_zona)) || []).length;
+        const faultCount = normalizeNumber(zone.avarias);
         const status = faultCount > 10 ? 'Avaria' : faultCount > 3 ? 'Atenção' : 'Operacional';
         renderZoneInfoPanel(zone, {
-          posts: zonePosts.length,
+          posts: normalizeNumber(zone.postes),
           faults: faultCount,
-          status,
-          consumption: Math.round(zonePosts.reduce((sum, post) => sum + normalizeNumber(post.intensidade_atual), 0) / zonePosts.length),
-          lamps: zonePosts.filter(post => String(post.estado || '').toLowerCase() !== 'ativo').length,
-          lastUpdate: zonePosts[0].data_instalacao || 'Sem data'
+          status: zone.status || status,
+          consumption: parseConsumptionKwh(zone.consumo),
+          lamps: normalizeNumber(zone.vencimento),
+          lastUpdate: zone.substituicao || 'Sem data'
         });
       });
 

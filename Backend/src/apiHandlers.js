@@ -1,4 +1,8 @@
 const fs = require('fs');
+<<<<<<< HEAD:Backend/src/apiHandlers.js
+=======
+const path = require('path');
+>>>>>>> 5e05cfa1169c967d35c26b43e4eaf08a53bbc7d7:src/apiHandlers.js
 const { getApiDb, saveApiDb } = require('./dataStore');
 const {
   badRequest,
@@ -24,12 +28,61 @@ const {
 } = require('./filters');
 const { operatorPublic, requireAuth, tokenResponse } = require('./auth');
 
+const zonasTxtPath = path.resolve(__dirname, '..', 'zonas.txt');
+
 function matchesEmailFormat(value) {
   return String(value).includes('@');
 }
 
 function isAdminOperator(operator) {
   return String(operator?.nivel_acesso || '').trim().toLowerCase() === 'administrador';
+}
+
+function normalizeZoneFromTxt(entry, key, index) {
+  if (!entry || typeof entry !== 'object') return null;
+
+  const lat = Number(entry.lat);
+  const lon = Number(entry.lon);
+
+  return {
+    id_zona: index + 1,
+    nome: entry.nome || String(key),
+    rua: entry.rua || `Zona ${entry.nome || String(key)}`,
+    codigo_postal: entry.codigo_postal || '',
+    id_sensor: entry.id_sensor !== undefined && entry.id_sensor !== null ? Number(entry.id_sensor) : null,
+    postes: Number.isFinite(Number(entry.postes)) ? Number(entry.postes) : 0,
+    avarias: Number.isFinite(Number(entry.avarias)) ? Number(entry.avarias) : 0,
+    status: entry.status || 'Operacional',
+    consumo: entry.consumo || null,
+    consumo_mensal: Array.isArray(entry.consumo_mensal) ? entry.consumo_mensal : [],
+    vencimento: Number.isFinite(Number(entry.vencimento)) ? Number(entry.vencimento) : 0,
+    substituicao: entry.substituicao || null,
+    lat: Number.isFinite(lat) ? lat : null,
+    lon: Number.isFinite(lon) ? lon : null
+  };
+}
+
+function loadZonesFromTxt() {
+  try {
+    const raw = fs.readFileSync(zonasTxtPath, 'utf8');
+    const parsed = JSON.parse(raw);
+
+    if (Array.isArray(parsed)) {
+      return parsed
+        .map((entry, index) => normalizeZoneFromTxt(entry, entry?.nome || `zona-${index + 1}`, index))
+        .filter(Boolean);
+    }
+
+    if (parsed && typeof parsed === 'object') {
+      return Object.entries(parsed)
+        .map(([key, value], index) => normalizeZoneFromTxt(value, key, index))
+        .filter(Boolean);
+    }
+  } catch {
+    // Fallback silencioso para a base local/API.
+  }
+
+  return null;
 }
 
 // Projecta apenas os campos que o frontend deve ver em listas simples.
@@ -534,6 +587,13 @@ function createZone(req, res) {
 }
 
 function listZones(req, res, query) {
+  const zonesFromTxt = loadZonesFromTxt();
+  if (zonesFromTxt && zonesFromTxt.length) {
+    const zones = paginate(zonesFromTxt.filter(item => matchesZoneFilter(item, query)), query);
+    sendJson(res, 200, zones.map(toPublicZone));
+    return;
+  }
+
   const currentUser = requireAuth(req, res);
   if (!currentUser) return;
 
@@ -543,6 +603,18 @@ function listZones(req, res, query) {
 }
 
 function getZone(req, res, id) {
+  const zonesFromTxt = loadZonesFromTxt();
+  if (zonesFromTxt && zonesFromTxt.length) {
+    const zone = zonesFromTxt.find(item => item.id_zona === Number(id));
+    if (!zone) {
+      notFound(res, 'Zona');
+      return;
+    }
+
+    sendJson(res, 200, toPublicZone(zone));
+    return;
+  }
+
   const currentUser = requireAuth(req, res);
   if (!currentUser) return;
 

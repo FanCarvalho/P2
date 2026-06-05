@@ -6,10 +6,24 @@ const handlers = require('./apiHandlers');
 
 function resolveStaticFile(requestPath) {
   let pathname = decodeURIComponent(requestPath.split('?')[0]);
+
+  const topLevelHtmlRoutes = {
+    '/dashboard.html': '/html/dashboard.html',
+    '/market.html': '/html/market.html',
+    '/empresa.html': '/html/market.html',
+    '/mapa.html': '/html/mapa.html',
+    '/map.html': '/html/mapa.html',
+    '/perfil.html': '/html/perfil.html',
+    '/admin.html': '/html/admin.html',
+    '/login.html': '/html/login.html'
+  };
+
+  if (topLevelHtmlRoutes[pathname]) {
+    pathname = topLevelHtmlRoutes[pathname];
+  }
+
   if (pathname === '/') {
     pathname = '/html/dashboard.html';
-  } else if (pathname === '/login.html') {
-    pathname = '/html/login.html';
   }
 
   const normalizedPath = path.normalize(pathname).replace(/^([.]{2}[\/])+/, '');

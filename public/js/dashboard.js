@@ -14,6 +14,15 @@ function formatDate(value) {
   return date.toLocaleDateString('pt-PT');
 }
 
+function parseConsumptionKwh(value) {
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') {
+    const numeric = Number(value.replace(',', '.').replace(/[^\d.-]/g, ''));
+    return Number.isFinite(numeric) ? numeric : 0;
+  }
+  return 0;
+}
+
 function getZoneLabel(zone) {
   return zone.nome || zone.nome_zona || `Zona ${zone.id_zona || ''}`.trim();
 }
@@ -42,34 +51,22 @@ function groupBy(list, keyFn) {
 }
 
 async function loadDashboardData() {
-  // Use unauthenticated fetch for public dashboard data to avoid forcing login
-  const [zonesResponse, postsResponse, faultsResponse, maintenanceResponse] = await Promise.all([
-    fetch(buildApiUrl('/zonas')),
-    fetch(buildApiUrl('/postes')),
-    fetch(buildApiUrl('/avarias')),
-    fetch(buildApiUrl('/agendamentos-manutencao'))
-  ]);
-
-  const [zones, posts, faults, maintenance] = await Promise.all([
-    zonesResponse.ok ? zonesResponse.json().catch(() => []) : [],
-    postsResponse.ok ? postsResponse.json().catch(() => []) : [],
-    faultsResponse.ok ? faultsResponse.json().catch(() => []) : [],
-    maintenanceResponse.ok ? maintenanceResponse.json().catch(() => []) : []
-  ]);
+  const zonesResponse = await fetch(buildApiUrl('/zonas'));
+  const zones = zonesResponse.ok ? await zonesResponse.json().catch(() => []) : [];
 
   return {
     zones: Array.isArray(zones) ? zones : [],
-    posts: Array.isArray(posts) ? posts : [],
-    faults: Array.isArray(faults) ? faults : [],
-    maintenance: Array.isArray(maintenance) ? maintenance : []
+    posts: [],
+    faults: [],
+    maintenance: []
   };
 }
 
-function renderMetrics({ posts, faults }) {
-  const totalPosts = posts.length;
-  const activeFaults = faults.filter(item => String(item.estado || '').toLowerCase() !== 'resolvida').length;
-  const lampsAtRisk = faults.length;
-  const totalConsumption = posts.reduce((sum, post) => sum + normalizeNumber(post.intensidade_atual), 0);
+function renderMetrics({ zones }) {
+  const totalPosts = zones.reduce((sum, zone) => sum + normalizeNumber(zone.postes), 0);
+  const activeFaults = zones.reduce((sum, zone) => sum + normalizeNumber(zone.avarias), 0);
+  const lampsAtRisk = zones.reduce((sum, zone) => sum + normalizeNumber(zone.vencimento), 0);
+  const totalConsumption = zones.reduce((sum, zone) => sum + parseConsumptionKwh(zone.consumo), 0);
 
   const cards = Array.from(document.querySelectorAll('.dashboard-metrics .card'));
   const values = [
@@ -109,28 +106,28 @@ function renderZoneFilter(zones) {
   });
 }
 
-function renderFaultsTable({ zones, posts, faults }) {
+function renderFaultsTable({ zones }) {
   const tableBody = document.querySelector('.table tbody');
   if (!tableBody) return;
 
-  const zonesById = new Map(zones.map(zone => [String(zone.id_zona), zone]));
-  const postsById = new Map(posts.map(post => [String(post.id_poste), post]));
-
   tableBody.innerHTML = '';
 
-  faults.slice(0, 8).forEach((fault, index) => {
-    const relatedPost = fault.id_poste ? postsById.get(String(fault.id_poste)) : null;
-    const relatedZone = relatedPost ? getZoneFromId(zonesById, relatedPost.id_zona) : null;
-    const zoneName = relatedZone ? getZoneLabel(relatedZone) : 'Sem zona associada';
-    const status = String(fault.estado || 'pendente');
-    const statusClass = status.toLowerCase() === 'resolvida' ? 'badge-success' : status.toLowerCase() === 'em análise' ? 'badge-warning' : 'badge-danger';
+  const rows = zones
+    .filter(zone => normalizeNumber(zone.avarias) > 0)
+    .sort((a, b) => normalizeNumber(b.avarias) - normalizeNumber(a.avarias))
+    .slice(0, 8);
+
+  rows.forEach((zone, index) => {
+    const faultCount = normalizeNumber(zone.avarias);
+    const status = faultCount > 10 ? 'Avaria' : faultCount > 3 ? 'Atenção' : 'Operacional';
+    const statusClass = status === 'Avaria' ? 'badge-danger' : status === 'Atenção' ? 'badge-warning' : 'badge-success';
 
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>#${String(fault.id_avaria ?? index + 1).padStart(3, '0')}</td>
-      <td>${zoneName}</td>
-      <td>${fault.descricao || 'Avaria'}</td>
-      <td>${formatDate(fault.data_registo || fault.criado_em || fault.data)}</td>
+      <td>#${String(index + 1).padStart(3, '0')}</td>
+      <td>${getZoneLabel(zone)}</td>
+      <td>${faultCount} ocorrências</td>
+      <td>${formatDate(zone.substituicao)}</td>
       <td><span class="badge ${statusClass}">${status}</span></td>
       <td>
         <button class="button">Ver</button>
@@ -141,28 +138,35 @@ function renderFaultsTable({ zones, posts, faults }) {
   });
 }
 
-function renderMaintenanceList({ maintenance }) {
+function renderMaintenanceList({ zones }) {
   const maintenanceList = document.querySelector('.tx-list');
   if (!maintenanceList) return;
 
   maintenanceList.innerHTML = '';
-  maintenance.slice(0, 8).forEach(item => {
+
+  const items = zones
+    .filter(zone => zone.substituicao)
+    .sort((a, b) => new Date(a.substituicao) - new Date(b.substituicao))
+    .slice(0, 8);
+
+  items.forEach(zone => {
     const entry = document.createElement('li');
     entry.className = 'tx-item';
-    entry.innerHTML = `<span>${item.descricao || 'Manutenção programada'}</span><strong>${formatDate(item.data_manutencao || item.data)}</strong>`;
+    entry.innerHTML = `<span>Substituição programada - ${getZoneLabel(zone)}</span><strong>${formatDate(zone.substituicao)}</strong>`;
     maintenanceList.appendChild(entry);
   });
 }
 
-function renderCharts({ zones, posts, faults }) {
+function renderCharts({ zones }) {
   if (typeof Chart === 'undefined') return;
 
-  const postsByZone = groupBy(posts, post => getZoneIdFromPost(post));
   const zoneLabels = zones.map(zone => getZoneLabel(zone));
   const zoneValues = zones.map(zone => {
-    const zonePosts = postsByZone.get(String(zone.id_zona)) || [];
-    if (!zonePosts.length) return 0;
-    return Math.round(zonePosts.reduce((sum, post) => sum + normalizeNumber(post.intensidade_atual), 0) / zonePosts.length);
+    const monthly = Array.isArray(zone.consumo_mensal) ? zone.consumo_mensal : [];
+    if (monthly.length) {
+      return monthly.reduce((sum, value) => sum + normalizeNumber(value), 0) / monthly.length;
+    }
+    return parseConsumptionKwh(zone.consumo);
   });
 
   const consumoCanvas = document.getElementById('consumoEnergiaChart');
@@ -172,7 +176,7 @@ function renderCharts({ zones, posts, faults }) {
       data: {
         labels: zoneLabels.length ? zoneLabels : ['Sem zonas'],
         datasets: [{
-          label: 'Intensidade média por zona',
+          label: 'Consumo médio por zona (kWh)',
           data: zoneValues.length ? zoneValues : [0],
           backgroundColor: '#38bdf8'
         }]
@@ -186,18 +190,15 @@ function renderCharts({ zones, posts, faults }) {
 
   const faultsCanvas = document.getElementById('distribuicaoAvariasChart');
   if (faultsCanvas) {
-    const severityCounts = faults.reduce((accumulator, fault) => {
-      const key = String(fault.severidade || 'indefinida');
-      accumulator.set(key, (accumulator.get(key) || 0) + 1);
-      return accumulator;
-    }, new Map());
+    const faultLabels = zones.map(zone => getZoneLabel(zone));
+    const faultValues = zones.map(zone => normalizeNumber(zone.avarias));
 
     new Chart(faultsCanvas, {
       type: 'doughnut',
       data: {
-        labels: Array.from(severityCounts.keys()),
+        labels: faultLabels,
         datasets: [{
-          data: Array.from(severityCounts.values()),
+          data: faultValues,
           backgroundColor: ['#f97316', '#ef4444', '#eab308', '#22c55e']
         }]
       },

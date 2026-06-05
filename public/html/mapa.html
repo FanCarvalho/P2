@@ -15,6 +15,7 @@
      crossorigin=""></script>
   <script src="./js/auth.js"></script>
   <script defer src="./js/components.js"></script>
+  <script defer src="./js/mapa.js"></script>
 </head>
 <body data-page="mapa">
   <div class="app-shell">
@@ -134,7 +135,7 @@
       <div data-include="./components/footer.html"></div>
     </main>
   </div>
-  <script>
+  <script type="text/plain">
     document.addEventListener('DOMContentLoaded', async function () {
       if (typeof ensureAuthenticated === 'function') {
         const ok = await ensureAuthenticated();
