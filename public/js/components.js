@@ -101,8 +101,27 @@ function addAdminMenuItemIfNeeded() {
   }
 }
 
+function applyGuestNavigationState() {
+  if (typeof isAuthenticated !== 'function' || isAuthenticated()) {
+    return;
+  }
+
+  const profileLink = document.querySelector('[data-page-link="perfil"]');
+  if (profileLink) {
+    profileLink.remove();
+  }
+
+  const logoutLink = document.querySelector('.sidebar a[onclick*="logout"]');
+  if (logoutLink) {
+    logoutLink.removeAttribute('onclick');
+    logoutLink.setAttribute('href', './login.html');
+    logoutLink.textContent = 'Login';
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   await includeComponents();
+  applyGuestNavigationState();
   addAdminMenuItemIfNeeded();
   hideAdminElements();
   applyPageState();
