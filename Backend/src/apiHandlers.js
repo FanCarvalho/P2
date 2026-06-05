@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { getApiDb, saveApiDb } = require('./dataStore');
 const {
   badRequest,
@@ -1298,7 +1299,6 @@ function handleApiUserPost(req, res) {
   const currentUser = requireAuth(req, res);
   if (!currentUser) return;
 
-  const fs = require('fs');
   const { usersDbPath } = require('./config');
 
   return readBody(req)
@@ -1320,6 +1320,17 @@ function handleApiUserPost(req, res) {
       });
     })
     .catch(error => badRequest(res, { body: [error.message] }));
+}
+
+async function getPublicLighting(req, res) {
+  const { publicLightingPath } = require('./config');
+
+  try {
+    const data = await fs.promises.readFile(publicLightingPath, 'utf8');
+    sendJson(res, 200, JSON.parse(data));
+  } catch (error) {
+    sendJson(res, 500, { message: 'Error reading public lighting data' });
+  }
 }
 
 module.exports = {
@@ -1354,6 +1365,7 @@ module.exports = {
   handleApiMe,
   handleApiUserGet,
   handleApiUserPost,
+  getPublicLighting,
   handleLogin,
   listAgendamentos,
   listFaults,

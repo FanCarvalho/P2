@@ -30,6 +30,7 @@ const host = '127.0.0.1';
 const port = 3000;
 const projectRoot = path.resolve(__dirname, '..');
 const apiDataPath = path.join(projectRoot, 'data', 'api-data.json');
+const publicLightingPath = path.join(projectRoot, 'data', 'dadosIluminacaoPublica.json');
 const usersDbPath = path.join(projectRoot, 'data', 'users.json');
 const dbHost = process.env.DB_HOST || process.env.HOST || '';
 const dbPort = Number(process.env.DB_PORT || process.env.PORT || 3306);
@@ -55,6 +56,7 @@ module.exports = {
   port,
   rootDir,
   apiDataPath,
+  publicLightingPath,
   dbConfig: {
     host: dbHost,
     port: dbPort,

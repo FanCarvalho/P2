@@ -41,6 +41,11 @@ function handleApiRoute(req, res, pathname) {
     return true;
   }
 
+  if (pathname === '/api/iluminacao-publica' && req.method === 'GET') {
+    handlers.getPublicLighting(req, res);
+    return true;
+  }
+
   return false;
 }
 
