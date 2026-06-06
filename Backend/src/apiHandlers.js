@@ -1439,6 +1439,7 @@ module.exports = {
   listAgendamentos,
   listFaults,
   listLampRecords,
+  listLampRegistos,
   listLamps,
   listOperators,
   listOperatorsByLevel,
