@@ -22,13 +22,13 @@ function loadEnv(filePath) {
   }
 }
 
-const rootDir = path.resolve(__dirname, '../public');
-loadEnv(path.join(rootDir, '..', '.env'));
+const projectRoot = path.resolve(__dirname, '..');
+const rootDir = path.resolve(projectRoot, '..', 'public');
+loadEnv(path.join(projectRoot, '.env'));
 
 // O servidor HTTP continua local; a ligação MySQL usa as credenciais do .env.
 const host = '127.0.0.1';
 const port = 3000;
-const projectRoot = path.resolve(__dirname, '..');
 const apiDataPath = path.join(projectRoot, 'data', 'api-data.json');
 const publicLightingPath = path.join(projectRoot, 'data', 'dadosIluminacaoPublica.json');
 const usersDbPath = path.join(projectRoot, 'data', 'users.json');
