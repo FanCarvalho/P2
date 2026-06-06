@@ -1347,20 +1347,67 @@ function handleApiMe(req, res) {
   sendJson(res, 200, { operator: operatorPublic(currentUser) });
 }
 
+function findUserProfileIndex(users, operator) {
+  if (!Array.isArray(users) || !operator) return -1;
+
+  const operatorId = Number(operator.id_operador);
+  const operatorEmail = String(operator.email || '').toLowerCase();
+
+  return users.findIndex(user => {
+    const userIdOperador = Number(user.id_operador);
+    const userId = Number(user.id);
+    const userEmail = String(user.email || '').toLowerCase();
+
+    if (Number.isFinite(operatorId) && Number.isFinite(userIdOperador) && userIdOperador === operatorId) {
+      return true;
+    }
+
+    if (Number.isFinite(operatorId) && Number.isFinite(userId) && userId === operatorId) {
+      return true;
+    }
+
+    return operatorEmail && userEmail && operatorEmail === userEmail;
+  });
+}
+
+function readUsersFile(usersDbPath, callback) {
+  fs.readFile(usersDbPath, 'utf8', (err, data) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      if (!Array.isArray(users)) {
+        callback(new Error('Invalid users data format'));
+        return;
+      }
+      callback(null, users);
+    } catch {
+      callback(new Error('Invalid users data format'));
+    }
+  });
+}
+
 function handleApiUserGet(req, res) {
   const currentUser = requireAuth(req, res);
   if (!currentUser) return;
 
-  const fs = require('fs');
   const { usersDbPath } = require('./config');
 
-  fs.readFile(usersDbPath, 'utf8', (err, data) => {
+  readUsersFile(usersDbPath, (err, users) => {
     if (err) {
       return sendJson(res, 500, { message: 'Error reading user data' });
     }
-    const users = JSON.parse(data);
-    const currentUser = users[0];
-    sendJson(res, 200, currentUser);
+
+    const profileIndex = findUserProfileIndex(users, currentUser);
+    if (profileIndex === -1) {
+      sendJson(res, 404, { message: 'Authenticated user profile not found' });
+      return;
+    }
+
+    sendJson(res, 200, users[profileIndex]);
   });
 }
 
@@ -1372,14 +1419,26 @@ function handleApiUserPost(req, res) {
 
   return readBody(req)
     .then(body => {
-      fs.readFile(usersDbPath, 'utf8', (err, data) => {
+      readUsersFile(usersDbPath, (err, users) => {
         if (err) {
           return sendJson(res, 500, { message: 'Error reading user data' });
         }
-        let users = JSON.parse(data);
-        if (users.length > 0) {
-          users[0] = { ...users[0], ...body };
+
+        const profileIndex = findUserProfileIndex(users, currentUser);
+        if (profileIndex === -1) {
+          sendJson(res, 404, { message: 'Authenticated user profile not found' });
+          return;
         }
+
+        const existing = users[profileIndex];
+        users[profileIndex] = {
+          ...existing,
+          ...body,
+          id: existing.id,
+          id_operador: existing.id_operador !== undefined ? existing.id_operador : currentUser.id_operador,
+          email: currentUser.email || existing.email
+        };
+
         fs.writeFile(usersDbPath, JSON.stringify(users, null, 2), writeErr => {
           if (writeErr) {
             return sendJson(res, 500, { message: 'Error saving user data' });
