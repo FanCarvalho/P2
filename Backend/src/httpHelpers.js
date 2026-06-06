@@ -31,6 +31,30 @@ function sendFile(res, filePath) {
 }
 
 function readBody(req) {
+  // Quando o Express já fez parsing (express.json/urlencoded), usamos esse corpo.
+  if (req.body !== undefined) {
+    if (req.body && typeof req.body === 'object') {
+      return Promise.resolve(req.body);
+    }
+
+    if (typeof req.body === 'string') {
+      const raw = req.body.trim();
+      if (!raw) return Promise.resolve({});
+      try {
+        return Promise.resolve(JSON.parse(raw));
+      } catch {
+        return Promise.reject(new Error('Invalid JSON'));
+      }
+    }
+
+    return Promise.resolve({});
+  }
+
+  // Se o stream já terminou e não há body parseado, evita ficar pendente.
+  if (req.readableEnded) {
+    return Promise.resolve({});
+  }
+
   return new Promise((resolve, reject) => {
     let body = '';
     req.on('data', chunk => {

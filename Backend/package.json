@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "generate:data": "node scripts/generateData.js"
+    "generate:data": "node scripts/gerarDados.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

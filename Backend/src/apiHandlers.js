@@ -1,8 +1,5 @@
 const fs = require('fs');
-<<<<<<< HEAD:Backend/src/apiHandlers.js
-=======
 const path = require('path');
->>>>>>> 5e05cfa1169c967d35c26b43e4eaf08a53bbc7d7:src/apiHandlers.js
 const { getApiDb, saveApiDb } = require('./dataStore');
 const {
   badRequest,
@@ -1450,8 +1447,10 @@ module.exports = {
   listPosts,
   listProfilePosts,
   listProfiles,
+  listLampRegistos,
   listSensorZones,
   listSensors,
+  listZonePosts,
   listZones,
   patchAgendamento,
   patchFault,

@@ -163,7 +163,7 @@ function handleResourceCollection(req, res, pathname, query) {
   return false;
 }
 
-function handleResourceById(req, res, pathname) {
+function handleResourceById(req, res, pathname, query) {
   // Rotas com identificador e sub-recursos relacionados.
   const operatorById = pathname.match(/^\/operadores\/(\d+)$/);
   if (operatorById) {
@@ -403,7 +403,7 @@ async function handleRequest(req, res) {
   }
 
   if (handleResourceCollection(req, res, pathname, query)) return;
-  if (handleResourceById(req, res, pathname)) return;
+  if (handleResourceById(req, res, pathname, query)) return;
 
   serveStaticAsset(req, res);
 }
