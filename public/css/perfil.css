@@ -30,6 +30,12 @@
   margin: 0;
 }
 
+.profile-role {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
 .form-grid {
   margin-top: 16px;
   display: grid;

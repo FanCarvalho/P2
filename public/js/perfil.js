@@ -4,14 +4,57 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!ok) return;
     }
 
+    const currentUser = typeof getAuthenticatedUser === 'function' ? getAuthenticatedUser() : null;
     const profileForm = document.getElementById('profile-form');
     const firstNameInput = document.getElementById('firstName');
     const lastNameInput = document.getElementById('lastName');
     const emailInput = document.getElementById('email');
+    const accessLevelInput = document.getElementById('accessLevel');
     const phoneInput = document.getElementById('phone');
     const bioInput = document.getElementById('bio');
     const profileName = document.querySelector('.profile-meta h2');
     const profileEmail = document.querySelector('.profile-meta .page-subtitle');
+    const profileRole = document.getElementById('profileRole');
+    const profileAvatar = document.querySelector('.profile-head .avatar');
+
+    function splitName(fullName) {
+        const parts = String(fullName || '').trim().split(/\s+/).filter(Boolean);
+        return {
+            firstName: parts[0] || '',
+            lastName: parts.slice(1).join(' ')
+        };
+    }
+
+    function formatAccessLevel(level) {
+        if (!level) return 'Utilizador';
+        return String(level).charAt(0).toUpperCase() + String(level).slice(1);
+    }
+
+    function updateProfileHeader(name, email, level) {
+        profileName.textContent = name || 'Conta autenticada';
+        profileEmail.textContent = email || 'Sem email associado';
+        profileRole.textContent = formatAccessLevel(level);
+
+        if (profileAvatar) {
+            const initials = String(name || 'U')
+                .split(' ')
+                .filter(Boolean)
+                .map(part => part[0])
+                .join('')
+                .toUpperCase() || 'U';
+            profileAvatar.textContent = initials;
+        }
+    }
+
+    if (currentUser) {
+        const nameParts = splitName(currentUser.name);
+        firstNameInput.value = nameParts.firstName;
+        lastNameInput.value = nameParts.lastName;
+        emailInput.value = currentUser.email || '';
+        accessLevelInput.value = formatAccessLevel(currentUser.nivel_acesso);
+        bioInput.value = `Conta ${String(currentUser.nivel_acesso || 'utilizador').toLowerCase()} da Glowpath.`;
+        updateProfileHeader(currentUser.name, currentUser.email, currentUser.nivel_acesso);
+    }
 
     // Função para carregar os dados do utilizador
     async function loadUserData() {
@@ -25,15 +68,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             firstNameInput.value = user.firstName || '';
             lastNameInput.value = user.lastName || '';
             emailInput.value = user.email || '';
+            accessLevelInput.value = formatAccessLevel(currentUser?.nivel_acesso || user.nivel_acesso || '');
             phoneInput.value = user.phone || '';
-            bioInput.value = user.bio || '';
-            profileName.textContent = `${user.firstName} ${user.lastName}`;
-            profileEmail.textContent = user.email;
+            bioInput.value = user.bio || `Conta ${String(currentUser?.nivel_acesso || 'utilizador').toLowerCase()} da Glowpath.`;
+            updateProfileHeader(`${user.firstName || ''} ${user.lastName || ''}`.trim() || currentUser?.name, user.email || currentUser?.email, currentUser?.nivel_acesso || user.nivel_acesso);
 
         } catch (error) {
             console.error('Error loading user data:', error);
-            // Opcional: redirecionar para o login se não estiver autenticado
-            // window.location.href = '/login.html';
         }
     }
 
@@ -66,8 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert(result.message || 'Changes saved successfully!');
             
             // Atualizar o cabeçalho do perfil
-            profileName.textContent = `${updatedUser.firstName} ${updatedUser.lastName}`;
-            profileEmail.textContent = updatedUser.email;
+            updateProfileHeader(`${updatedUser.firstName} ${updatedUser.lastName}`.trim(), updatedUser.email, currentUser?.nivel_acesso || accessLevelInput.value);
 
         } catch (error) {
             console.error('Error saving user data:', error);

@@ -1378,9 +1378,44 @@ function findUserProfileIndex(users, operator) {
   });
 }
 
+function splitOperatorName(operator) {
+  const fullName = String(operator?.nome || '').trim();
+  if (!fullName) {
+    return { firstName: 'Utilizador', lastName: '' };
+  }
+
+  const parts = fullName.split(/\s+/).filter(Boolean);
+  return {
+    firstName: parts[0] || 'Utilizador',
+    lastName: parts.slice(1).join(' ')
+  };
+}
+
+function buildDefaultUserProfile(operator, users = []) {
+  const { firstName, lastName } = splitOperatorName(operator);
+  const maxId = users.reduce((currentMax, user) => {
+    const numericId = Number(user.id);
+    return Number.isFinite(numericId) ? Math.max(currentMax, numericId) : currentMax;
+  }, 0);
+
+  return {
+    id: maxId + 1,
+    id_operador: operator.id_operador,
+    firstName,
+    lastName,
+    email: operator.email || '',
+    phone: '',
+    bio: `Conta ${String(operator.nivel_acesso || 'utilizador').toLowerCase()} da Glowpath.`
+  };
+}
+
 function readUsersFile(usersDbPath, callback) {
   fs.readFile(usersDbPath, 'utf8', (err, data) => {
     if (err) {
+      if (err.code === 'ENOENT') {
+        callback(null, []);
+        return;
+      }
       callback(err);
       return;
     }
@@ -1411,7 +1446,14 @@ function handleApiUserGet(req, res) {
 
     const profileIndex = findUserProfileIndex(users, currentUser);
     if (profileIndex === -1) {
-      sendJson(res, 404, { message: 'Authenticated user profile not found' });
+      const defaultProfile = buildDefaultUserProfile(currentUser, users);
+      users.push(defaultProfile);
+      fs.writeFile(usersDbPath, JSON.stringify(users, null, 2), writeErr => {
+        if (writeErr) {
+          return sendJson(res, 500, { message: 'Error saving user data' });
+        }
+        sendJson(res, 200, defaultProfile);
+      });
       return;
     }
 
@@ -1432,10 +1474,10 @@ function handleApiUserPost(req, res) {
           return sendJson(res, 500, { message: 'Error reading user data' });
         }
 
-        const profileIndex = findUserProfileIndex(users, currentUser);
+        let profileIndex = findUserProfileIndex(users, currentUser);
         if (profileIndex === -1) {
-          sendJson(res, 404, { message: 'Authenticated user profile not found' });
-          return;
+          users.push(buildDefaultUserProfile(currentUser, users));
+          profileIndex = users.length - 1;
         }
 
         const existing = users[profileIndex];

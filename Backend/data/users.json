@@ -6,5 +6,14 @@
     "email": "alex.morgan@email.com",
     "phone": "+1 (555) 123-4567",
     "bio": "smoke test"
+  },
+  {
+    "id": 2,
+    "id_operador": 2,
+    "firstName": "Carla",
+    "lastName": "Pereira",
+    "email": "carla.pereira.2@empresa.com",
+    "phone": "",
+    "bio": "Conta operador da Glowpath."
   }
 ]
