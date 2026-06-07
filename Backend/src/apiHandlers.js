@@ -126,7 +126,8 @@ function toPublicZone(zone, apiDb) {
   const longitudes = postsInZone.map(post => Number(post.longitude)).filter(Number.isFinite);
 
   const avarias = activeFaults.length;
-  const status = avarias > 10 ? 'Avaria' : avarias > 3 ? 'Atenção' : 'Operacional';
+  const computedStatus = avarias > 10 ? 'Avaria' : avarias > 3 ? 'Atenção' : 'Operacional';
+  const status = zone.estado_manual ? String(zone.estado_manual) : computedStatus;
 
   return {
     ...zone,
@@ -689,6 +690,8 @@ function patchZone(req, res, id) {
       if (body.rua !== undefined) zone.rua = String(body.rua);
       if (body.codigo_postal !== undefined) zone.codigo_postal = String(body.codigo_postal);
       if (body.id_sensor !== undefined) zone.id_sensor = Number(body.id_sensor);
+      if (body.estado_manual !== undefined) zone.estado_manual = body.estado_manual === null ? null : String(body.estado_manual);
+      if (body.status !== undefined) zone.estado_manual = body.status === null ? null : String(body.status);
 
       saveApiDb();
       sendJson(res, 200, { message: 'Zona atualizada com sucesso' });

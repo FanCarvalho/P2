@@ -20,6 +20,8 @@ function parseConsumptionKwh(value) {
   return 0;
 }
 
+const DELETED_ZONES_KEY = 'glowpath_deleted_zones';
+
 const CITY_COORDINATES = {
   faro: [37.0179, -7.9308],
   lisboa: [38.7223, -9.1393],
@@ -54,6 +56,18 @@ function normalizeCityKey(value) {
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
+}
+
+function loadDeletedZoneKeys() {
+  try {
+    const raw = localStorage.getItem(DELETED_ZONES_KEY);
+    if (!raw) return new Set();
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return new Set();
+    return new Set(parsed.map(normalizeCityKey));
+  } catch {
+    return new Set();
+  }
 }
 
 function resolveZoneCoordinates(zone) {
@@ -124,6 +138,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const { zones } = await loadMapData();
     const map = L.map('map').setView([39.55, -8.05], 6);
+    const deletedZoneKeys = loadDeletedZoneKeys();
+    const markersByCity = {};
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -131,12 +147,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     }).addTo(map);
 
     zones.forEach(zone => {
+      const zoneKey = normalizeCityKey(getZoneLabel(zone));
+      if (deletedZoneKeys.has(zoneKey)) return;
+
       const coordinates = resolveZoneCoordinates(zone);
       if (!coordinates) return;
 
       const [latitude, longitude] = coordinates;
 
       const marker = L.marker([latitude, longitude]).addTo(map).bindPopup(`<b>${getZoneLabel(zone)}</b>`);
+      markersByCity[zoneKey] = marker;
 
       marker.on('click', () => {
         const faultCount = normalizeNumber(zone.avarias);
@@ -151,6 +171,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
       });
 
+    });
+
+    window.addEventListener('storage', event => {
+      if (event.key !== DELETED_ZONES_KEY) return;
+
+      const currentDeleted = loadDeletedZoneKeys();
+      Object.entries(markersByCity).forEach(([zoneKey, marker]) => {
+        if (currentDeleted.has(zoneKey) && map.hasLayer(marker)) {
+          map.removeLayer(marker);
+        }
+      });
     });
   } catch (error) {
     console.error('Error loading map data:', error);

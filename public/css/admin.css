@@ -103,3 +103,125 @@
   background-color: var(--primary);
   color: #fff;
 }
+
+.btn-add-zone {
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  border-color: rgba(30, 144, 255, 0.65);
+  color: #66b4ff;
+  background: rgba(30, 144, 255, 0.08);
+}
+
+.btn-add-zone:hover {
+  background: rgba(30, 144, 255, 0.2);
+  border-color: rgba(30, 144, 255, 0.9);
+  color: #d7ecff;
+}
+
+.admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(7, 10, 14, 0.68);
+  padding: 20px;
+}
+
+.admin-modal-backdrop.is-open {
+  display: flex;
+}
+
+.admin-modal {
+  position: relative;
+  width: min(560px, calc(100vw - 32px));
+  background: linear-gradient(160deg, #25272b 0%, #1d2024 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.48);
+}
+
+.admin-modal h3 {
+  margin: 0 0 14px;
+  color: var(--text);
+}
+
+.admin-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.admin-modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-modal-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-modal-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: #ced8e2;
+}
+
+.admin-modal-form input,
+.admin-modal-form select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #191c20;
+  color: var(--text);
+  padding: 9px 10px;
+}
+
+.admin-modal-form select[name="estado"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 9px 40px 9px 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23d8e1eb' fill-opacity='0.88' d='M6 8 .8 1.7A1 1 0 0 1 2.2.3L6 4.1 9.8.3a1 1 0 0 1 1.4 1.4Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 14px) 50%;
+  background-size: 12px 8px;
+}
+
+.admin-modal-form input[type="date"] {
+  color-scheme: dark;
+  padding: 9px 40px 9px 10px;
+}
+
+.admin-modal-form input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.88;
+  filter: brightness(0) saturate(100%) invert(90%) sepia(16%) saturate(248%) hue-rotate(175deg) brightness(97%) contrast(92%);
+  margin-right: 0;
+  transform: translateX(28px);
+  cursor: pointer;
+}
+
+.admin-modal-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+@media (max-width: 720px) {
+  .admin-modal-form {
+    grid-template-columns: 1fr;
+  }
+}

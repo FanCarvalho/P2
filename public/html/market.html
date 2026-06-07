@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Markets | Glowpath</title>
+  <title>Empresa | Glowpath</title>
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/market.css" />
   <script src="./js/auth.js"></script>
   <script defer src="./js/components.js"></script>
+  <script defer src="./js/market.js"></script>
 </head>
 <body data-page="market">
   <div class="app-shell">
@@ -82,6 +83,14 @@
           <span class="badge badge-success">Atendimento tecnico imediato</span>
         </aside>
       </section>
+
+      <div class="page-modal-backdrop" id="staticPageModal" hidden>
+        <div class="page-modal" role="dialog" aria-modal="true" aria-labelledby="staticModalTitle">
+          <button class="page-modal-close close-btn" type="button" aria-label="Fechar" data-modal-close>✕</button>
+          <h3 id="staticModalTitle">Aviso</h3>
+          <p>Esta é uma página estática</p>
+        </div>
+      </div>
 
       <div data-include="./components/footer.html"></div>
     </main>
