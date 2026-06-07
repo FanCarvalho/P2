@@ -1,4 +1,10 @@
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  overflow-y: auto;
   background: var(--panel);
   border-right: 1px solid var(--border);
   padding: 24px;
@@ -103,6 +109,10 @@
 
 @media (max-width: 1024px) {
   .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    overflow: visible;
     border-right: 0;
     border-bottom: 1px solid var(--border);
   }

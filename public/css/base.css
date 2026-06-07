@@ -1,4 +1,5 @@
 :root {
+  --sidebar-width: 280px;
   --bg: #1c1c1e;
   --panel: #232325;
   --card: #2c2c2e;
@@ -29,6 +30,7 @@ body {
   font-family: "Instrument Sans", "Segoe UI", sans-serif;
   background: radial-gradient(circle at 15% -10%, #2a2a2e 0%, var(--bg) 55%);
   color: var(--text);
+  overflow: hidden;
 }
 
 a {
@@ -42,12 +44,15 @@ img {
 }
 
 .app-shell {
-  display: grid;
-  grid-template-columns: 280px 1fr;
+  display: block;
   min-height: 100vh;
 }
 
 .main-content {
+  margin-left: var(--sidebar-width);
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 32px;
 }
 
@@ -94,11 +99,14 @@ img {
 }
 
 @media (max-width: 1024px) {
-  .app-shell {
-    grid-template-columns: 1fr;
+  body {
+    overflow: auto;
   }
 
   .main-content {
+    margin-left: 0;
+    height: auto;
+    overflow: visible;
     padding: 20px;
   }
 }
