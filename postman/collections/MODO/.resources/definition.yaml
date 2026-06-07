@@ -1,0 +1,6 @@
+$kind: collection
+description: Collection organizada por recurso com cenarios de teste por endpoint.
+variables:
+  baseUrl: http://127.0.0.1:3000
+  jwtToken: ""
+  clientToken: ""

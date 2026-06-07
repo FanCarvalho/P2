@@ -1,0 +1,13 @@
+# Use this workspace to collaborate
+workspace:
+  id: 21c12446-af0d-4a61-841c-8a7cc0390183
+
+localResources:
+  collections:
+    - ..\Backend\postman\GlowPath-API.postman_collection.json
+  environments:
+    - ..\Backend\postman\GlowPath-API.local.postman_environment.json
+
+cloudResources:
+  collections:
+    ..\postman\collections\MODO: f83aa775-05f2-4f45-899c-986f4b7faf2c

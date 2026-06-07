@@ -1,0 +1,22 @@
+$kind: http-request
+url: "{{baseUrl}}/postes"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "id_zona": 1,
+      "id_perfil": 1,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 8.7,
+      "data_instalacao": "2026-06-07",
+      "estado": "ativo"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('Status 401', function () { pm.response.to.have.status(401); });
+    language: text/javascript
+order: 2000

@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/operadores"
+method: POST
+headers:
+  Authorization: Bearer {{clientToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "nome": "Cliente sem permissao",
+      "email": "cliente.sem.permissao@empresa.com",
+      "password": "password12345",
+      "nivel_acesso": "operador",
+      "ativo": true
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('Status 403', function () { pm.response.to.have.status(403); });
+    language: text/javascript
+order: 3000
