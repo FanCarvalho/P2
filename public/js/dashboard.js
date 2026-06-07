@@ -31,6 +31,37 @@ function getZoneKey(zone) {
   return String(zone.id_zona ?? zone.nome ?? zone.codigo_postal ?? '');
 }
 
+const FAULT_OVERRIDES_KEY = 'dashboard_fault_overrides';
+const dashboardState = {
+  zones: [],
+  faultsChart: null,
+  hiddenFaultLabels: new Set()
+};
+
+function loadFaultOverrides() {
+  try {
+    const raw = localStorage.getItem(FAULT_OVERRIDES_KEY);
+    if (!raw) return {};
+
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveFaultOverrides(overrides) {
+  localStorage.setItem(FAULT_OVERRIDES_KEY, JSON.stringify(overrides));
+}
+
+function canEditFaultEntries() {
+  if (typeof getAuthenticatedUser !== 'function') return false;
+  const user = getAuthenticatedUser();
+  if (!user) return false;
+  const level = String(user.nivel_acesso || '').toLowerCase();
+  return level === 'administrador' || level === 'operador';
+}
+
 function getZoneIdFromPost(post) {
   return String(post.id_zona ?? '');
 }
@@ -54,6 +85,77 @@ function getRegionColor(index) {
   // Golden-angle distribution gives visually distinct colors for many regions.
   const hue = Math.round((index * 137.508) % 360);
   return `hsl(${hue} 78% 56%)`;
+}
+
+function renderFaultsLegend(labels, colors) {
+  const tableA = document.querySelector('#faultsLegendTableA tbody');
+  const tableB = document.querySelector('#faultsLegendTableB tbody');
+  if (!tableA || !tableB) return;
+
+  tableA.innerHTML = '';
+  tableB.innerHTML = '';
+
+  const midpoint = Math.ceil(labels.length / 2);
+
+  labels.forEach((label, index) => {
+    const row = document.createElement('tr');
+    row.dataset.faultLabel = label;
+    if (dashboardState.hiddenFaultLabels.has(label)) {
+      row.classList.add('is-hidden');
+    }
+
+    const cityCell = document.createElement('td');
+    cityCell.className = 'city';
+    cityCell.textContent = label;
+
+    const colorCell = document.createElement('td');
+    const dot = document.createElement('span');
+    dot.className = 'color-dot';
+    dot.style.backgroundColor = colors[index];
+    colorCell.appendChild(dot);
+
+    row.appendChild(cityCell);
+    row.appendChild(colorCell);
+
+    if (index < midpoint) {
+      tableA.appendChild(row);
+    } else {
+      tableB.appendChild(row);
+    }
+  });
+}
+
+function setupFaultsLegendInteractions() {
+  const tablesWrapper = document.querySelector('.faults-legend-tables');
+  if (!tablesWrapper || tablesWrapper.dataset.bound === 'true') return;
+  tablesWrapper.dataset.bound = 'true';
+
+  tablesWrapper.addEventListener('click', event => {
+    const row = event.target.closest('tr[data-fault-label]');
+    if (!row) return;
+
+    const label = row.dataset.faultLabel;
+    const chart = dashboardState.faultsChart;
+    if (!chart || !label) return;
+
+    const dataIndex = chart.data.labels.indexOf(label);
+    if (dataIndex === -1) return;
+
+    const isVisible = chart.getDataVisibility(dataIndex);
+    chart.toggleDataVisibility(dataIndex);
+
+    if (isVisible) {
+      dashboardState.hiddenFaultLabels.add(label);
+    } else {
+      dashboardState.hiddenFaultLabels.delete(label);
+    }
+
+    chart.update();
+
+    document.querySelectorAll(`tr[data-fault-label="${label}"]`).forEach(targetRow => {
+      targetRow.classList.toggle('is-hidden', dashboardState.hiddenFaultLabels.has(label));
+    });
+  });
 }
 
 async function loadDashboardData() {
@@ -118,29 +220,164 @@ function renderFaultsTable({ zones }) {
 
   tableBody.innerHTML = '';
 
+  const overrides = loadFaultOverrides();
+
   const rows = zones
     .filter(zone => normalizeNumber(zone.avarias) > 0)
     .sort((a, b) => normalizeNumber(b.avarias) - normalizeNumber(a.avarias))
     .slice(0, 8);
 
   rows.forEach((zone, index) => {
-    const faultCount = normalizeNumber(zone.avarias);
-    const status = faultCount > 10 ? 'Avaria' : faultCount > 3 ? 'Atenção' : 'Operacional';
+    const zoneKey = getZoneKey(zone);
+    const override = overrides[zoneKey] || {};
+    const faultCount = normalizeNumber(override.faultCount ?? zone.avarias);
+    const status = override.status || (faultCount > 10 ? 'Avaria' : faultCount > 3 ? 'Atenção' : 'Operacional');
     const statusClass = status === 'Avaria' ? 'badge-danger' : status === 'Atenção' ? 'badge-warning' : 'badge-success';
+    const lastUpdate = override.lastUpdate || zone.substituicao || '';
+    const notes = override.notes || '';
 
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>#${String(index + 1).padStart(3, '0')}</td>
       <td>${getZoneLabel(zone)}</td>
       <td>${faultCount} ocorrências</td>
-      <td>${formatDate(zone.substituicao)}</td>
+      <td>${formatDate(lastUpdate)}</td>
       <td><span class="badge ${statusClass}">${status}</span></td>
       <td>
-        <button class="button">Ver</button>
-        <button class="button-outline">Editar</button>
+        <button class="button" data-fault-action="view" data-zone-key="${zoneKey}">Ver</button>
+        <button class="button-outline" data-fault-action="edit" data-zone-key="${zoneKey}">Editar</button>
       </td>
     `;
+
+    row.dataset.faultEntry = JSON.stringify({
+      zoneKey,
+      zoneName: getZoneLabel(zone),
+      faultCount,
+      lastUpdate,
+      status,
+      notes
+    });
+
     tableBody.appendChild(row);
+  });
+}
+
+function ensureFaultModal() {
+  const existing = document.getElementById('fault-modal');
+  if (existing) return existing;
+
+  const modal = document.createElement('div');
+  modal.id = 'fault-modal';
+  modal.className = 'fault-modal';
+  modal.innerHTML = `
+    <div class="fault-modal-backdrop" data-fault-close="true"></div>
+    <div class="fault-modal-card" role="dialog" aria-modal="true" aria-labelledby="faultModalTitle">
+      <h3 id="faultModalTitle">Detalhes de Avaria</h3>
+      <p><strong>Zona:</strong> <span data-fault-field="zoneName"></span></p>
+      <label>Ocorrências
+        <input type="number" min="0" data-fault-field="faultCount" />
+      </label>
+      <label>Status
+        <select data-fault-field="status">
+          <option value="Operacional">Operacional</option>
+          <option value="Atenção">Atenção</option>
+          <option value="Avaria">Avaria</option>
+        </select>
+      </label>
+      <label>Última atualização
+        <input type="date" data-fault-field="lastUpdate" />
+      </label>
+      <label>Notas
+        <textarea rows="3" data-fault-field="notes" placeholder="Observações da intervenção..."></textarea>
+      </label>
+      <div class="fault-modal-actions">
+        <button type="button" class="btn btn-secondary" data-fault-close="true">Fechar</button>
+        <button type="button" class="btn btn-primary" data-fault-save="true">Guardar</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  return modal;
+}
+
+function openFaultModal(entry, mode) {
+  const modal = ensureFaultModal();
+  const saveButton = modal.querySelector('[data-fault-save="true"]');
+
+  modal.dataset.mode = mode;
+  modal.dataset.zoneKey = entry.zoneKey;
+
+  modal.querySelector('[data-fault-field="zoneName"]').textContent = entry.zoneName;
+  modal.querySelector('[data-fault-field="faultCount"]').value = entry.faultCount;
+  modal.querySelector('[data-fault-field="status"]').value = entry.status;
+  modal.querySelector('[data-fault-field="lastUpdate"]').value = entry.lastUpdate ? new Date(entry.lastUpdate).toISOString().slice(0, 10) : '';
+  modal.querySelector('[data-fault-field="notes"]').value = entry.notes || '';
+
+  const canEdit = mode === 'edit' && canEditFaultEntries();
+  modal.classList.toggle('is-view', !canEdit);
+  modal.querySelectorAll('input, select, textarea').forEach(field => {
+    field.disabled = !canEdit;
+  });
+  saveButton.style.display = canEdit ? '' : 'none';
+
+  modal.classList.add('is-open');
+}
+
+function closeFaultModal() {
+  const modal = document.getElementById('fault-modal');
+  if (!modal) return;
+  modal.classList.remove('is-open');
+  modal.classList.remove('is-view');
+}
+
+function setupFaultsActions() {
+  const tableBody = document.querySelector('.table tbody');
+  if (!tableBody || tableBody.dataset.bound === 'true') return;
+  tableBody.dataset.bound = 'true';
+
+  tableBody.addEventListener('click', event => {
+    const trigger = event.target.closest('[data-fault-action]');
+    if (!trigger) return;
+
+    const row = trigger.closest('tr');
+    if (!row || !row.dataset.faultEntry) return;
+
+    const entry = JSON.parse(row.dataset.faultEntry);
+    const action = trigger.dataset.faultAction;
+
+    if (action === 'edit' && !canEditFaultEntries()) {
+      alert('Apenas operadores e administradores podem editar avarias.');
+      return;
+    }
+
+    openFaultModal(entry, action);
+  });
+
+  document.addEventListener('click', event => {
+    if (event.target.closest('[data-fault-close="true"]')) {
+      closeFaultModal();
+      return;
+    }
+
+    if (!event.target.closest('[data-fault-save="true"]')) return;
+    const modal = document.getElementById('fault-modal');
+    if (!modal) return;
+
+    const zoneKey = modal.dataset.zoneKey;
+    if (!zoneKey) return;
+
+    const overrides = loadFaultOverrides();
+    overrides[zoneKey] = {
+      faultCount: normalizeNumber(modal.querySelector('[data-fault-field="faultCount"]').value),
+      status: modal.querySelector('[data-fault-field="status"]').value,
+      lastUpdate: modal.querySelector('[data-fault-field="lastUpdate"]').value,
+      notes: modal.querySelector('[data-fault-field="notes"]').value.trim()
+    };
+
+    saveFaultOverrides(overrides);
+    renderFaultsTable({ zones: dashboardState.zones });
+    closeFaultModal();
   });
 }
 
@@ -196,11 +433,18 @@ function renderCharts({ zones }) {
 
   const faultsCanvas = document.getElementById('distribuicaoAvariasChart');
   if (faultsCanvas) {
-    const faultLabels = zones.map(zone => getZoneLabel(zone));
-    const faultValues = zones.map(zone => normalizeNumber(zone.avarias));
+    const sortedFaultZones = [...zones].sort((left, right) =>
+      getZoneLabel(left).localeCompare(getZoneLabel(right), 'pt-PT', { sensitivity: 'base' })
+    );
+    const faultLabels = sortedFaultZones.map(zone => getZoneLabel(zone));
+    const faultValues = sortedFaultZones.map(zone => normalizeNumber(zone.avarias));
     const faultColors = faultLabels.map((_, index) => getRegionColor(index));
 
-    new Chart(faultsCanvas, {
+    if (dashboardState.faultsChart) {
+      dashboardState.faultsChart.destroy();
+    }
+
+    dashboardState.faultsChart = new Chart(faultsCanvas, {
       type: 'doughnut',
       data: {
         labels: faultLabels,
@@ -211,9 +455,19 @@ function renderCharts({ zones }) {
       },
       options: {
         responsive: true,
-        plugins: { legend: { position: 'bottom' } }
+        plugins: { legend: { display: false } }
       }
     });
+
+    faultLabels.forEach((label, index) => {
+      if (dashboardState.hiddenFaultLabels.has(label) && dashboardState.faultsChart.getDataVisibility(index)) {
+        dashboardState.faultsChart.toggleDataVisibility(index);
+      }
+    });
+    dashboardState.faultsChart.update();
+
+    renderFaultsLegend(faultLabels, faultColors);
+    setupFaultsLegendInteractions();
   }
 }
 
@@ -230,11 +484,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     const data = await loadDashboardData();
+    dashboardState.zones = data.zones;
     renderMetrics(data);
     renderZoneFilter(data.zones);
     renderFaultsTable(data);
     renderMaintenanceList(data);
     renderCharts(data);
+    setupFaultsActions();
   } catch (error) {
     console.error('Error loading dashboard data:', error);
   }

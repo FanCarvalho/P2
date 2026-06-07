@@ -28,8 +28,174 @@
   padding-bottom: 10px;
 }
 
+.faults-legend-tables {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.faults-legend-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.faults-legend-table th,
+.faults-legend-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.faults-legend-table tbody tr {
+  cursor: pointer;
+}
+
+.faults-legend-table tbody tr.is-hidden .city {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  color: var(--muted);
+}
+
+.faults-legend-table tbody tr.is-hidden .color-dot {
+  opacity: 0.45;
+}
+
+.faults-legend-table th {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.faults-legend-table .city {
+  font-weight: 700;
+}
+
+.faults-legend-table .color-dot {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  vertical-align: middle;
+}
+
+.fault-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.fault-modal.is-open {
+  display: flex;
+}
+
+.fault-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.fault-modal-card {
+  position: relative;
+  width: min(520px, calc(100vw - 32px));
+  background: #141418;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+.fault-modal-card h3 {
+  margin: 0 0 4px;
+}
+
+.fault-modal-card label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.fault-modal-card input,
+.fault-modal-card select,
+.fault-modal-card textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #1c1c1e;
+  color: var(--text);
+  padding: 10px;
+}
+
+.fault-modal:not(.is-view) select[data-fault-field="status"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239aa3b2' d='M6 8 .8 1.7A1 1 0 0 1 2.2.3L6 4.1 9.8.3a1 1 0 0 1 1.4 1.4Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 14px) 50%;
+  background-size: 12px 8px;
+}
+
+.fault-modal:not(.is-view) input[data-fault-field="lastUpdate"] {
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%239aa3b2' d='M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm12 8H5v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9ZM6 7a1 1 0 0 0-1 1h14a1 1 0 0 0-1-1H6Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 14px) 50%;
+  background-size: 14px 14px;
+}
+
+.fault-modal:not(.is-view) input[data-fault-field="lastUpdate"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  width: 18px;
+  height: 18px;
+  transform: translateX(-6px);
+  cursor: pointer;
+}
+
+.fault-modal input[data-fault-field="faultCount"] {
+  -moz-appearance: textfield;
+}
+
+.fault-modal input[data-fault-field="faultCount"]::-webkit-inner-spin-button,
+.fault-modal input[data-fault-field="faultCount"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fault-modal.is-view select[data-fault-field="status"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+  padding-right: 10px;
+}
+
+.fault-modal.is-view select[data-fault-field="status"]::-ms-expand {
+  display: none;
+}
+
+.fault-modal-actions {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 @media (max-width: 1024px) {
   .dashboard-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .faults-legend-tables {
     grid-template-columns: 1fr;
   }
 }

@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 const { getApiDb, saveApiDb } = require('./dataStore');
 const {
   badRequest,
@@ -25,11 +24,6 @@ const {
 } = require('./filters');
 const { operatorPublic, requireAuth, tokenResponse } = require('./auth');
 
-const zonasTxtCandidates = [
-  path.resolve(__dirname, '..', '..', 'zonas.txt'),
-  path.resolve(__dirname, '..', 'zonas.txt')
-];
-
 function matchesEmailFormat(value) {
   return String(value).includes('@');
 }
@@ -38,60 +32,115 @@ function isAdminOperator(operator) {
   return String(operator?.nivel_acesso || '').trim().toLowerCase() === 'administrador';
 }
 
-function normalizeZoneFromTxt(entry, key, index) {
-  if (!entry || typeof entry !== 'object') return null;
+const majorCityNamesBySize = [
+  'Lisboa',
+  'Porto',
+  'Vila Nova de Gaia',
+  'Amadora',
+  'Braga',
+  'Funchal',
+  'Coimbra',
+  'Setubal',
+  'Almada',
+  'Aveiro',
+  'Leiria',
+  'Viseu',
+  'Guimaraes',
+  'Faro',
+  'Barreiro',
+  'Matosinhos',
+  'Cascais',
+  'Maia',
+  'Gondomar',
+  'Oeiras'
+];
 
-  const lat = Number(entry.lat);
-  const lon = Number(entry.lon);
-
-  return {
-    id_zona: index + 1,
-    nome: entry.nome || String(key),
-    rua: entry.rua || `Zona ${entry.nome || String(key)}`,
-    codigo_postal: entry.codigo_postal || '',
-    id_sensor: entry.id_sensor !== undefined && entry.id_sensor !== null ? Number(entry.id_sensor) : null,
-    postes: Number.isFinite(Number(entry.postes)) ? Number(entry.postes) : 0,
-    avarias: Number.isFinite(Number(entry.avarias)) ? Number(entry.avarias) : 0,
-    status: entry.status || 'Operacional',
-    consumo: entry.consumo || null,
-    consumo_mensal: Array.isArray(entry.consumo_mensal) ? entry.consumo_mensal : [],
-    vencimento: Number.isFinite(Number(entry.vencimento)) ? Number(entry.vencimento) : 0,
-    substituicao: entry.substituicao || null,
-    lat: Number.isFinite(lat) ? lat : null,
-    lon: Number.isFinite(lon) ? lon : null
-  };
+function parseZoneConsumption(zone) {
+  const value = String(zone?.consumo || '').replace(',', '.').replace(/[^\d.-]/g, '');
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
 }
 
-function loadZonesFromTxt() {
-  try {
-    const zonasTxtPath = zonasTxtCandidates.find(candidatePath => fs.existsSync(candidatePath));
-    if (!zonasTxtPath) return null;
+function applyCityNamesByConsumption(zones) {
+  const cloned = zones.map(zone => ({ ...zone }));
+  const sortedByConsumption = [...cloned].sort((left, right) => parseZoneConsumption(right) - parseZoneConsumption(left));
 
-    const raw = fs.readFileSync(zonasTxtPath, 'utf8');
-    const parsed = JSON.parse(raw);
-
-    if (Array.isArray(parsed)) {
-      return parsed
-        .map((entry, index) => normalizeZoneFromTxt(entry, entry?.nome || `zona-${index + 1}`, index))
-        .filter(Boolean);
+  sortedByConsumption.forEach((zone, index) => {
+    const cityName = majorCityNamesBySize[index] || `Zona ${zone.id_zona}`;
+    zone.nome = cityName;
+    if (!zone.rua || String(zone.rua).startsWith('Zona')) {
+      zone.rua = `Avenida Central de ${cityName}`;
     }
+  });
 
-    if (parsed && typeof parsed === 'object') {
-      return Object.entries(parsed)
-        .map(([key, value], index) => normalizeZoneFromTxt(value, key, index))
-        .filter(Boolean);
-    }
-  } catch {
-    // Fallback silencioso para a base local/API.
-  }
-
-  return null;
+  return cloned;
 }
 
 // Projecta apenas os campos que o frontend deve ver em listas simples.
 function toPublicLamp(lamp) { return lamp; }
 function toPublicProfile(profile) { return profile; }
-function toPublicZone(zone) { return zone; }
+function toPublicZone(zone, apiDb) {
+  const lampById = new Map((apiDb.lampadas || []).map(lamp => [Number(lamp.id_lampada), lamp]));
+
+  const postsInZone = (apiDb.postes || []).filter(post => Number(post.id_zona) === Number(zone.id_zona));
+  const postIds = new Set(postsInZone.map(post => Number(post.id_poste)));
+
+  const activeFaults = (apiDb.avarias || []).filter(fault => {
+    const faultState = String(fault.estado || '').toLowerCase();
+    if (faultState === 'resolvida' || faultState === 'resolvido' || faultState === 'closed') {
+      return false;
+    }
+
+    if (fault.id_poste !== undefined && fault.id_poste !== null) {
+      return postIds.has(Number(fault.id_poste));
+    }
+
+    const lamp = lampById.get(Number(fault.id_lampada));
+    return lamp ? postIds.has(Number(lamp.id_poste)) : false;
+  });
+
+  const lampsInZone = (apiDb.lampadas || []).filter(lamp => postIds.has(Number(lamp.id_poste)));
+  const lampsAtRisk = lampsInZone.filter(lamp => {
+    const state = String(lamp.estado || '').toLowerCase();
+    return state !== 'ativa';
+  }).length;
+
+  const totalIntensity = postsInZone.reduce((sum, post) => sum + Number(post.intensidade_atual || 0), 0);
+  const avgIntensity = postsInZone.length ? totalIntensity / postsInZone.length : 0;
+  const totalConsumption = Math.round(avgIntensity * Math.max(postsInZone.length, 1));
+  const monthlyBase = totalConsumption || 0;
+  const consumoMensal = [
+    Math.round(monthlyBase * 0.9),
+    Math.round(monthlyBase * 1.05),
+    Math.round(monthlyBase * 0.95),
+    Math.round(monthlyBase)
+  ];
+
+  const maintenanceDates = (apiDb.agendamentosManutencao || [])
+    .filter(item => postIds.has(Number(item.id_poste)))
+    .map(item => item.data_manutencao)
+    .filter(Boolean)
+    .sort();
+
+  const latitudes = postsInZone.map(post => Number(post.latitude)).filter(Number.isFinite);
+  const longitudes = postsInZone.map(post => Number(post.longitude)).filter(Number.isFinite);
+
+  const avarias = activeFaults.length;
+  const status = avarias > 10 ? 'Avaria' : avarias > 3 ? 'Atenção' : 'Operacional';
+
+  return {
+    ...zone,
+    postes: postsInZone.length,
+    avarias,
+    status,
+    consumo: `${totalConsumption} kWh`,
+    consumo_mensal: consumoMensal,
+    vencimento: lampsAtRisk,
+    substituicao: maintenanceDates[0] || null,
+    lat: latitudes.length ? latitudes.reduce((sum, value) => sum + value, 0) / latitudes.length : null,
+    lon: longitudes.length ? longitudes.reduce((sum, value) => sum + value, 0) / longitudes.length : null
+  };
+}
 function toPublicSensor(sensor) { return sensor; }
 function toPublicPost(post) { return post; }
 function toPublicMaintenance(item) { return item; }
@@ -598,45 +647,24 @@ function createZone(req, res) {
 }
 
 function listZones(req, res, query) {
-  const zonesFromTxt = loadZonesFromTxt();
-  if (zonesFromTxt && zonesFromTxt.length) {
-    const zones = paginate(zonesFromTxt.filter(item => matchesZoneFilter(item, query)), query);
-    sendJson(res, 200, zones.map(toPublicZone));
-    return;
-  }
-
-  const currentUser = requireAuth(req, res);
-  if (!currentUser) return;
-
   const apiDb = getApiDb();
-  const zones = paginate(apiDb.zonas.filter(item => matchesZoneFilter(item, query)), query);
-  sendJson(res, 200, zones.map(toPublicZone));
+  const enrichedZones = apiDb.zonas.map(zone => toPublicZone(zone, apiDb));
+  const cityNamedZones = applyCityNamesByConsumption(enrichedZones);
+  const zones = paginate(cityNamedZones.filter(item => matchesZoneFilter(item, query)), query);
+  sendJson(res, 200, zones);
 }
 
 function getZone(req, res, id) {
-  const zonesFromTxt = loadZonesFromTxt();
-  if (zonesFromTxt && zonesFromTxt.length) {
-    const zone = zonesFromTxt.find(item => item.id_zona === Number(id));
-    if (!zone) {
-      notFound(res, 'Zona');
-      return;
-    }
-
-    sendJson(res, 200, toPublicZone(zone));
-    return;
-  }
-
-  const currentUser = requireAuth(req, res);
-  if (!currentUser) return;
-
   const apiDb = getApiDb();
-  const zone = apiDb.zonas.find(item => item.id_zona === Number(id));
+  const enrichedZones = apiDb.zonas.map(zone => toPublicZone(zone, apiDb));
+  const cityNamedZones = applyCityNamesByConsumption(enrichedZones);
+  const zone = cityNamedZones.find(item => item.id_zona === Number(id));
   if (!zone) {
     notFound(res, 'Zona');
     return;
   }
 
-  sendJson(res, 200, toPublicZone(zone));
+  sendJson(res, 200, toPublicZone(zone, apiDb));
 }
 
 function patchZone(req, res, id) {

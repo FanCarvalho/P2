@@ -80,6 +80,26 @@
         <article class="card admin-only">
           <h3>Distribuição de Avarias</h3>
           <canvas id="distribuicaoAvariasChart"></canvas>
+          <div class="faults-legend-tables" aria-label="Legenda de cidades por cor">
+            <table class="faults-legend-table" id="faultsLegendTableA">
+              <thead>
+                <tr>
+                  <th>Cidade</th>
+                  <th>Cor</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <table class="faults-legend-table" id="faultsLegendTableB">
+              <thead>
+                <tr>
+                  <th>Cidade</th>
+                  <th>Cor</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </article>
       </section>
 
@@ -122,7 +142,7 @@
         if (!ok) return;
       }
 
-      fetch('./zonas.txt')
+      fetch('/zonas')
         .then(response => response.json())
         .then(zonas => {
           const zonaFilter = document.getElementById('zona-filter');
