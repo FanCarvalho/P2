@@ -79,6 +79,38 @@
       "password": "pass1758",
       "nivel_acesso": "visualizador",
       "ativo": true
+    },
+    {
+      "id_operador": 11,
+      "nome": "Postman Operador",
+      "email": "postman.operador.1780865279@empresa.com",
+      "password": "password12345",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 12,
+      "nome": "Postman Operador",
+      "email": "postman.operador.1780865489@empresa.com",
+      "password": "password12345",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 13,
+      "nome": "Postman Operador",
+      "email": "postman.operador.1780866421@empresa.com",
+      "password": "password12345",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 14,
+      "nome": "Postman Operador",
+      "email": "postman.operador.1780866547@empresa.com",
+      "password": "password12345",
+      "nivel_acesso": "operador",
+      "ativo": true
     }
   ],
   "perfisIluminacao": [
@@ -102,6 +134,27 @@
       "hora_inicio": "01:00",
       "hora_fim": "06:00",
       "intensidade": 69
+    },
+    {
+      "id_perfil": 4,
+      "nome": "Perfil Postman",
+      "hora_inicio": "18:00",
+      "hora_fim": "06:00",
+      "intensidade": 60
+    },
+    {
+      "id_perfil": 5,
+      "nome": "Perfil Postman",
+      "hora_inicio": "18:00",
+      "hora_fim": "06:00",
+      "intensidade": 60
+    },
+    {
+      "id_perfil": 6,
+      "nome": "Perfil Postman",
+      "hora_inicio": "18:00",
+      "hora_fim": "06:00",
+      "intensidade": 60
     }
   ],
   "sensoresMovimento": [
@@ -224,6 +277,30 @@
       "alcance": 9,
       "estado": "ativo",
       "ultimo_calibracao": "2025-12-08"
+    },
+    {
+      "id_sensor": 16,
+      "modelo": "SM-POSTMAN",
+      "sensibilidade": 75,
+      "alcance": 11.2,
+      "estado": "ativo",
+      "ultimo_calibracao": "2026-06-07"
+    },
+    {
+      "id_sensor": 17,
+      "modelo": "SM-POSTMAN",
+      "sensibilidade": 75,
+      "alcance": 11.2,
+      "estado": "ativo",
+      "ultimo_calibracao": "2026-06-07"
+    },
+    {
+      "id_sensor": 18,
+      "modelo": "SM-POSTMAN",
+      "sensibilidade": 75,
+      "alcance": 11.2,
+      "estado": "ativo",
+      "ultimo_calibracao": "2026-06-07"
     }
   ],
   "zonas": [
@@ -338,6 +415,27 @@
       "rua": "Avenida Central 16",
       "codigo_postal": "4114-255",
       "id_sensor": 4
+    },
+    {
+      "id_zona": 17,
+      "nome": "Zona Postman",
+      "rua": "Rua Postman",
+      "codigo_postal": "4000-111",
+      "id_sensor": 1
+    },
+    {
+      "id_zona": 18,
+      "nome": "Zona Postman",
+      "rua": "Rua Postman",
+      "codigo_postal": "4000-111",
+      "id_sensor": 1
+    },
+    {
+      "id_zona": 19,
+      "nome": "Zona Postman",
+      "rua": "Rua Postman",
+      "codigo_postal": "4000-111",
+      "id_sensor": 1
     }
   ],
   "postes": [
@@ -1946,6 +2044,39 @@
       "data_instalacao": "2024-03-30",
       "id_zona": 6,
       "id_perfil": 3
+    },
+    {
+      "id_poste": 147,
+      "estado": "ativo",
+      "intensidade_atual": 32,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 8.7,
+      "data_instalacao": "2026-06-07",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 148,
+      "estado": "ativo",
+      "intensidade_atual": 32,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 8.7,
+      "data_instalacao": "2026-06-07",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 149,
+      "estado": "ativo",
+      "intensidade_atual": 32,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 8.7,
+      "data_instalacao": "2026-06-07",
+      "id_zona": 1,
+      "id_perfil": 1
     }
   ],
   "lampadas": [
@@ -3408,6 +3539,36 @@
       "luminosidade_max": 1000,
       "luminosidade_min": 180,
       "tempo_vida_horas": 50000
+    },
+    {
+      "id_lampada": 147,
+      "id_poste": 1,
+      "modelo": "LED-POSTMAN",
+      "estado": "ativa",
+      "potencia_watts": 50,
+      "luminosidade_max": 900,
+      "luminosidade_min": 250,
+      "tempo_vida_horas": 45000
+    },
+    {
+      "id_lampada": 148,
+      "id_poste": 1,
+      "modelo": "LED-POSTMAN",
+      "estado": "ativa",
+      "potencia_watts": 50,
+      "luminosidade_max": 900,
+      "luminosidade_min": 250,
+      "tempo_vida_horas": 45000
+    },
+    {
+      "id_lampada": 149,
+      "id_poste": 1,
+      "modelo": "LED-POSTMAN",
+      "estado": "ativa",
+      "potencia_watts": 50,
+      "luminosidade_max": 900,
+      "luminosidade_min": 250,
+      "tempo_vida_horas": 45000
     }
   ],
   "registosLampada": [
@@ -5568,6 +5729,36 @@
       "prioridade": "media",
       "estado": "pendente",
       "id_poste": 127
+    },
+    {
+      "id_agendamento": 15,
+      "data_manutencao": "2026-07-01",
+      "descricao": "Revisao Postman",
+      "prioridade": "media",
+      "estado": "pendente",
+      "id_poste": 1,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 16,
+      "data_manutencao": "2026-07-01",
+      "descricao": "Revisao Postman",
+      "prioridade": "media",
+      "estado": "pendente",
+      "id_poste": 1,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 17,
+      "data_manutencao": "2026-07-01",
+      "descricao": "Revisao Postman",
+      "prioridade": "media",
+      "estado": "pendente",
+      "id_poste": 1,
+      "id_lampada": null,
+      "id_zona": null
     }
   ],
   "avarias": [
@@ -5717,6 +5908,33 @@
       "severidade": "baixa",
       "estado": "em_resolucao",
       "id_lampada": 65
+    },
+    {
+      "id_avaria": 22,
+      "descricao": "Avaria Postman",
+      "severidade": "media",
+      "estado": "pendente",
+      "id_poste": null,
+      "id_lampada": 1,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 23,
+      "descricao": "Avaria Postman",
+      "severidade": "media",
+      "estado": "pendente",
+      "id_poste": null,
+      "id_lampada": 1,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 24,
+      "descricao": "Avaria Postman",
+      "severidade": "media",
+      "estado": "pendente",
+      "id_poste": null,
+      "id_lampada": 1,
+      "id_zona": null
     }
   ]
 }
