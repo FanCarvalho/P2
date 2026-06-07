@@ -8,9 +8,9 @@ function formatInteger(value) {
 }
 
 function formatDate(value) {
-  if (!value) return 'Sem data';
+  if (!value) return '';
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return String(value);
+  if (Number.isNaN(date.getTime())) return '';
   return date.toLocaleDateString('pt-PT');
 }
 
@@ -215,7 +215,7 @@ function renderZoneFilter(zones) {
 }
 
 function renderFaultsTable({ zones }) {
-  const tableBody = document.querySelector('.table tbody');
+  const tableBody = document.getElementById('faultsTableBody');
   if (!tableBody) return;
 
   tableBody.innerHTML = '';
@@ -232,20 +232,27 @@ function renderFaultsTable({ zones }) {
     const override = overrides[zoneKey] || {};
     const faultCount = normalizeNumber(override.faultCount ?? zone.avarias);
     const status = override.status || (faultCount > 10 ? 'Avaria' : faultCount > 3 ? 'Atenção' : 'Operacional');
-    const statusClass = status === 'Avaria' ? 'badge-danger' : status === 'Atenção' ? 'badge-warning' : 'badge-success';
+    const statusClass = status === 'Avaria'
+      ? 'status-critical'
+      : status === 'Atenção'
+        ? 'status-attention'
+        : 'status-operational';
     const lastUpdate = override.lastUpdate || zone.substituicao || '';
     const notes = override.notes || '';
 
+    const dateLabel = formatDate(lastUpdate);
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>#${String(index + 1).padStart(3, '0')}</td>
       <td>${getZoneLabel(zone)}</td>
       <td>${faultCount} ocorrências</td>
-      <td>${formatDate(lastUpdate)}</td>
-      <td><span class="badge ${statusClass}">${status}</span></td>
+      <td>${dateLabel || '<span class="muted-dash">&mdash;</span>'}</td>
+      <td><span class="status-pill ${statusClass}">${status}</span></td>
       <td>
-        <button class="button" data-fault-action="view" data-zone-key="${zoneKey}">Ver</button>
-        <button class="button-outline" data-fault-action="edit" data-zone-key="${zoneKey}">Editar</button>
+        <div class="fault-row-actions">
+          <button class="table-action-btn view" data-fault-action="view" data-zone-key="${zoneKey}" aria-label="Ver detalhes"></button>
+          <button class="table-action-btn edit" data-fault-action="edit" data-zone-key="${zoneKey}" aria-label="Editar avaria"></button>
+        </div>
       </td>
     `;
 
@@ -332,7 +339,7 @@ function closeFaultModal() {
 }
 
 function setupFaultsActions() {
-  const tableBody = document.querySelector('.table tbody');
+  const tableBody = document.getElementById('faultsTableBody');
   if (!tableBody || tableBody.dataset.bound === 'true') return;
   tableBody.dataset.bound = 'true';
 
@@ -382,21 +389,31 @@ function setupFaultsActions() {
 }
 
 function renderMaintenanceList({ zones }) {
-  const maintenanceList = document.querySelector('.tx-list');
-  if (!maintenanceList) return;
+  const maintenanceTableBody = document.getElementById('maintenanceTableBody');
+  if (!maintenanceTableBody) return;
 
-  maintenanceList.innerHTML = '';
+  maintenanceTableBody.innerHTML = '';
 
   const items = zones
     .filter(zone => zone.substituicao)
     .sort((a, b) => new Date(a.substituicao) - new Date(b.substituicao))
     .slice(0, 8);
 
+  if (!items.length) {
+    const emptyRow = document.createElement('tr');
+    emptyRow.innerHTML = '<td colspan="2">Sem manutenções agendadas.</td>';
+    maintenanceTableBody.appendChild(emptyRow);
+    return;
+  }
+
   items.forEach(zone => {
-    const entry = document.createElement('li');
-    entry.className = 'tx-item';
-    entry.innerHTML = `<span>Substituição programada - ${getZoneLabel(zone)}</span><strong>${formatDate(zone.substituicao)}</strong>`;
-    maintenanceList.appendChild(entry);
+    const dateLabel = formatDate(zone.substituicao);
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td class="maintenance-city">${getZoneLabel(zone)}</td>
+      <td class="align-right"><strong>${dateLabel || '<span class="muted-dash">&mdash;</span>'}</strong></td>
+    `;
+    maintenanceTableBody.appendChild(row);
   });
 }
 

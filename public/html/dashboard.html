@@ -103,32 +103,42 @@
         </article>
       </section>
 
-      <!-- Tabela de Avarias Recentes -->
-      <section class="card admin-only" style="margin-top: 16px;">
-        <h3>Avarias Recentes</h3>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Zona</th>
-              <th>Tipo de Avaria</th>
-              <th>Data</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Linhas da tabela preenchidas dinamicamente -->
-          </tbody>
-        </table>
-      </section>
+      <section class="dashboard-tables-layout admin-only" style="margin-top: 16px;">
+        <!-- Tabela de Avarias Recentes -->
+        <section class="card dashboard-table-card dashboard-table-card-faults">
+          <h3>Avarias Recentes</h3>
+          <table class="table faults-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Zona</th>
+                <th>Tipo de Avaria</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th class="actions-col">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="faultsTableBody">
+              <!-- Linhas da tabela preenchidas dinamicamente -->
+            </tbody>
+          </table>
+        </section>
 
-      <!-- Tabela de Manutenções -->
-      <section class="card admin-only" style="margin-top: 16px;">
-        <h3>Próximas Manutenções</h3>
-        <ul class="tx-list">
-            <!-- Itens da lista preenchidos dinamicamente -->
-        </ul>
+        <!-- Tabela de Manutenções -->
+        <section class="card dashboard-table-card dashboard-table-card-maintenance">
+          <h3>Próximas Manutenções</h3>
+          <table class="table maintenance-table">
+            <thead>
+              <tr>
+                <th>Zona/Cidade</th>
+                <th class="align-right">Data</th>
+              </tr>
+            </thead>
+            <tbody id="maintenanceTableBody">
+              <!-- Linhas preenchidas dinamicamente -->
+            </tbody>
+          </table>
+        </section>
       </section>
 
       <div data-include="./components/footer.html"></div>
