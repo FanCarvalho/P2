@@ -41,10 +41,18 @@ function buildApiDb() {
             password: 'admin123',
             nivel_acesso: 'administrador',
             ativo: true
+        },
+        {
+            id_operador: 2,
+            nome: 'Operador Demo',
+            email: 'operador@glowpath.com',
+            password: 'operador123',
+            nivel_acesso: 'operador',
+            ativo: true
         }
     ];
 
-    for (let id = 2; id <= operadoresCount; id += 1) {
+    for (let id = 3; id <= operadoresCount; id += 1) {
         const nome = `${pick(firstNames)} ${pick(lastNames)}`;
         const emailBase = nome.toLowerCase().replace(/\s+/g, '.');
         operadores.push({
@@ -52,7 +60,7 @@ function buildApiDb() {
             nome,
             email: `${emailBase}.${id}@empresa.com`,
             password: `pass${randomInt(1000, 9999)}`,
-            nivel_acesso: pick(['operador', 'operador', 'visualizador']),
+            nivel_acesso: 'operador',
             ativo: Math.random() > 0.1
         });
     }
