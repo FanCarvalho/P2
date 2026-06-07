@@ -205,20 +205,16 @@ async function checkAuthentication() {
   return true;
 }
 
-// Esconder elementos de admin se o utilizador for user
+// Manter os blocos de dados visiveis para qualquer tipo de acesso.
 function hideAdminElements() {
-  if (isUser()) {
-    // Esconder todos os elementos com classe 'admin-only'
-    const adminElements = document.querySelectorAll('.admin-only');
-    adminElements.forEach(el => {
-      el.style.display = 'none';
-    });
+  const adminElements = document.querySelectorAll('.admin-only');
+  adminElements.forEach(el => {
+    el.style.display = '';
+  });
 
-    // Ajustar o layout do gráfico para ocupar toda a largura
-    const chartsSection = document.getElementById('chartsSection');
-    if (chartsSection) {
-      chartsSection.style.gridTemplateColumns = '1fr';
-    }
+  const chartsSection = document.getElementById('chartsSection');
+  if (chartsSection) {
+    chartsSection.style.gridTemplateColumns = '';
   }
 }
 

@@ -25,7 +25,10 @@ const {
 } = require('./filters');
 const { operatorPublic, requireAuth, tokenResponse } = require('./auth');
 
-const zonasTxtPath = path.resolve(__dirname, '..', 'zonas.txt');
+const zonasTxtCandidates = [
+  path.resolve(__dirname, '..', '..', 'zonas.txt'),
+  path.resolve(__dirname, '..', 'zonas.txt')
+];
 
 function matchesEmailFormat(value) {
   return String(value).includes('@');
@@ -61,6 +64,9 @@ function normalizeZoneFromTxt(entry, key, index) {
 
 function loadZonesFromTxt() {
   try {
+    const zonasTxtPath = zonasTxtCandidates.find(candidatePath => fs.existsSync(candidatePath));
+    if (!zonasTxtPath) return null;
+
     const raw = fs.readFileSync(zonasTxtPath, 'utf8');
     const parsed = JSON.parse(raw);
 
