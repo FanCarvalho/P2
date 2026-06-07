@@ -1,11 +1,12 @@
 [
   {
     "id": 1,
-    "firstName": "da",
-    "lastName": "ada",
-    "email": "alex.morgan@email.com",
+    "firstName": "Alex",
+    "lastName": "Morgan",
+    "email": "admin@glowpath.com",
     "phone": "+1 (555) 123-4567",
-    "bio": "smoke test"
+    "bio": "smoke test",
+    "id_operador": 1
   },
   {
     "id": 2,

@@ -30,7 +30,8 @@ function buildApiDb() {
     const sensoresCount = randomInt(8, 18);
     const zonasCount = randomInt(8, 20);
     const perfisCount = randomInt(3, 6);
-    const postesCount = randomInt(60, 180);
+    // Increased scale for larger simulation scenarios.
+    const postesCount = randomInt(800, 2200);
 
     const operadores = [
         {

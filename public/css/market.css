@@ -139,6 +139,61 @@
   color: #d5e8fb;
 }
 
+.page-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(8, 11, 16, 0.68);
+  backdrop-filter: blur(2px);
+}
+
+.page-modal {
+  position: relative;
+  width: min(460px, calc(100vw - 32px));
+  background: linear-gradient(160deg, #232629 0%, #1a1c1f 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.5);
+  padding: 24px;
+}
+
+.page-modal h3 {
+  margin: 0;
+  font-size: 1.22rem;
+}
+
+.page-modal p {
+  margin: 10px 0 0;
+  color: #c8d1da;
+  line-height: 1.5;
+}
+
+.page-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.page-modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.page-modal-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-end;
+}
+
 @media (max-width: 900px) {
   .market-hero,
   .market-headquarters {

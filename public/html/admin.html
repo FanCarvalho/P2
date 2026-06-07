@@ -22,7 +22,7 @@
         <article class="card">
           <header class="card-header">
             <h2>Gestão de Zonas</h2>
-            <button class="btn btn-primary">+ Nova Zona</button>
+            <button id="addZoneBtn" class="btn btn-outline btn-add-zone" type="button">+ Nova Zona</button>
           </header>
           <div class="table-container">
             <table class="data-table">
@@ -175,6 +175,53 @@
           </div>
         </article>
       </section>
+
+      <div class="admin-modal-backdrop" id="zoneEditModal" hidden>
+        <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="zoneEditModalTitle">
+          <button type="button" class="admin-modal-close" data-modal-close aria-label="Fechar">✕</button>
+          <h3 id="zoneEditModalTitle">Editar Zona</h3>
+
+          <form id="zoneEditForm" class="admin-modal-form">
+            <label>
+              Nome / Região
+              <input type="text" name="nome" required />
+            </label>
+
+            <label>
+              Postes Totais
+              <input type="number" name="postes" min="0" required />
+            </label>
+
+            <label>
+              Avarias
+              <input type="number" name="avarias" min="0" required />
+            </label>
+
+            <label>
+              Consumo (kWh)
+              <input type="number" name="consumo" min="0" required />
+            </label>
+
+            <label>
+              Última Substituição
+              <input type="date" name="substituicao" />
+            </label>
+
+            <label>
+              Estado
+              <select name="estado" required>
+                <option value="Operacional">Operacional</option>
+                <option value="Atenção">Atenção</option>
+              </select>
+            </label>
+
+            <div class="admin-modal-actions">
+              <button type="button" class="btn btn-outline" data-modal-cancel>Cancelar</button>
+              <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </main>
   </div>
 </body>
