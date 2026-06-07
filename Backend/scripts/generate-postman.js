@@ -3,8 +3,12 @@ const path = require('path');
 
 const outDir = path.resolve(__dirname, '..', 'postman');
 
-function authHeader(useAuth = true) {
-  return useAuth ? [{ key: 'Authorization', value: 'Bearer {{jwtToken}}' }] : [];
+function makeUrl(pathname) {
+  return {
+    raw: `{{baseUrl}}${pathname}`,
+    host: ['{{baseUrl}}'],
+    path: pathname.replace(/^\//, '').split('/')
+  };
 }
 
 function jsonBody(body) {
@@ -14,23 +18,34 @@ function jsonBody(body) {
   };
 }
 
-function url(pathname) {
-  return {
-    raw: `{{baseUrl}}${pathname}`,
-    host: ['{{baseUrl}}'],
-    path: pathname.replace(/^\//, '').split('/')
-  };
+function statusTest(code, label) {
+  return `pm.test('${label}', function () { pm.response.to.have.status(${code}); });`;
 }
 
-function testScript(lines) {
-  return [{
-    listen: 'test',
-    script: { type: 'text/javascript', exec: lines }
-  }];
+function assignEnvIfPresent(responseKey, envKey) {
+  return `if (json.${responseKey} !== undefined && json.${responseKey} !== null) { pm.environment.set('${envKey}', String(json.${responseKey})); }`;
 }
 
-function makeRequest({ name, method, pathName, useAuth = true, body, tests, contentType = false }) {
-  const headers = [...authHeader(useAuth)];
+function requestName(method, resourceName, role, code, description) {
+  return `${method} ${resourceName} (${role}) - ${code} ${description}`;
+}
+
+function makeRequest({
+  method,
+  resourceName,
+  role,
+  code,
+  description,
+  pathName,
+  tokenVar,
+  body,
+  testLines,
+  contentType = false
+}) {
+  const headers = [];
+  if (tokenVar) {
+    headers.push({ key: 'Authorization', value: `Bearer {{${tokenVar}}}` });
+  }
   if (contentType) {
     headers.push({ key: 'Content-Type', value: 'application/json' });
   }
@@ -38,7 +53,7 @@ function makeRequest({ name, method, pathName, useAuth = true, body, tests, cont
   const request = {
     method,
     header: headers,
-    url: url(pathName)
+    url: makeUrl(pathName)
   };
 
   if (body !== undefined) {
@@ -46,240 +61,692 @@ function makeRequest({ name, method, pathName, useAuth = true, body, tests, cont
   }
 
   return {
-    name,
+    name: requestName(method, resourceName, role, code, description),
     request,
-    event: testScript(tests)
+    event: [
+      {
+        listen: 'test',
+        script: {
+          type: 'text/javascript',
+          exec: testLines
+        }
+      }
+    ]
   };
 }
 
-const folders = [
-  {
-    name: 'Auth & Support',
-    item: [
+function idRequests(config) {
+  const {
+    folderName,
+    resourceLabel,
+    basePath,
+    createBody,
+    invalidBody,
+    createIdKey,
+    createIdVar,
+    patchBody,
+    deleteSuccess = true,
+    createForbidden = false,
+    listTokenVar = 'userToken'
+  } = config;
+
+  const itemPath = `${basePath}/{{${createIdVar}}}`;
+  const missingPath = `${basePath}/999999`;
+
+  const items = [
+    makeRequest({
+      method: 'GET',
+      resourceName: resourceLabel,
+      role: 'Users',
+      code: 200,
+      description: 'OK',
+      pathName: basePath,
+      tokenVar: listTokenVar,
+      testLines: [statusTest(200, 'Status 200')]
+    }),
+    makeRequest({
+      method: 'GET',
+      resourceName: resourceLabel,
+      role: 'No token',
+      code: 401,
+      description: 'Unauthorized',
+      pathName: basePath,
+      testLines: [statusTest(401, 'Status 401')]
+    }),
+    makeRequest({
+      method: 'POST',
+      resourceName: resourceLabel,
+      role: 'Admin',
+      code: 201,
+      description: 'Created',
+      pathName: basePath,
+      tokenVar: 'adminToken',
+      body: createBody,
+      contentType: true,
+      testLines: [
+        statusTest(201, 'Status 201'),
+        'const json = pm.response.json();',
+        assignEnvIfPresent(createIdKey, createIdVar)
+      ]
+    }),
+    makeRequest({
+      method: 'POST',
+      resourceName: resourceLabel,
+      role: 'No token',
+      code: 401,
+      description: 'Unauthorized',
+      pathName: basePath,
+      body: createBody,
+      contentType: true,
+      testLines: [statusTest(401, 'Status 401')]
+    })
+  ];
+
+  if (createForbidden) {
+    items.push(
       makeRequest({
-        name: 'POST /operadores/login (success)',
         method: 'POST',
-        pathName: '/operadores/login',
-        useAuth: false,
+        resourceName: resourceLabel,
+        role: 'Cliente',
+        code: 403,
+        description: 'Forbidden',
+        pathName: basePath,
+        tokenVar: 'clientToken',
+        body: createBody,
         contentType: true,
-        body: { email: 'admin@glowpath.com', password: 'admin123' },
-        tests: [
-          "pm.test('Status 200', () => pm.response.to.have.status(200));",
-          'const j = pm.response.json();',
-          "pm.test('Token exists', () => pm.expect(j.accessToken).to.be.a('string').and.not.empty);",
-          "pm.environment.set('jwtToken', j.accessToken);"
-        ]
-      }),
-      makeRequest({
-        name: 'POST /operadores/login (error)',
-        method: 'POST',
-        pathName: '/operadores/login',
-        useAuth: false,
-        contentType: true,
-        body: { email: 'admin@glowpath.com', password: 'invalid' },
-        tests: ["pm.test('Status 401', () => pm.response.to.have.status(401));"]
-      }),
-      makeRequest({
-        name: 'GET /api/config',
-        method: 'GET',
-        pathName: '/api/config',
-        useAuth: false,
-        tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"]
-      }),
-      makeRequest({
-        name: 'GET /api/me (success)',
-        method: 'GET',
-        pathName: '/api/me',
-        tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"]
-      }),
-      makeRequest({
-        name: 'GET /api/me (error)',
-        method: 'GET',
-        pathName: '/api/me',
-        useAuth: false,
-        tests: ["pm.test('Status 401/403', () => pm.expect([401, 403]).to.include(pm.response.code));"]
-      }),
-      makeRequest({
-        name: 'GET /api/user',
-        method: 'GET',
-        pathName: '/api/user',
-        tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"]
-      }),
-      makeRequest({
-        name: 'POST /api/user',
-        method: 'POST',
-        pathName: '/api/user',
-        contentType: true,
-        body: { bio: 'Updated by Postman collection' },
-        tests: ["pm.test('Status success', () => pm.expect([200, 204]).to.include(pm.response.code));"]
-      }),
-      makeRequest({
-        name: 'GET /api/iluminacao-publica',
-        method: 'GET',
-        pathName: '/api/iluminacao-publica',
-        tests: ["pm.test('Status success', () => pm.expect([200, 204]).to.include(pm.response.code));"]
+        testLines: [statusTest(403, 'Status 403')]
       })
-    ]
-  },
-  {
-    name: 'Operadores',
-    item: [
-      makeRequest({ name: 'GET /operadores', method: 'GET', pathName: '/operadores', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'GET /operadores (error no token)', method: 'GET', pathName: '/operadores', useAuth: false, tests: ["pm.test('Status 401/403', () => pm.expect([401,403]).to.include(pm.response.code));"] }),
-      makeRequest({
-        name: 'POST /operadores',
-        method: 'POST',
-        pathName: '/operadores',
-        contentType: true,
-        body: { nome: 'Postman Operator', email: 'postman.op.{{$timestamp}}@empresa.com', password: 'password12345', nivel_acesso: 'operador', ativo: true },
-        tests: ["pm.test('Status 201', () => pm.response.to.have.status(201));", 'const j = pm.response.json();', "if (j.id_operador) pm.environment.set('operatorId', j.id_operador);"]
-      }),
-      makeRequest({ name: 'POST /operadores (error)', method: 'POST', pathName: '/operadores', contentType: true, body: { nome: 'Missing fields' }, tests: ["pm.test('Status 400/409', () => pm.expect([400,409]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'GET /operadores/:id', method: 'GET', pathName: '/operadores/{{operatorId}}', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'PATCH /operadores/:id', method: 'PATCH', pathName: '/operadores/{{operatorId}}', contentType: true, body: { nome: 'Postman Operator Updated' }, tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'GET /niveis-acesso/:nivel/operadores', method: 'GET', pathName: '/niveis-acesso/operador/operadores', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] })
-    ]
-  },
-  {
-    name: 'Perfis Iluminacao',
-    item: [
-      makeRequest({ name: 'GET /perfis-iluminacao', method: 'GET', pathName: '/perfis-iluminacao', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'POST /perfis-iluminacao', method: 'POST', pathName: '/perfis-iluminacao', contentType: true, body: { nome: 'Perfil Postman', hora_inicio: '18:00', hora_fim: '06:00', intensidade: 60 }, tests: ["pm.test('Status 201', () => pm.response.to.have.status(201));", 'const j = pm.response.json();', "if (j.id_perfil) pm.environment.set('profileId', j.id_perfil);"] }),
-      makeRequest({ name: 'POST /perfis-iluminacao (error)', method: 'POST', pathName: '/perfis-iluminacao', contentType: true, body: {}, tests: ["pm.test('Status 400', () => pm.response.to.have.status(400));"] }),
-      makeRequest({ name: 'GET /perfis-iluminacao/:id', method: 'GET', pathName: '/perfis-iluminacao/{{profileId}}', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'PATCH /perfis-iluminacao/:id', method: 'PATCH', pathName: '/perfis-iluminacao/{{profileId}}', contentType: true, body: { intensidade: 65 }, tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'GET /perfis-iluminacao/:id/postes', method: 'GET', pathName: '/perfis-iluminacao/{{profileId}}/postes', tests: ["pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"] })
-    ]
-  },
-  {
-    name: 'Sensores Movimento',
-    item: [
-      makeRequest({ name: 'GET /sensores-movimento', method: 'GET', pathName: '/sensores-movimento', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'POST /sensores-movimento', method: 'POST', pathName: '/sensores-movimento', contentType: true, body: { modelo: 'SM-POSTMAN', sensibilidade: 75, alcance: 11.2, estado: 'ativo' }, tests: ["pm.test('Status 201', () => pm.response.to.have.status(201));", 'const j = pm.response.json();', "if (j.id_sensor) pm.environment.set('sensorId', j.id_sensor);"] }),
-      makeRequest({ name: 'POST /sensores-movimento (error)', method: 'POST', pathName: '/sensores-movimento', contentType: true, body: {}, tests: ["pm.test('Status 400', () => pm.response.to.have.status(400));"] }),
-      makeRequest({ name: 'GET /sensores-movimento/:id', method: 'GET', pathName: '/sensores-movimento/{{sensorId}}', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'PATCH /sensores-movimento/:id', method: 'PATCH', pathName: '/sensores-movimento/{{sensorId}}', contentType: true, body: { sensibilidade: 80 }, tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'GET /sensores-movimento/:id/zonas', method: 'GET', pathName: '/sensores-movimento/{{sensorId}}/zonas', tests: ["pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"] })
-    ]
-  },
-  {
-    name: 'Zonas',
-    item: [
-      makeRequest({ name: 'GET /zonas', method: 'GET', pathName: '/zonas', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'POST /zonas', method: 'POST', pathName: '/zonas', contentType: true, body: { nome: 'Zona Postman', rua: 'Rua Postman', codigo_postal: '4000-111', id_sensor: '{{sensorId}}' }, tests: ["pm.test('Status 201', () => pm.response.to.have.status(201));", 'const j = pm.response.json();', "if (j.id_zona) pm.environment.set('zoneId', j.id_zona);"] }),
-      makeRequest({ name: 'POST /zonas (error)', method: 'POST', pathName: '/zonas', contentType: true, body: {}, tests: ["pm.test('Status 400', () => pm.response.to.have.status(400));"] }),
-      makeRequest({ name: 'GET /zonas/:id', method: 'GET', pathName: '/zonas/{{zoneId}}', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'PATCH /zonas/:id', method: 'PATCH', pathName: '/zonas/{{zoneId}}', contentType: true, body: { rua: 'Rua Postman 2' }, tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'GET /zonas/:id/postes', method: 'GET', pathName: '/zonas/{{zoneId}}/postes', tests: ["pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"] })
-    ]
-  },
-  {
-    name: 'Postes',
-    item: [
-      makeRequest({ name: 'GET /postes', method: 'GET', pathName: '/postes', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'POST /postes', method: 'POST', pathName: '/postes', contentType: true, body: { id_zona: '{{zoneId}}', id_perfil: '{{profileId}}', latitude: 41.15, longitude: -8.61, altura: 8.7, data_instalacao: '2026-06-06', estado: 'ativo' }, tests: ["pm.test('Status 201', () => pm.response.to.have.status(201));", 'const j = pm.response.json();', "if (j.id_poste) pm.environment.set('postId', j.id_poste);"] }),
-      makeRequest({ name: 'POST /postes (error)', method: 'POST', pathName: '/postes', contentType: true, body: {}, tests: ["pm.test('Status 400', () => pm.response.to.have.status(400));"] }),
-      makeRequest({ name: 'GET /postes/:id', method: 'GET', pathName: '/postes/{{postId}}', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'PATCH /postes/:id', method: 'PATCH', pathName: '/postes/{{postId}}', contentType: true, body: { estado: 'manutencao', intensidade_atual: 45 }, tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'GET /postes/:id/agendamentos-manutencao', method: 'GET', pathName: '/postes/{{postId}}/agendamentos-manutencao', tests: ["pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'GET /postes/:id/avarias', method: 'GET', pathName: '/postes/{{postId}}/avarias', tests: ["pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"] })
-    ]
-  },
-  {
-    name: 'Lampadas',
-    item: [
-      makeRequest({ name: 'GET /lampadas', method: 'GET', pathName: '/lampadas', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'POST /lampadas', method: 'POST', pathName: '/lampadas', contentType: true, body: { id_poste: '{{postId}}', modelo: 'LED-POSTMAN', estado: 'ativa', potencia_watts: 50, luminosidade_max: 900, luminosidade_min: 250, tempo_vida_horas: 45000 }, tests: ["pm.test('Status 201', () => pm.response.to.have.status(201));", 'const j = pm.response.json();', "if (j.id_lampada) pm.environment.set('lampId', j.id_lampada);"] }),
-      makeRequest({ name: 'POST /lampadas (error)', method: 'POST', pathName: '/lampadas', contentType: true, body: {}, tests: ["pm.test('Status 400', () => pm.response.to.have.status(400));"] }),
-      makeRequest({ name: 'GET /lampadas/:id', method: 'GET', pathName: '/lampadas/{{lampId}}', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'PATCH /lampadas/:id', method: 'PATCH', pathName: '/lampadas/{{lampId}}', contentType: true, body: { estado: 'avariada' }, tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'GET /lampadas/:id/registos', method: 'GET', pathName: '/lampadas/{{lampId}}/registos', tests: ["pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"] })
-    ]
-  },
-  {
-    name: 'Registos Lampada',
-    item: [
-      makeRequest({ name: 'GET /registos-lampada', method: 'GET', pathName: '/registos-lampada', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'POST /registos-lampada', method: 'POST', pathName: '/registos-lampada', contentType: true, body: { id_poste: '{{postId}}', modelo: 'LED-POSTMAN', potencia_watts: 50, luminosidade_max: 900, luminosidade_min: 250, estado: 'ativa' }, tests: ["pm.test('Status 201', () => pm.response.to.have.status(201));", 'const j = pm.response.json();', "if (j.id_registo) pm.environment.set('recordId', j.id_registo);"] }),
-      makeRequest({ name: 'POST /registos-lampada (error)', method: 'POST', pathName: '/registos-lampada', contentType: true, body: {}, tests: ["pm.test('Status 400', () => pm.response.to.have.status(400));"] }),
-      makeRequest({ name: 'GET /registos-lampada/:id', method: 'GET', pathName: '/registos-lampada/{{recordId}}', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] })
-    ]
-  },
-  {
-    name: 'Agendamentos Manutencao',
-    item: [
-      makeRequest({ name: 'GET /agendamentos-manutencao', method: 'GET', pathName: '/agendamentos-manutencao', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'POST /agendamentos-manutencao', method: 'POST', pathName: '/agendamentos-manutencao', contentType: true, body: { data_manutencao: '2026-07-01', descricao: 'Revisao Postman', prioridade: 'media', estado: 'pendente', id_poste: '{{postId}}' }, tests: ["pm.test('Status 201', () => pm.response.to.have.status(201));", 'const j = pm.response.json();', "if (j.id_agendamento) pm.environment.set('agendaId', j.id_agendamento);"] }),
-      makeRequest({ name: 'POST /agendamentos-manutencao (error)', method: 'POST', pathName: '/agendamentos-manutencao', contentType: true, body: {}, tests: ["pm.test('Status 400', () => pm.response.to.have.status(400));"] }),
-      makeRequest({ name: 'GET /agendamentos-manutencao/:id', method: 'GET', pathName: '/agendamentos-manutencao/{{agendaId}}', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'PATCH /agendamentos-manutencao/:id', method: 'PATCH', pathName: '/agendamentos-manutencao/{{agendaId}}', contentType: true, body: { estado: 'concluido' }, tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] })
-    ]
-  },
-  {
-    name: 'Avarias',
-    item: [
-      makeRequest({ name: 'GET /avarias', method: 'GET', pathName: '/avarias', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'POST /avarias', method: 'POST', pathName: '/avarias', contentType: true, body: { descricao: 'Avaria Postman', severidade: 'media', estado: 'pendente', id_poste: '{{postId}}', id_lampada: '{{lampId}}', id_zona: '{{zoneId}}' }, tests: ["pm.test('Status 201', () => pm.response.to.have.status(201));", 'const j = pm.response.json();', "if (j.id_avaria) pm.environment.set('faultId', j.id_avaria);"] }),
-      makeRequest({ name: 'POST /avarias (error)', method: 'POST', pathName: '/avarias', contentType: true, body: {}, tests: ["pm.test('Status 400', () => pm.response.to.have.status(400));"] }),
-      makeRequest({ name: 'GET /avarias/:id', method: 'GET', pathName: '/avarias/{{faultId}}', tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] }),
-      makeRequest({ name: 'PATCH /avarias/:id', method: 'PATCH', pathName: '/avarias/{{faultId}}', contentType: true, body: { estado: 'resolvida' }, tests: ["pm.test('Status 200', () => pm.response.to.have.status(200));"] })
-    ]
-  },
-  {
-    name: 'Cleanup',
-    item: [
-      makeRequest({ name: 'DELETE /avarias/:id', method: 'DELETE', pathName: '/avarias/{{faultId}}', tests: ["pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'DELETE /agendamentos-manutencao/:id', method: 'DELETE', pathName: '/agendamentos-manutencao/{{agendaId}}', tests: ["pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'DELETE /registos-lampada/:id', method: 'DELETE', pathName: '/registos-lampada/{{recordId}}', tests: ["pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'DELETE /lampadas/:id', method: 'DELETE', pathName: '/lampadas/{{lampId}}', tests: ["pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'DELETE /postes/:id', method: 'DELETE', pathName: '/postes/{{postId}}', tests: ["pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'DELETE /zonas/:id', method: 'DELETE', pathName: '/zonas/{{zoneId}}', tests: ["pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'DELETE /sensores-movimento/:id', method: 'DELETE', pathName: '/sensores-movimento/{{sensorId}}', tests: ["pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'DELETE /perfis-iluminacao/:id', method: 'DELETE', pathName: '/perfis-iluminacao/{{profileId}}', tests: ["pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"] }),
-      makeRequest({ name: 'DELETE /operadores/:id', method: 'DELETE', pathName: '/operadores/{{operatorId}}', tests: ["pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"] })
-    ]
+    );
   }
-];
+
+  items.push(
+    makeRequest({
+      method: 'POST',
+      resourceName: resourceLabel,
+      role: 'Admin',
+      code: 400,
+      description: 'Bad Request',
+      pathName: basePath,
+      tokenVar: 'adminToken',
+      body: invalidBody,
+      contentType: true,
+      testLines: [statusTest(400, 'Status 400')]
+    }),
+    makeRequest({
+      method: 'GET',
+      resourceName: resourceLabel,
+      role: 'Users',
+      code: 200,
+      description: 'OK',
+      pathName: itemPath,
+      tokenVar: 'userToken',
+      testLines: [statusTest(200, 'Status 200')]
+    }),
+    makeRequest({
+      method: 'GET',
+      resourceName: resourceLabel,
+      role: 'No token',
+      code: 401,
+      description: 'Unauthorized',
+      pathName: itemPath,
+      testLines: [statusTest(401, 'Status 401')]
+    }),
+    makeRequest({
+      method: 'GET',
+      resourceName: resourceLabel,
+      role: 'Users',
+      code: 404,
+      description: 'Not Found',
+      pathName: missingPath,
+      tokenVar: 'userToken',
+      testLines: [statusTest(404, 'Status 404')]
+    }),
+    makeRequest({
+      method: 'PATCH',
+      resourceName: resourceLabel,
+      role: 'Admin',
+      code: 200,
+      description: 'OK',
+      pathName: itemPath,
+      tokenVar: 'adminToken',
+      body: patchBody,
+      contentType: true,
+      testLines: [statusTest(200, 'Status 200')]
+    }),
+    makeRequest({
+      method: 'PATCH',
+      resourceName: resourceLabel,
+      role: 'No token',
+      code: 401,
+      description: 'Unauthorized',
+      pathName: itemPath,
+      body: patchBody,
+      contentType: true,
+      testLines: [statusTest(401, 'Status 401')]
+    }),
+    makeRequest({
+      method: 'PATCH',
+      resourceName: resourceLabel,
+      role: 'Admin',
+      code: 404,
+      description: 'Not Found',
+      pathName: missingPath,
+      tokenVar: 'adminToken',
+      body: patchBody,
+      contentType: true,
+      testLines: [statusTest(404, 'Status 404')]
+    }),
+    makeRequest({
+      method: 'DELETE',
+      resourceName: resourceLabel,
+      role: 'Admin',
+      code: 404,
+      description: 'Not Found',
+      pathName: missingPath,
+      tokenVar: 'adminToken',
+      testLines: [statusTest(404, 'Status 404')]
+    })
+  );
+
+  if (deleteSuccess) {
+    items.push(
+      makeRequest({
+        method: 'DELETE',
+        resourceName: resourceLabel,
+        role: 'Admin',
+        code: 204,
+        description: 'No Content',
+        pathName: itemPath,
+        tokenVar: 'adminToken',
+        testLines: [statusTest(204, 'Status 204')]
+      })
+    );
+  }
+
+  return { name: folderName, item: items };
+}
+
+const authFolder = {
+  name: 'Auth e Apoio',
+  item: [
+    makeRequest({
+      method: 'POST',
+      resourceName: 'Login',
+      role: 'Admin',
+      code: 200,
+      description: 'OK',
+      pathName: '/operadores/login',
+      body: { email: 'admin@glowpath.com', password: 'admin123' },
+      contentType: true,
+      testLines: [
+        statusTest(200, 'Status 200'),
+        'const json = pm.response.json();',
+        "pm.environment.set('adminToken', String(json.accessToken));",
+        "pm.environment.set('jwtToken', String(json.accessToken));"
+      ]
+    }),
+    makeRequest({
+      method: 'POST',
+      resourceName: 'Login',
+      role: 'Users',
+      code: 200,
+      description: 'OK',
+      pathName: '/operadores/login',
+      body: { email: 'carla.pereira.2@empresa.com', password: 'pass8251' },
+      contentType: true,
+      testLines: [
+        statusTest(200, 'Status 200'),
+        'const json = pm.response.json();',
+        "pm.environment.set('userToken', String(json.accessToken));"
+      ]
+    }),
+    makeRequest({
+      method: 'POST',
+      resourceName: 'Login',
+      role: 'Cliente',
+      code: 200,
+      description: 'OK',
+      pathName: '/operadores/login',
+      body: { email: 'bruno.santos.3@empresa.com', password: 'pass4218' },
+      contentType: true,
+      testLines: [
+        statusTest(200, 'Status 200'),
+        'const json = pm.response.json();',
+        "pm.environment.set('clientToken', String(json.accessToken));"
+      ]
+    }),
+    makeRequest({
+      method: 'POST',
+      resourceName: 'Login',
+      role: 'Credenciais invalidas',
+      code: 401,
+      description: 'Unauthorized',
+      pathName: '/operadores/login',
+      body: { email: 'admin@glowpath.com', password: 'errada' },
+      contentType: true,
+      testLines: [statusTest(401, 'Status 401')]
+    }),
+    makeRequest({
+      method: 'GET',
+      resourceName: 'Config',
+      role: 'No token',
+      code: 200,
+      description: 'OK',
+      pathName: '/api/config',
+      testLines: [statusTest(200, 'Status 200')]
+    }),
+    makeRequest({
+      method: 'GET',
+      resourceName: 'Perfil Atual',
+      role: 'Users',
+      code: 200,
+      description: 'OK',
+      pathName: '/api/me',
+      tokenVar: 'userToken',
+      testLines: [statusTest(200, 'Status 200')]
+    }),
+    makeRequest({
+      method: 'GET',
+      resourceName: 'Perfil Atual',
+      role: 'No token',
+      code: 401,
+      description: 'Unauthorized',
+      pathName: '/api/me',
+      testLines: [statusTest(401, 'Status 401')]
+    }),
+    makeRequest({
+      method: 'GET',
+      resourceName: 'Utilizador API',
+      role: 'Users',
+      code: 200,
+      description: 'OK',
+      pathName: '/api/user',
+      tokenVar: 'userToken',
+      testLines: [statusTest(200, 'Status 200')]
+    }),
+    makeRequest({
+      method: 'POST',
+      resourceName: 'Utilizador API',
+      role: 'Admin',
+      code: 200,
+      description: 'OK',
+      pathName: '/api/user',
+      tokenVar: 'adminToken',
+      body: { bio: 'Updated by Postman collection' },
+      contentType: true,
+      testLines: [statusTest(200, 'Status 200')]
+    }),
+    makeRequest({
+      method: 'GET',
+      resourceName: 'Iluminacao Publica',
+      role: 'Users',
+      code: 200,
+      description: 'OK',
+      pathName: '/api/iluminacao-publica',
+      tokenVar: 'userToken',
+      testLines: [statusTest(200, 'Status 200')]
+    })
+  ]
+};
+
+const operadoresFolder = idRequests({
+  folderName: 'Operadores',
+  resourceLabel: 'Operadores',
+  basePath: '/operadores',
+  createBody: { nome: 'Postman Operator', email: 'postman.op.{{$timestamp}}@empresa.com', password: 'password12345', nivel_acesso: 'operador', ativo: true },
+  invalidBody: { nome: 'Sem email' },
+  createIdKey: 'id_operador',
+  createIdVar: 'createdOperatorId',
+  patchBody: { nome: 'Postman Operator Updated' },
+  createForbidden: true
+});
+operadoresFolder.item.push(
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Niveis-Acesso/operadores',
+    role: 'Users',
+    code: 200,
+    description: 'OK',
+    pathName: '/niveis-acesso/operador/operadores',
+    tokenVar: 'userToken',
+    testLines: [statusTest(200, 'Status 200')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Niveis-Acesso/operadores',
+    role: 'No token',
+    code: 401,
+    description: 'Unauthorized',
+    pathName: '/niveis-acesso/operador/operadores',
+    testLines: [statusTest(401, 'Status 401')]
+  })
+);
+
+const perfisFolder = idRequests({
+  folderName: 'Perfis de Iluminação',
+  resourceLabel: 'Perfis de Iluminação',
+  basePath: '/perfis-iluminacao',
+  createBody: { nome: 'Perfil Postman', hora_inicio: '18:00', hora_fim: '06:00', intensidade: 60 },
+  invalidBody: {},
+  createIdKey: 'id_perfil',
+  createIdVar: 'createdProfileId',
+  patchBody: { intensidade: 65 }
+});
+perfisFolder.item.push(
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Perfis de Iluminação',
+    role: 'Users',
+    code: 200,
+    description: 'OK',
+    pathName: '/perfis-iluminacao/{{seededProfileId}}/postes',
+    tokenVar: 'userToken',
+    testLines: [statusTest(200, 'Status 200')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Perfis de Iluminação',
+    role: 'No token',
+    code: 401,
+    description: 'Unauthorized',
+    pathName: '/perfis-iluminacao/{{seededProfileId}}/postes',
+    testLines: [statusTest(401, 'Status 401')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Perfis de Iluminação',
+    role: 'Users',
+    code: 404,
+    description: 'Not Found',
+    pathName: '/perfis-iluminacao/999999/postes',
+    tokenVar: 'userToken',
+    testLines: [statusTest(404, 'Status 404')]
+  })
+);
+
+const sensoresFolder = idRequests({
+  folderName: 'Sensores de Movimento',
+  resourceLabel: 'Sensores de Movimento',
+  basePath: '/sensores-movimento',
+  createBody: { modelo: 'SM-POSTMAN', sensibilidade: 75, alcance: 11.2, estado: 'ativo' },
+  invalidBody: {},
+  createIdKey: 'id_sensor',
+  createIdVar: 'createdSensorId',
+  patchBody: { sensibilidade: 80 }
+});
+sensoresFolder.item.push(
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Sensores de Movimento',
+    role: 'Users',
+    code: 200,
+    description: 'OK',
+    pathName: '/sensores-movimento/{{seededSensorId}}/zonas',
+    tokenVar: 'userToken',
+    testLines: [statusTest(200, 'Status 200')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Sensores de Movimento',
+    role: 'No token',
+    code: 401,
+    description: 'Unauthorized',
+    pathName: '/sensores-movimento/{{seededSensorId}}/zonas',
+    testLines: [statusTest(401, 'Status 401')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Sensores de Movimento',
+    role: 'Users',
+    code: 404,
+    description: 'Not Found',
+    pathName: '/sensores-movimento/999999/zonas',
+    tokenVar: 'userToken',
+    testLines: [statusTest(404, 'Status 404')]
+  })
+);
+
+const zonasFolder = idRequests({
+  folderName: 'Zonas',
+  resourceLabel: 'Zonas',
+  basePath: '/zonas',
+  createBody: { nome: 'Zona Postman', rua: 'Rua Postman', codigo_postal: '4000-111', id_sensor: '{{seededSensorId}}' },
+  invalidBody: {},
+  createIdKey: 'id_zona',
+  createIdVar: 'createdZoneId',
+  patchBody: { rua: 'Rua Postman 2' }
+});
+zonasFolder.item.push(
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Zonas',
+    role: 'Users',
+    code: 200,
+    description: 'OK',
+    pathName: '/zonas/{{seededZoneId}}/postes',
+    tokenVar: 'userToken',
+    testLines: [statusTest(200, 'Status 200')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Zonas',
+    role: 'No token',
+    code: 401,
+    description: 'Unauthorized',
+    pathName: '/zonas/{{seededZoneId}}/postes',
+    testLines: [statusTest(401, 'Status 401')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Zonas',
+    role: 'Users',
+    code: 404,
+    description: 'Not Found',
+    pathName: '/zonas/999999/postes',
+    tokenVar: 'userToken',
+    testLines: [statusTest(404, 'Status 404')]
+  })
+);
+
+const postesFolder = idRequests({
+  folderName: 'Postes',
+  resourceLabel: 'Postes',
+  basePath: '/postes',
+  createBody: { id_zona: '{{seededZoneId}}', id_perfil: '{{seededProfileId}}', latitude: 41.15, longitude: -8.61, altura: 8.7, data_instalacao: '2026-06-06', estado: 'ativo' },
+  invalidBody: {},
+  createIdKey: 'id_poste',
+  createIdVar: 'createdPostId',
+  patchBody: { estado: 'manutencao', intensidade_atual: 45 }
+});
+postesFolder.item.push(
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Postes',
+    role: 'Users',
+    code: 200,
+    description: 'OK',
+    pathName: '/postes/{{seededPostId}}/agendamentos-manutencao',
+    tokenVar: 'userToken',
+    testLines: [statusTest(200, 'Status 200')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Postes',
+    role: 'No token',
+    code: 401,
+    description: 'Unauthorized',
+    pathName: '/postes/{{seededPostId}}/agendamentos-manutencao',
+    testLines: [statusTest(401, 'Status 401')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Postes',
+    role: 'Users',
+    code: 404,
+    description: 'Not Found',
+    pathName: '/postes/999999/agendamentos-manutencao',
+    tokenVar: 'userToken',
+    testLines: [statusTest(404, 'Status 404')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Postes',
+    role: 'Users',
+    code: 200,
+    description: 'OK',
+    pathName: '/postes/{{seededPostId}}/avarias',
+    tokenVar: 'userToken',
+    testLines: [statusTest(200, 'Status 200')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Postes',
+    role: 'No token',
+    code: 401,
+    description: 'Unauthorized',
+    pathName: '/postes/{{seededPostId}}/avarias',
+    testLines: [statusTest(401, 'Status 401')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Postes',
+    role: 'Users',
+    code: 404,
+    description: 'Not Found',
+    pathName: '/postes/999999/avarias',
+    tokenVar: 'userToken',
+    testLines: [statusTest(404, 'Status 404')]
+  })
+);
+
+const lampadasFolder = idRequests({
+  folderName: 'Lâmpadas',
+  resourceLabel: 'Lâmpadas',
+  basePath: '/lampadas',
+  createBody: { id_poste: '{{seededPostId}}', modelo: 'LED-POSTMAN', estado: 'ativa', potencia_watts: 50, luminosidade_max: 900, luminosidade_min: 250, tempo_vida_horas: 45000 },
+  invalidBody: {},
+  createIdKey: 'id_lampada',
+  createIdVar: 'createdLampId',
+  patchBody: { estado: 'avariada' }
+});
+lampadasFolder.item.push(
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Lâmpadas',
+    role: 'Users',
+    code: 200,
+    description: 'OK',
+    pathName: '/lampadas/{{seededLampId}}/registos',
+    tokenVar: 'userToken',
+    testLines: [statusTest(200, 'Status 200')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Lâmpadas',
+    role: 'No token',
+    code: 401,
+    description: 'Unauthorized',
+    pathName: '/lampadas/{{seededLampId}}/registos',
+    testLines: [statusTest(401, 'Status 401')]
+  }),
+  makeRequest({
+    method: 'GET',
+    resourceName: 'Lâmpadas',
+    role: 'Users',
+    code: 404,
+    description: 'Not Found',
+    pathName: '/lampadas/999999/registos',
+    tokenVar: 'userToken',
+    testLines: [statusTest(404, 'Status 404')]
+  })
+);
+
+const registosFolder = idRequests({
+  folderName: 'Registos de Lâmpada',
+  resourceLabel: 'Registos de Lâmpada',
+  basePath: '/registos-lampada',
+  createBody: { id_poste: '{{seededPostId}}', modelo: 'LED-POSTMAN', potencia_watts: 50, luminosidade_max: 900, luminosidade_min: 250, estado: 'ativa' },
+  invalidBody: {},
+  createIdKey: 'id_registo',
+  createIdVar: 'createdRecordId',
+  patchBody: { luminosidade: 75 },
+  deleteSuccess: true
+});
+registosFolder.item = registosFolder.item.filter(item => !item.name.startsWith('PATCH Registos Lampada'));
+
+const agendamentosFolder = idRequests({
+  folderName: 'Agendamentos de Manutenção',
+  resourceLabel: 'Agendamentos de Manutenção',
+  basePath: '/agendamentos-manutencao',
+  createBody: { data_manutencao: '2026-07-01', descricao: 'Revisao Postman', prioridade: 'media', estado: 'pendente', id_poste: '{{seededPostId}}' },
+  invalidBody: {},
+  createIdKey: 'id_agendamento',
+  createIdVar: 'createdAgendaId',
+  patchBody: { estado: 'concluido' }
+});
+
+const avariasFolder = idRequests({
+  folderName: 'Avarias',
+  resourceLabel: 'Avarias',
+  basePath: '/avarias',
+  createBody: { descricao: 'Avaria Postman', severidade: 'media', estado: 'pendente', id_poste: '{{seededPostId}}', id_lampada: '{{seededLampId}}', id_zona: '{{seededZoneId}}' },
+  invalidBody: {},
+  createIdKey: 'id_avaria',
+  createIdVar: 'createdFaultId',
+  patchBody: { estado: 'resolvida' }
+});
 
 const collection = {
   info: {
-    name: 'GlowPath API',
-    _postman_id: 'c1a0df0a-4c17-4838-a35e-c30b25021e90',
-    description: 'Colecao com todos os endpoints da API, organizada por recurso, com testes de sucesso e erro.',
+    name: 'MODO',
+    _postman_id: 'f6635f5c-cf2b-4a69-aed7-0dc302bb36af',
+    description: 'Postman collection organized by resource with multiple scenarios per endpoint.',
     schema: 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json'
   },
-  item: folders,
+  item: [
+    authFolder,
+    operadoresFolder,
+    postesFolder,
+    lampadasFolder,
+    zonasFolder,
+    sensoresFolder,
+    perfisFolder,
+    registosFolder,
+    agendamentosFolder,
+    avariasFolder
+  ],
   variable: [
     { key: 'baseUrl', value: 'http://127.0.0.1:3000' },
     { key: 'jwtToken', value: '' },
-    { key: 'operatorId', value: '' },
-    { key: 'profileId', value: '' },
-    { key: 'sensorId', value: '' },
-    { key: 'zoneId', value: '' },
-    { key: 'postId', value: '' },
-    { key: 'lampId', value: '' },
-    { key: 'recordId', value: '' },
-    { key: 'agendaId', value: '' },
-    { key: 'faultId', value: '' }
+    { key: 'adminToken', value: '' },
+    { key: 'userToken', value: '' },
+    { key: 'clientToken', value: '' },
+    { key: 'seededProfileId', value: '1' },
+    { key: 'seededSensorId', value: '1' },
+    { key: 'seededZoneId', value: '1' },
+    { key: 'seededPostId', value: '1' },
+    { key: 'seededLampId', value: '1' },
+    { key: 'createdOperatorId', value: '' },
+    { key: 'createdProfileId', value: '' },
+    { key: 'createdSensorId', value: '' },
+    { key: 'createdZoneId', value: '' },
+    { key: 'createdPostId', value: '' },
+    { key: 'createdLampId', value: '' },
+    { key: 'createdRecordId', value: '' },
+    { key: 'createdAgendaId', value: '' },
+    { key: 'createdFaultId', value: '' }
   ]
 };
 
 const environment = {
   id: '0d58c09e-f94e-4514-bb3e-2808d0b4e665',
   name: 'GlowPath Local',
-  values: [
-    { key: 'baseUrl', value: 'http://127.0.0.1:3000', type: 'default', enabled: true },
-    { key: 'jwtToken', value: '', type: 'secret', enabled: true },
-    { key: 'operatorId', value: '', type: 'default', enabled: true },
-    { key: 'profileId', value: '', type: 'default', enabled: true },
-    { key: 'sensorId', value: '', type: 'default', enabled: true },
-    { key: 'zoneId', value: '', type: 'default', enabled: true },
-    { key: 'postId', value: '', type: 'default', enabled: true },
-    { key: 'lampId', value: '', type: 'default', enabled: true },
-    { key: 'recordId', value: '', type: 'default', enabled: true },
-    { key: 'agendaId', value: '', type: 'default', enabled: true },
-    { key: 'faultId', value: '', type: 'default', enabled: true }
-  ],
+  values: collection.variable.map(variable => ({
+    key: variable.key,
+    value: variable.value,
+    type: variable.key.toLowerCase().includes('token') ? 'secret' : 'default',
+    enabled: true
+  })),
   _postman_variable_scope: 'environment',
   _postman_exported_at: new Date().toISOString(),
   _postman_exported_using: 'GitHub Copilot'

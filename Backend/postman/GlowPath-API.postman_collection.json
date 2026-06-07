@@ -1,294 +1,132 @@
 {
   "info": {
-    "name": "GlowPath API",
-    "_postman_id": "c1a0df0a-4c17-4838-a35e-c30b25021e90",
-    "description": "Colecao com todos os endpoints da API, organizada por recurso, com testes de sucesso e erro.",
+    "name": "MODO",
+    "_postman_id": "a0744f33-cdb8-446f-8152-b8f4f42ac1fa",
+    "description": "Collection organizada por recurso com cenarios de teste por endpoint.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Auth & Support",
-      "item": [
-        {
-          "name": "POST /operadores/login (success)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/operadores/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "operadores",
-                "login"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@glowpath.com\",\n  \"password\": \"admin123\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                  "const j = pm.response.json();",
-                  "pm.test('Token exists', () => pm.expect(j.accessToken).to.be.a('string').and.not.empty);",
-                  "pm.environment.set('jwtToken', j.accessToken);"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /operadores/login (error)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/operadores/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "operadores",
-                "login"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@glowpath.com\",\n  \"password\": \"invalid\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /api/config",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/config",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "config"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /api/me (success)",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/me",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "me"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /api/me (error)",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/me",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "me"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 401/403', () => pm.expect([401, 403]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /api/user",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/user",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "user"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /api/user",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/user",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "user"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"bio\": \"Updated by Postman collection\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status success', () => pm.expect([200, 204]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /api/iluminacao-publica",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/iluminacao-publica",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "iluminacao-publica"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status success', () => pm.expect([200, 204]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "name": "Operadores",
       "item": [
         {
-          "name": "GET /operadores",
+          "name": "POST Operadores (Admin) - 201 Created",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/operadores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "operadores"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Postman Operador\",\n  \"email\": \"postman.operador.{{$timestamp}}@empresa.com\",\n  \"password\": \"password12345\",\n  \"nivel_acesso\": \"operador\",\n  \"ativo\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST Operadores (No token) - 401 Unauthorized",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/operadores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "operadores"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Postman Operador\",\n  \"email\": \"postman.operador.{{$timestamp}}@empresa.com\",\n  \"password\": \"password12345\",\n  \"nivel_acesso\": \"operador\",\n  \"ativo\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST Operadores (Cliente) - 403 Forbidden",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{clientToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/operadores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "operadores"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Cliente sem permissao\",\n  \"email\": \"cliente.sem.permissao@empresa.com\",\n  \"password\": \"password12345\",\n  \"nivel_acesso\": \"operador\",\n  \"ativo\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET Operadores (Admin) - 200 OK",
           "request": {
             "method": "GET",
             "header": [
@@ -313,41 +151,14 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                  "pm.test('Status 200', function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "GET /operadores (error no token)",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/operadores",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "operadores"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 401/403', () => pm.expect([401,403]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /operadores",
+          "name": "POST Operadores (Admin) - 400 Bad Request",
           "request": {
             "method": "POST",
             "header": [
@@ -367,275 +178,6 @@
               ],
               "path": [
                 "operadores"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Postman Operator\",\n  \"email\": \"postman.op.{{$timestamp}}@empresa.com\",\n  \"password\": \"password12345\",\n  \"nivel_acesso\": \"operador\",\n  \"ativo\": true\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                  "const j = pm.response.json();",
-                  "if (j.id_operador) pm.environment.set('operatorId', j.id_operador);"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /operadores (error)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/operadores",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "operadores"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Missing fields\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 400/409', () => pm.expect([400,409]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /operadores/:id",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/operadores/{{operatorId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "operadores",
-                "{{operatorId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "PATCH /operadores/:id",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/operadores/{{operatorId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "operadores",
-                "{{operatorId}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Postman Operator Updated\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /niveis-acesso/:nivel/operadores",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/niveis-acesso/operador/operadores",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "niveis-acesso",
-                "operador",
-                "operadores"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Perfis Iluminacao",
-      "item": [
-        {
-          "name": "GET /perfis-iluminacao",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/perfis-iluminacao",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "perfis-iluminacao"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /perfis-iluminacao",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/perfis-iluminacao",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "perfis-iluminacao"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Perfil Postman\",\n  \"hora_inicio\": \"18:00\",\n  \"hora_fim\": \"06:00\",\n  \"intensidade\": 60\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                  "const j = pm.response.json();",
-                  "if (j.id_perfil) pm.environment.set('profileId', j.id_perfil);"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /perfis-iluminacao (error)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/perfis-iluminacao",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "perfis-iluminacao"
               ]
             },
             "body": {
@@ -649,16 +191,16 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                  "pm.test('Status 400', function () { pm.response.to.have.status(400); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "GET /perfis-iluminacao/:id",
+          "name": "DELETE Operadores (Admin) - 404 Not Found",
           "request": {
-            "method": "GET",
+            "method": "DELETE",
             "header": [
               {
                 "key": "Authorization",
@@ -666,13 +208,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/perfis-iluminacao/{{profileId}}",
+              "raw": "{{baseUrl}}/operadores/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "perfis-iluminacao",
-                "{{profileId}}"
+                "operadores",
+                "999999"
               ]
             }
           },
@@ -682,16 +224,21 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                  "pm.test('Status 404', function () { pm.response.to.have.status(404); });"
                 ]
               }
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "Postes",
+      "item": [
         {
-          "name": "PATCH /perfis-iluminacao/:id",
+          "name": "POST Postes (Admin) - 201 Created",
           "request": {
-            "method": "PATCH",
+            "method": "POST",
             "header": [
               {
                 "key": "Authorization",
@@ -703,18 +250,17 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/perfis-iluminacao/{{profileId}}",
+              "raw": "{{baseUrl}}/postes",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "perfis-iluminacao",
-                "{{profileId}}"
+                "postes"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"intensidade\": 65\n}"
+              "raw": "{\n  \"id_zona\": 1,\n  \"id_perfil\": 1,\n  \"latitude\": 41.15,\n  \"longitude\": -8.61,\n  \"altura\": 8.7,\n  \"data_instalacao\": \"2026-06-07\",\n  \"estado\": \"ativo\"\n}"
             }
           },
           "event": [
@@ -723,14 +269,50 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "GET /perfis-iluminacao/:id/postes",
+          "name": "POST Postes (No token) - 401 Unauthorized",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/postes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "postes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_zona\": 1,\n  \"id_perfil\": 1,\n  \"latitude\": 41.15,\n  \"longitude\": -8.61,\n  \"altura\": 8.7,\n  \"data_instalacao\": \"2026-06-07\",\n  \"estado\": \"ativo\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET Postes (Admin) - 200 OK",
           "request": {
             "method": "GET",
             "header": [
@@ -740,13 +322,11 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/perfis-iluminacao/{{profileId}}/postes",
+              "raw": "{{baseUrl}}/postes",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "perfis-iluminacao",
-                "{{profileId}}",
                 "postes"
               ]
             }
@@ -757,21 +337,56 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"
+                  "pm.test('Status 200', function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
           ]
-        }
-      ]
-    },
-    {
-      "name": "Sensores Movimento",
-      "item": [
+        },
         {
-          "name": "GET /sensores-movimento",
+          "name": "POST Postes (Admin) - 400 Bad Request",
           "request": {
-            "method": "GET",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/postes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "postes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE Postes (Admin) - 404 Not Found",
+          "request": {
+            "method": "DELETE",
             "header": [
               {
                 "key": "Authorization",
@@ -779,12 +394,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/sensores-movimento",
+              "raw": "{{baseUrl}}/postes/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "sensores-movimento"
+                "postes",
+                "999999"
               ]
             }
           },
@@ -794,14 +410,391 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                  "pm.test('Status 404', function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lâmpadas",
+      "item": [
+        {
+          "name": "POST Lâmpadas (Admin) - 201 Created",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/lampadas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lampadas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_poste\": 1,\n  \"modelo\": \"LED-POSTMAN\",\n  \"potencia_watts\": 50,\n  \"luminosidade_max\": 900,\n  \"luminosidade_min\": 250,\n  \"estado\": \"ativa\",\n  \"tempo_vida_horas\": 45000\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "POST /sensores-movimento",
+          "name": "POST Lâmpadas (No token) - 401 Unauthorized",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/lampadas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lampadas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_poste\": 1,\n  \"modelo\": \"LED-POSTMAN\",\n  \"potencia_watts\": 50,\n  \"luminosidade_max\": 900,\n  \"luminosidade_min\": 250,\n  \"estado\": \"ativa\",\n  \"tempo_vida_horas\": 45000\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET Lâmpadas (Admin) - 200 OK",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/lampadas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lampadas"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST Lâmpadas (Admin) - 400 Bad Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/lampadas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lampadas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE Lâmpadas (Admin) - 404 Not Found",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/lampadas/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "lampadas",
+                "999999"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Zonas",
+      "item": [
+        {
+          "name": "POST Zonas (Admin) - 201 Created",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/zonas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zonas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Zona Postman\",\n  \"rua\": \"Rua Postman\",\n  \"codigo_postal\": \"4000-111\",\n  \"id_sensor\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST Zonas (No token) - 401 Unauthorized",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/zonas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zonas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Zona Postman\",\n  \"rua\": \"Rua Postman\",\n  \"codigo_postal\": \"4000-111\",\n  \"id_sensor\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET Zonas (Admin) - 200 OK",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/zonas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zonas"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST Zonas (Admin) - 400 Bad Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/zonas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zonas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "DELETE Zonas (Admin) - 404 Not Found",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/zonas/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "zonas",
+                "999999"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sensores de Movimento",
+      "item": [
+        {
+          "name": "POST Sensores de Movimento (Admin) - 201 Created",
           "request": {
             "method": "POST",
             "header": [
@@ -834,16 +827,82 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                  "const j = pm.response.json();",
-                  "if (j.id_sensor) pm.environment.set('sensorId', j.id_sensor);"
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "POST /sensores-movimento (error)",
+          "name": "POST Sensores de Movimento (No token) - 401 Unauthorized",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sensores-movimento",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sensores-movimento"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"modelo\": \"SM-POSTMAN\",\n  \"sensibilidade\": 75,\n  \"alcance\": 11.2,\n  \"estado\": \"ativo\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET Sensores de Movimento (Admin) - 200 OK",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sensores-movimento",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sensores-movimento"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST Sensores de Movimento (Admin) - 400 Bad Request",
           "request": {
             "method": "POST",
             "header": [
@@ -876,16 +935,16 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                  "pm.test('Status 400', function () { pm.response.to.have.status(400); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "GET /sensores-movimento/:id",
+          "name": "DELETE Sensores de Movimento (Admin) - 404 Not Found",
           "request": {
-            "method": "GET",
+            "method": "DELETE",
             "header": [
               {
                 "key": "Authorization",
@@ -893,13 +952,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/sensores-movimento/{{sensorId}}",
+              "raw": "{{baseUrl}}/sensores-movimento/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "sensores-movimento",
-                "{{sensorId}}"
+                "999999"
               ]
             }
           },
@@ -909,82 +968,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "PATCH /sensores-movimento/:id",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/sensores-movimento/{{sensorId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "sensores-movimento",
-                "{{sensorId}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"sensibilidade\": 80\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /sensores-movimento/:id/zonas",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/sensores-movimento/{{sensorId}}/zonas",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "sensores-movimento",
-                "{{sensorId}}",
-                "zonas"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"
+                  "pm.test('Status 404', function () { pm.response.to.have.status(404); });"
                 ]
               }
             }
@@ -993,10 +977,86 @@
       ]
     },
     {
-      "name": "Zonas",
+      "name": "Perfis de Iluminação",
       "item": [
         {
-          "name": "GET /zonas",
+          "name": "POST Perfis de Iluminação (Admin) - 201 Created",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/perfis-iluminacao",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "perfis-iluminacao"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Perfil Postman\",\n  \"hora_inicio\": \"18:00\",\n  \"hora_fim\": \"06:00\",\n  \"intensidade\": 60\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST Perfis de Iluminação (No token) - 401 Unauthorized",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/perfis-iluminacao",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "perfis-iluminacao"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Perfil Postman\",\n  \"hora_inicio\": \"18:00\",\n  \"hora_fim\": \"06:00\",\n  \"intensidade\": 60\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET Perfis de Iluminação (Admin) - 200 OK",
           "request": {
             "method": "GET",
             "header": [
@@ -1006,12 +1066,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/zonas",
+              "raw": "{{baseUrl}}/perfis-iluminacao",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "zonas"
+                "perfis-iluminacao"
               ]
             }
           },
@@ -1021,14 +1081,14 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                  "pm.test('Status 200', function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "POST /zonas",
+          "name": "POST Perfis de Iluminação (Admin) - 400 Bad Request",
           "request": {
             "method": "POST",
             "header": [
@@ -1042,54 +1102,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/zonas",
+              "raw": "{{baseUrl}}/perfis-iluminacao",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "zonas"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Zona Postman\",\n  \"rua\": \"Rua Postman\",\n  \"codigo_postal\": \"4000-111\",\n  \"id_sensor\": \"{{sensorId}}\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                  "const j = pm.response.json();",
-                  "if (j.id_zona) pm.environment.set('zoneId', j.id_zona);"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /zonas (error)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/zonas",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "zonas"
+                "perfis-iluminacao"
               ]
             },
             "body": {
@@ -1103,16 +1121,16 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                  "pm.test('Status 400', function () { pm.response.to.have.status(400); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "GET /zonas/:id",
+          "name": "DELETE Perfis de Iluminação (Admin) - 404 Not Found",
           "request": {
-            "method": "GET",
+            "method": "DELETE",
             "header": [
               {
                 "key": "Authorization",
@@ -1120,13 +1138,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/zonas/{{zoneId}}",
+              "raw": "{{baseUrl}}/perfis-iluminacao/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "zonas",
-                "{{zoneId}}"
+                "perfis-iluminacao",
+                "999999"
               ]
             }
           },
@@ -1136,82 +1154,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "PATCH /zonas/:id",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/zonas/{{zoneId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "zonas",
-                "{{zoneId}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"rua\": \"Rua Postman 2\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /zonas/:id/postes",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/zonas/{{zoneId}}/postes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "zonas",
-                "{{zoneId}}",
-                "postes"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"
+                  "pm.test('Status 404', function () { pm.response.to.have.status(404); });"
                 ]
               }
             }
@@ -1220,42 +1163,10 @@
       ]
     },
     {
-      "name": "Postes",
+      "name": "Agendamentos de Manutenção",
       "item": [
         {
-          "name": "GET /postes",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/postes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "postes"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /postes",
+          "name": "POST Agendamentos de Manutenção (Admin) - 201 Created",
           "request": {
             "method": "POST",
             "header": [
@@ -1269,167 +1180,17 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/postes",
+              "raw": "{{baseUrl}}/agendamentos-manutencao",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "postes"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"id_zona\": \"{{zoneId}}\",\n  \"id_perfil\": \"{{profileId}}\",\n  \"latitude\": 41.15,\n  \"longitude\": -8.61,\n  \"altura\": 8.7,\n  \"data_instalacao\": \"2026-06-06\",\n  \"estado\": \"ativo\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                  "const j = pm.response.json();",
-                  "if (j.id_poste) pm.environment.set('postId', j.id_poste);"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /postes (error)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/postes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "postes"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /postes/:id",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/postes/{{postId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "postes",
-                "{{postId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "PATCH /postes/:id",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/postes/{{postId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "postes",
-                "{{postId}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"estado\": \"manutencao\",\n  \"intensidade_atual\": 45\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /postes/:id/agendamentos-manutencao",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/postes/{{postId}}/agendamentos-manutencao",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "postes",
-                "{{postId}}",
                 "agendamentos-manutencao"
               ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data_manutencao\": \"2026-07-01\",\n  \"descricao\": \"Revisao Postman\",\n  \"prioridade\": \"media\",\n  \"estado\": \"pendente\",\n  \"id_poste\": 1\n}"
             }
           },
           "event": [
@@ -1438,109 +1199,34 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "GET /postes/:id/avarias",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/postes/{{postId}}/avarias",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "postes",
-                "{{postId}}",
-                "avarias"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Lampadas",
-      "item": [
-        {
-          "name": "GET /lampadas",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/lampadas",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lampadas"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /lampadas",
+          "name": "POST Agendamentos de Manutenção (No token) - 401 Unauthorized",
           "request": {
             "method": "POST",
             "header": [
               {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
                 "key": "Content-Type",
                 "value": "application/json"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/lampadas",
+              "raw": "{{baseUrl}}/agendamentos-manutencao",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "lampadas"
+                "agendamentos-manutencao"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_poste\": \"{{postId}}\",\n  \"modelo\": \"LED-POSTMAN\",\n  \"estado\": \"ativa\",\n  \"potencia_watts\": 50,\n  \"luminosidade_max\": 900,\n  \"luminosidade_min\": 250,\n  \"tempo_vida_horas\": 45000\n}"
+              "raw": "{\n  \"data_manutencao\": \"2026-07-01\",\n  \"descricao\": \"Revisao Postman\",\n  \"prioridade\": \"media\",\n  \"estado\": \"pendente\",\n  \"id_poste\": 1\n}"
             }
           },
           "event": [
@@ -1549,321 +1235,14 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                  "const j = pm.response.json();",
-                  "if (j.id_lampada) pm.environment.set('lampId', j.id_lampada);"
+                  "pm.test('Status 401', function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "POST /lampadas (error)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/lampadas",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lampadas"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /lampadas/:id",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/lampadas/{{lampId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lampadas",
-                "{{lampId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "PATCH /lampadas/:id",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/lampadas/{{lampId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lampadas",
-                "{{lampId}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"estado\": \"avariada\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /lampadas/:id/registos",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/lampadas/{{lampId}}/registos",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lampadas",
-                "{{lampId}}",
-                "registos"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status success', () => pm.expect([200,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Registos Lampada",
-      "item": [
-        {
-          "name": "GET /registos-lampada",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/registos-lampada",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "registos-lampada"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /registos-lampada",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/registos-lampada",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "registos-lampada"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"id_poste\": \"{{postId}}\",\n  \"modelo\": \"LED-POSTMAN\",\n  \"potencia_watts\": 50,\n  \"luminosidade_max\": 900,\n  \"luminosidade_min\": 250,\n  \"estado\": \"ativa\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                  "const j = pm.response.json();",
-                  "if (j.id_registo) pm.environment.set('recordId', j.id_registo);"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /registos-lampada (error)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/registos-lampada",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "registos-lampada"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "GET /registos-lampada/:id",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/registos-lampada/{{recordId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "registos-lampada",
-                "{{recordId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Agendamentos Manutencao",
-      "item": [
-        {
-          "name": "GET /agendamentos-manutencao",
+          "name": "GET Agendamentos de Manutenção (Admin) - 200 OK",
           "request": {
             "method": "GET",
             "header": [
@@ -1888,56 +1267,14 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                  "pm.test('Status 200', function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "POST /agendamentos-manutencao",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/agendamentos-manutencao",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "agendamentos-manutencao"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"data_manutencao\": \"2026-07-01\",\n  \"descricao\": \"Revisao Postman\",\n  \"prioridade\": \"media\",\n  \"estado\": \"pendente\",\n  \"id_poste\": \"{{postId}}\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                  "const j = pm.response.json();",
-                  "if (j.id_agendamento) pm.environment.set('agendaId', j.id_agendamento);"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /agendamentos-manutencao (error)",
+          "name": "POST Agendamentos de Manutenção (Admin) - 400 Bad Request",
           "request": {
             "method": "POST",
             "header": [
@@ -1970,16 +1307,16 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                  "pm.test('Status 400', function () { pm.response.to.have.status(400); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "GET /agendamentos-manutencao/:id",
+          "name": "DELETE Agendamentos de Manutenção (Admin) - 404 Not Found",
           "request": {
-            "method": "GET",
+            "method": "DELETE",
             "header": [
               {
                 "key": "Authorization",
@@ -1987,13 +1324,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/agendamentos-manutencao/{{agendaId}}",
+              "raw": "{{baseUrl}}/agendamentos-manutencao/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "agendamentos-manutencao",
-                "{{agendaId}}"
+                "999999"
               ]
             }
           },
@@ -2003,48 +1340,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "PATCH /agendamentos-manutencao/:id",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/agendamentos-manutencao/{{agendaId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "agendamentos-manutencao",
-                "{{agendaId}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"estado\": \"concluido\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                  "pm.test('Status 404', function () { pm.response.to.have.status(404); });"
                 ]
               }
             }
@@ -2056,7 +1352,83 @@
       "name": "Avarias",
       "item": [
         {
-          "name": "GET /avarias",
+          "name": "POST Avarias (Admin) - 201 Created",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwtToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/avarias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "avarias"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Avaria Postman\",\n  \"severidade\": \"media\",\n  \"estado\": \"pendente\",\n  \"id_lampada\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST Avarias (No token) - 401 Unauthorized",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/avarias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "avarias"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Avaria Postman\",\n  \"severidade\": \"media\",\n  \"estado\": \"pendente\",\n  \"id_lampada\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET Avarias (Admin) - 200 OK",
           "request": {
             "method": "GET",
             "header": [
@@ -2081,56 +1453,14 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                  "pm.test('Status 200', function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "POST /avarias",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/avarias",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "avarias"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"descricao\": \"Avaria Postman\",\n  \"severidade\": \"media\",\n  \"estado\": \"pendente\",\n  \"id_poste\": \"{{postId}}\",\n  \"id_lampada\": \"{{lampId}}\",\n  \"id_zona\": \"{{zoneId}}\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                  "const j = pm.response.json();",
-                  "if (j.id_avaria) pm.environment.set('faultId', j.id_avaria);"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "POST /avarias (error)",
+          "name": "POST Avarias (Admin) - 400 Bad Request",
           "request": {
             "method": "POST",
             "header": [
@@ -2163,16 +1493,16 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                  "pm.test('Status 400', function () { pm.response.to.have.status(400); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "GET /avarias/:id",
+          "name": "DELETE Avarias (Admin) - 404 Not Found",
           "request": {
-            "method": "GET",
+            "method": "DELETE",
             "header": [
               {
                 "key": "Authorization",
@@ -2180,13 +1510,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/avarias/{{faultId}}",
+              "raw": "{{baseUrl}}/avarias/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "avarias",
-                "{{faultId}}"
+                "999999"
               ]
             }
           },
@@ -2196,350 +1526,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "PATCH /avarias/:id",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/avarias/{{faultId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "avarias",
-                "{{faultId}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"estado\": \"resolvida\"\n}"
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Cleanup",
-      "item": [
-        {
-          "name": "DELETE /avarias/:id",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/avarias/{{faultId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "avarias",
-                "{{faultId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "DELETE /agendamentos-manutencao/:id",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/agendamentos-manutencao/{{agendaId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "agendamentos-manutencao",
-                "{{agendaId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "DELETE /registos-lampada/:id",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/registos-lampada/{{recordId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "registos-lampada",
-                "{{recordId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "DELETE /lampadas/:id",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/lampadas/{{lampId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "lampadas",
-                "{{lampId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "DELETE /postes/:id",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/postes/{{postId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "postes",
-                "{{postId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "DELETE /zonas/:id",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/zonas/{{zoneId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "zonas",
-                "{{zoneId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "DELETE /sensores-movimento/:id",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/sensores-movimento/{{sensorId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "sensores-movimento",
-                "{{sensorId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "DELETE /perfis-iluminacao/:id",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/perfis-iluminacao/{{profileId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "perfis-iluminacao",
-                "{{profileId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "DELETE /operadores/:id",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{jwtToken}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/operadores/{{operatorId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "operadores",
-                "{{operatorId}}"
-              ]
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status delete', () => pm.expect([200,204,404]).to.include(pm.response.code));"
+                  "pm.test('Status 404', function () { pm.response.to.have.status(404); });"
                 ]
               }
             }
@@ -2558,39 +1545,7 @@
       "value": ""
     },
     {
-      "key": "operatorId",
-      "value": ""
-    },
-    {
-      "key": "profileId",
-      "value": ""
-    },
-    {
-      "key": "sensorId",
-      "value": ""
-    },
-    {
-      "key": "zoneId",
-      "value": ""
-    },
-    {
-      "key": "postId",
-      "value": ""
-    },
-    {
-      "key": "lampId",
-      "value": ""
-    },
-    {
-      "key": "recordId",
-      "value": ""
-    },
-    {
-      "key": "agendaId",
-      "value": ""
-    },
-    {
-      "key": "faultId",
+      "key": "clientToken",
       "value": ""
     }
   ]

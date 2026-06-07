@@ -1,0 +1,40 @@
+name: GlowPath Local
+values:
+  - key: baseUrl
+    value: 'http://127.0.0.1:3000'
+  - key: jwtToken
+    value: 8ad07210ff54ef0068058e96dc2e44e14747796a8a5c8aac
+  - key: adminToken
+    value: ''
+  - key: userToken
+    value: ''
+  - key: clientToken
+    value: ''
+  - key: seededProfileId
+    value: '1'
+  - key: seededSensorId
+    value: '1'
+  - key: seededZoneId
+    value: '1'
+  - key: seededPostId
+    value: '1'
+  - key: seededLampId
+    value: '1'
+  - key: createdOperatorId
+    value: ''
+  - key: createdProfileId
+    value: ''
+  - key: createdSensorId
+    value: ''
+  - key: createdZoneId
+    value: ''
+  - key: createdPostId
+    value: ''
+  - key: createdLampId
+    value: ''
+  - key: createdRecordId
+    value: ''
+  - key: createdAgendaId
+    value: ''
+  - key: createdFaultId
+    value: ''

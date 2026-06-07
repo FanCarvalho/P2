@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/postes"
+method: POST
+headers:
+  Authorization: Bearer {{jwtToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: "{}"
+scripts:
+  - type: afterResponse
+    code: pm.test('Status 400', function () { pm.response.to.have.status(400); });
+    language: text/javascript
+order: 4000

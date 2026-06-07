@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/sensores-movimento"
+method: POST
+headers:
+  Authorization: Bearer {{jwtToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "modelo": "SM-POSTMAN",
+      "sensibilidade": 75,
+      "alcance": 11.2,
+      "estado": "ativo"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('Status 201', function () { pm.response.to.have.status(201); });
+    language: text/javascript
+order: 1000

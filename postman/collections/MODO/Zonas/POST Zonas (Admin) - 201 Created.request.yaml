@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/zonas"
+method: POST
+headers:
+  Authorization: Bearer {{jwtToken}}
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "nome": "Zona Postman",
+      "rua": "Rua Postman",
+      "codigo_postal": "4000-111",
+      "id_sensor": 1
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test('Status 201', function () { pm.response.to.have.status(201); });
+    language: text/javascript
+order: 1000
