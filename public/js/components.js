@@ -10,8 +10,7 @@ async function includeComponents() {
     "./components/sidebar.html": `
 <nav class="sidebar">
   <div class="brand">
-    <div class="brand-logo">GP</div>
-    <div class="brand-name">Glowpath</div>
+    <img src="../img/Glowpath.png" alt="Glowpath" class="brand-image" />
   </div>
   <div>
     <div class="menu-label">Main Menu</div>
@@ -63,6 +62,28 @@ async function includeComponents() {
       }
     })
   );
+}
+
+function updateTopbarAvatar() {
+  const avatar = document.querySelector('.topbar .avatar');
+  if (!avatar) return;
+
+  const currentUser = getAuthenticatedUser();
+  if (!currentUser) {
+    avatar.innerHTML = '<img src="../img/user.png" alt="Guest user" class="avatar-image">';
+    avatar.setAttribute('title', 'Visitante');
+    return;
+  }
+
+  const userInitials = currentUser.name
+    .split(' ')
+    .filter(Boolean)
+    .map(namePart => namePart[0])
+    .join('')
+    .toUpperCase() || 'U';
+
+  avatar.textContent = userInitials;
+  avatar.setAttribute('title', currentUser.email || currentUser.name);
 }
 
 function applyPageState() {
@@ -121,6 +142,7 @@ function applyGuestNavigationState() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   await includeComponents();
+  updateTopbarAvatar();
   applyGuestNavigationState();
   addAdminMenuItemIfNeeded();
   hideAdminElements();

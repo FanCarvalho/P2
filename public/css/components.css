@@ -10,23 +10,14 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  padding: 4px 0 10px;
 }
 
-.brand-logo {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  background: var(--primary);
-  color: #1c1c1e;
-  font-weight: 700;
-  display: grid;
-  place-items: center;
-}
-
-.brand-name {
-  font-size: 1.3rem;
-  font-weight: 700;
+.brand-image {
+  display: block;
+  width: min(205px, 100%);
+  height: auto;
 }
 
 .menu-label {
@@ -87,11 +78,20 @@
   width: 38px;
   height: 38px;
   border-radius: 10px;
+  overflow: hidden;
   display: grid;
   place-items: center;
   background: var(--primary);
   color: #1c1c1e;
   font-weight: 700;
+}
+
+.avatar-image {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+  display: block;
+  transform: translateY(4px);
 }
 
 .footer {

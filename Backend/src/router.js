@@ -1,11 +1,18 @@
 const fs = require('fs');
 const path = require('path');
-const { rootDir } = require('./config');
+const { imageDir, rootDir } = require('./config');
 const { getPathParts, sendFile, sendJson } = require('./httpHelpers');
 const handlers = require('./apiHandlers');
 
 function resolveStaticFile(requestPath) {
   let pathname = decodeURIComponent(requestPath.split('?')[0]);
+
+  if (pathname.startsWith('/img/')) {
+    const normalizedImagePath = path.normalize(pathname.replace(/^\//, ''));
+    const imagePath = path.join(path.dirname(imageDir), normalizedImagePath);
+    if (!imagePath.startsWith(imageDir)) return null;
+    return imagePath;
+  }
 
   const topLevelHtmlRoutes = {
     '/dashboard.html': '/html/dashboard.html',
