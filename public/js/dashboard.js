@@ -50,6 +50,12 @@ function groupBy(list, keyFn) {
   }, new Map());
 }
 
+function getRegionColor(index) {
+  // Golden-angle distribution gives visually distinct colors for many regions.
+  const hue = Math.round((index * 137.508) % 360);
+  return `hsl(${hue} 78% 56%)`;
+}
+
 async function loadDashboardData() {
   const zonesResponse = await fetch(buildApiUrl('/zonas'));
   const zones = zonesResponse.ok ? await zonesResponse.json().catch(() => []) : [];
@@ -192,6 +198,7 @@ function renderCharts({ zones }) {
   if (faultsCanvas) {
     const faultLabels = zones.map(zone => getZoneLabel(zone));
     const faultValues = zones.map(zone => normalizeNumber(zone.avarias));
+    const faultColors = faultLabels.map((_, index) => getRegionColor(index));
 
     new Chart(faultsCanvas, {
       type: 'doughnut',
@@ -199,7 +206,7 @@ function renderCharts({ zones }) {
         labels: faultLabels,
         datasets: [{
           data: faultValues,
-          backgroundColor: ['#f97316', '#ef4444', '#eab308', '#22c55e']
+          backgroundColor: faultColors
         }]
       },
       options: {
