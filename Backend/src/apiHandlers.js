@@ -114,10 +114,18 @@ function handleLogin(req, res) {
       }
 
       const operator = apiDb.operadores.find(item => item.email.toLowerCase() === String(body.email).toLowerCase());
-      if (!operator || operator.password !== String(body.password) || !isAdminOperator(operator)) {
+      if (!operator || operator.password !== String(body.password)) {
         sendJson(res, 401, {
           description: 'Authentication failed',
-          errors: { credentials: ['Only administrators can sign in'] }
+          errors: { credentials: ['Email ou password incorretos'] }
+        });
+        return;
+      }
+
+      if (operator.ativo === false) {
+        sendJson(res, 403, {
+          description: 'Authentication failed',
+          errors: { credentials: ['Esta conta esta inativa'] }
         });
         return;
       }

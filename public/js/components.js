@@ -10,7 +10,7 @@ async function includeComponents() {
     "./components/sidebar.html": `
 <nav class="sidebar">
   <div class="brand">
-    <img src="../img/Glowpath.png" alt="Glowpath" class="brand-image" />
+    <img src="/img/Glowpath.png" alt="Glowpath" class="brand-image" />
   </div>
   <div>
     <div class="menu-label">Main Menu</div>

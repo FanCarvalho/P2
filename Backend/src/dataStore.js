@@ -339,8 +339,11 @@ function loadApiDb() {
     if (dbConfig.host && dbConfig.user) {
       const output = runMySqlWorker('load');
       if (output) {
-        mysqlLoadSnapshot = output;
-        return JSON.parse(output);
+        const parsedOutput = JSON.parse(output);
+        if (Array.isArray(parsedOutput.operadores) && parsedOutput.operadores.length > 0) {
+          mysqlLoadSnapshot = output;
+          return parsedOutput;
+        }
       }
     }
   } catch {

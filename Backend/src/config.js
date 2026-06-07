@@ -24,7 +24,7 @@ function loadEnv(filePath) {
 
 const projectRoot = path.resolve(__dirname, '..');
 const rootDir = path.resolve(projectRoot, '..', 'public');
-const imageDir = path.resolve(projectRoot, '..', 'img');
+const imageDir = path.resolve(rootDir, 'img');
 loadEnv(path.join(projectRoot, '.env'));
 
 // O servidor HTTP continua local; a ligação MySQL usa as credenciais do .env.
