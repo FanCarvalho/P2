@@ -225,7 +225,7 @@ function renderFaultsTable({ zones }) {
   const rows = zones
     .filter(zone => normalizeNumber(zone.avarias) > 0)
     .sort((a, b) => normalizeNumber(b.avarias) - normalizeNumber(a.avarias))
-    .slice(0, 8);
+    .slice(0, 12);
 
   rows.forEach((zone, index) => {
     const zoneKey = getZoneKey(zone);

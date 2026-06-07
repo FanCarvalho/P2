@@ -28,6 +28,12 @@ body.page-login {
   color: #1c1c1e;
 }
 
+.login-brand-logo {
+  width: min(320px, 100%);
+  height: auto;
+  margin-bottom: 14px;
+}
+
 .form-field {
   display: grid;
   gap: 8px;

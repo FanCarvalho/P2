@@ -272,7 +272,8 @@
       "nome": "Zona 7",
       "rua": "Avenida Central 7",
       "codigo_postal": "2023-040",
-      "id_sensor": 2
+      "id_sensor": 2,
+      "estado_manual": "Atenção"
     },
     {
       "id_zona": 8,
