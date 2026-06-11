@@ -59,74 +59,76 @@
         </article>
       </section>
 
-      <!-- Área de Gráficos -->
-      <section class="grid dashboard-charts" style="margin-top: 16px;" id="chartsSection">
-        <article class="card">
-          <h3>Consumo de Energia por Zona</h3>
-          <canvas id="consumoEnergiaChart"></canvas>
-        </article>
-        <article class="card admin-only">
-          <h3>Distribuição de Avarias</h3>
-          <canvas id="distribuicaoAvariasChart"></canvas>
-          <div class="faults-legend-tables" aria-label="Legenda de cidades por cor">
-            <table class="faults-legend-table" id="faultsLegendTableA">
+      <section class="dashboard-main-layout" style="margin-top: 16px;" id="chartsSection">
+        <div class="dashboard-left-stack">
+          <!-- Gráfico de Consumo -->
+          <article class="card">
+            <h3>Consumo de Energia por Zona</h3>
+            <canvas id="consumoEnergiaChart"></canvas>
+          </article>
+
+          <section class="card dashboard-table-card dashboard-table-card-faults admin-only">
+            <h3>Avarias Recentes</h3>
+            <table class="table faults-table">
               <thead>
                 <tr>
-                  <th>Cidade</th>
-                  <th>Cor</th>
+                  <th>ID</th>
+                  <th>Zona</th>
+                  <th>Tipo de Avaria</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th class="actions-col">Ações</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody id="faultsTableBody">
+                <!-- Linhas da tabela preenchidas dinamicamente -->
+              </tbody>
             </table>
-            <table class="faults-legend-table" id="faultsLegendTableB">
+          </section>
+        </div>
+
+        <div class="dashboard-right-stack admin-only">
+          <!-- Coluna direita: gráfico de rosca -->
+          <article class="card">
+            <h3>Distribuição de Avarias</h3>
+            <canvas id="distribuicaoAvariasChart"></canvas>
+            <div class="faults-legend-tables" aria-label="Legenda de cidades por cor">
+              <table class="faults-legend-table" id="faultsLegendTableA">
+                <thead>
+                  <tr>
+                    <th>Cidade</th>
+                    <th>Cor</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <table class="faults-legend-table" id="faultsLegendTableB">
+                <thead>
+                  <tr>
+                    <th>Cidade</th>
+                    <th>Cor</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+
+          <section class="card dashboard-table-card dashboard-table-card-maintenance">
+            <h3>Próximas Manutenções</h3>
+            <table class="table maintenance-table">
               <thead>
                 <tr>
-                  <th>Cidade</th>
-                  <th>Cor</th>
+                  <th>Zona/Cidade</th>
+                  <th class="align-right">Data</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody id="maintenanceTableBody">
+                <!-- Linhas preenchidas dinamicamente -->
+              </tbody>
             </table>
-          </div>
-        </article>
-      </section>
-
-      <section class="dashboard-tables-layout admin-only" style="margin-top: 16px;">
-        <!-- Tabela de Avarias Recentes -->
-        <section class="card dashboard-table-card dashboard-table-card-faults">
-          <h3>Avarias Recentes</h3>
-          <table class="table faults-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Zona</th>
-                <th>Tipo de Avaria</th>
-                <th>Data</th>
-                <th>Status</th>
-                <th class="actions-col">Ações</th>
-              </tr>
-            </thead>
-            <tbody id="faultsTableBody">
-              <!-- Linhas da tabela preenchidas dinamicamente -->
-            </tbody>
-          </table>
-        </section>
-
-        <!-- Tabela de Manutenções -->
-        <section class="card dashboard-table-card dashboard-table-card-maintenance">
-          <h3>Próximas Manutenções</h3>
-          <table class="table maintenance-table">
-            <thead>
-              <tr>
-                <th>Zona/Cidade</th>
-                <th class="align-right">Data</th>
-              </tr>
-            </thead>
-            <tbody id="maintenanceTableBody">
-              <!-- Linhas preenchidas dinamicamente -->
-            </tbody>
-          </table>
-        </section>
+          </section>
+        </div>
       </section>
 
       <div data-include="./components/footer.html"></div>
