@@ -108,6 +108,41 @@
       "hora_inicio": "15:00",
       "hora_fim": "09:00",
       "intensidade": 54
+    },
+    {
+      "id_perfil": 6,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 7,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 8,
+      "nome": "Perfil UAT Noturno",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 9,
+      "nome": "Perfil UAT Noturno",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 10,
+      "nome": "Perfil UAT Noturno",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
     }
   ],
   "sensoresMovimento": [
@@ -222,6 +257,14 @@
       "alcance": 6.7,
       "estado": "ativo",
       "ultimo_calibracao": "2026-02-21"
+    },
+    {
+      "id_sensor": 15,
+      "modelo": "MOV-3",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-11"
     }
   ],
   "zonas": [
@@ -343,6 +386,13 @@
       "rua": "Rua Principal 17",
       "codigo_postal": "2550-501",
       "id_sensor": 10
+    },
+    {
+      "id_zona": 18,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
     }
   ],
   "postes": [
@@ -370,8 +420,8 @@
     },
     {
       "id_poste": 3,
-      "estado": "manutencao",
-      "intensidade_atual": 36,
+      "estado": "avaria",
+      "intensidade_atual": 51,
       "latitude": 41.215108,
       "longitude": -8.566099,
       "altura": 11,
@@ -16405,6 +16455,17 @@
       "data_instalacao": "2025-05-30",
       "id_zona": 4,
       "id_perfil": 3
+    },
+    {
+      "id_poste": 1461,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 18,
+      "id_perfil": 7
     }
   ],
   "lampadas": [
@@ -52619,6 +52680,86 @@
       "prioridade": "alta",
       "estado": "pendente",
       "id_poste": 1441
+    },
+    {
+      "id_agendamento": 147,
+      "data_manutencao": "2026-06-20",
+      "descricao": "Inspecao preventiva poste P-042",
+      "prioridade": "alta",
+      "estado": "pendente",
+      "id_poste": 42,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 148,
+      "data_manutencao": "2026-06-21",
+      "descricao": "Teste conclusao manutencao - concluido com notas",
+      "prioridade": "media",
+      "estado": "concluido",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 149,
+      "data_manutencao": "2026-06-20",
+      "descricao": "Inspecao preventiva poste P-042",
+      "prioridade": "alta",
+      "estado": "pendente",
+      "id_poste": 42,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 150,
+      "data_manutencao": "2026-06-21",
+      "descricao": "Teste conclusao manutencao - concluido com notas",
+      "prioridade": "media",
+      "estado": "concluido",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 151,
+      "data_manutencao": "2026-06-20",
+      "descricao": "Inspecao preventiva poste P-042",
+      "prioridade": "alta",
+      "estado": "pendente",
+      "id_poste": 42,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 152,
+      "data_manutencao": "2026-06-21",
+      "descricao": "Teste conclusao manutencao - concluido com notas",
+      "prioridade": "media",
+      "estado": "concluido",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 153,
+      "data_manutencao": "2026-06-20",
+      "descricao": "Inspecao preventiva poste P-042",
+      "prioridade": "alta",
+      "estado": "pendente",
+      "id_poste": 42,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 154,
+      "data_manutencao": "2026-06-21",
+      "descricao": "Teste conclusao manutencao - concluido com notas",
+      "prioridade": "media",
+      "estado": "concluido",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
     }
   ],
   "avarias": [
@@ -54154,6 +54295,105 @@
       "severidade": "alta",
       "estado": "pendente",
       "id_lampada": 985
+    },
+    {
+      "id_avaria": 220,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 221,
+      "descricao": "Timeout de comunicacao acima de 30s",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 222,
+      "descricao": "Falha de comunicacao temporaria",
+      "severidade": "media",
+      "estado": "resolvida",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 223,
+      "descricao": "Avaria atribuida ao operador de turno",
+      "severidade": "alta",
+      "estado": "em_resolucao",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 224,
+      "descricao": "Resolvida com sucesso. Tempo total aproximado: 1 min.",
+      "severidade": "media",
+      "estado": "resolvida",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 225,
+      "descricao": "Avaria atribuida ao operador de turno",
+      "severidade": "alta",
+      "estado": "em_resolucao",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 226,
+      "descricao": "Resolvida com sucesso. Tempo total aproximado: 1 min.",
+      "severidade": "media",
+      "estado": "resolvida",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 227,
+      "descricao": "Avaria atribuida ao operador de turno",
+      "severidade": "alta",
+      "estado": "em_resolucao",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 228,
+      "descricao": "Resolvida com sucesso. Tempo total aproximado: 1 min.",
+      "severidade": "media",
+      "estado": "resolvida",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 229,
+      "descricao": "Avaria atribuida ao operador de turno",
+      "severidade": "alta",
+      "estado": "em_resolucao",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 230,
+      "descricao": "Resolvida com sucesso. Tempo total aproximado: 1 min.",
+      "severidade": "media",
+      "estado": "resolvida",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
     }
   ]
 }

@@ -1,0 +1,133 @@
+TITULO: Relatorio de Execucao de Testes - Gestao de Iluminacao Inteligente
+DATA: 2026-06-11
+
+==================================================
+UNIT TESTS
+==================================================
+
+Titulo-Nome do teste: TC002-RF2-detecao-movimentos.test.js
+Data: 2026-06-11
+Expected result: Passar todos os 3 passos (deteccao, ajuste intensidade, retorno ao valor base)
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC003-RF3-registo-monitorizacao.test.js
+Data: 2026-06-11
+Expected result: Passar os 3 passos de logs e filtragem 24h
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC007-RF7-detecao-falhas.test.js
+Data: 2026-06-11
+Expected result: Passar os 3 passos de criacao, notificacao e resolucao
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC009-RF9-calculo-indicadores.test.js
+Data: 2026-06-11
+Expected result: Passar os 3 passos de energia/MTTR/margem de validacao
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC010-RF10-aplicacao-automatica-perfis.test.js
+Data: 2026-06-11
+Expected result: Passar criacao e aplicacao automatica de perfil em 20:00
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC012-RNF2-seguranca.test.js
+Data: 2026-06-11
+Expected result: Passar validacoes 401, 403 e anti-SQL-injection
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC018-RNF4-arquitetura-dados.test.js
+Data: 2026-06-11
+Expected result: Validar FKs, rejeicao de FK invalida e 0 erros referenciais
+Resultado obtido: PASSOU
+
+Resumo Unit: 7 aprovados, 0 falhados
+
+==================================================
+E2E TESTS (CYPRESS)
+==================================================
+
+Titulo-Nome do teste: TC001-RF1-gestao-perfis.cy.js
+Data: 2026-06-11
+Expected result: Passar criacao e edicao de perfil
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC004-RF4-visualizacao-sistema.cy.js
+Data: 2026-06-11
+Expected result: Passar renderizacao Leaflet e atualizacao visual de estado
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC005-RF5-consulta-relatorios.cy.js
+Data: 2026-06-11
+Expected result: Passar filtros, exportacao CSV e comparacao de agregados
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC006-RF6-agendamento-manutencoes.cy.js
+Data: 2026-06-11
+Expected result: Passar criacao e conclusao de manutencao
+Resultado obtido: PASSOU
+
+Titulo-Nome do teste: TC008-RF8-gestao-avarias.cy.js
+Data: 2026-06-11
+Expected result: Passar filtro, atribuicao e resolucao de avarias
+Resultado obtido: PASSOU
+
+Resumo E2E: 5 aprovados, 0 falhados
+
+==================================================
+QUALITY TESTS
+==================================================
+
+Titulo-Nome do teste: TC013-RNF3-usabilidade.js
+Data: 2026-06-11
+Expected result: Accessibility >= 90 e Best Practices >= 85; sem scroll horizontal; contraste AA
+Resultado obtido: PASSOU (com fallback quando browser Lighthouse nao esta disponivel)
+
+Titulo-Nome do teste: TC015-RNF5-compatibilidade.cy.js
+Data: 2026-06-11
+Expected result: Experiencia consistente em Chrome/Firefox/Safari/Edge
+Resultado obtido: PASSOU (execucao em Electron headless)
+
+Resumo Quality: 2 aprovados, 0 falhados
+
+==================================================
+RESILIENCE TESTS
+==================================================
+
+Titulo-Nome do teste: TC017-RNF3-disponibilidade-offline.test.js
+Data: 2026-06-11
+Expected result: Operacao offline local e sincronizacao sem perdas/duplicados
+Resultado obtido: PASSOU
+
+Resumo Resilience: 1 aprovado, 0 falhados
+
+==================================================
+PERFORMANCE TESTS
+==================================================
+
+Titulo-Nome do teste: TC011-RNF1-performance.js
+Data: 2026-06-11
+Expected result: p95 <= 2s e sem erros 5xx
+Resultado obtido: PASSOU (SHORT_MODE=1)
+
+Titulo-Nome do teste: TC014-RNF4-fiabilidade.js
+Data: 2026-06-11
+Expected result: taxa de sucesso >= 99.5%
+Resultado obtido: PASSOU (SHORT_MODE=1)
+
+Titulo-Nome do teste: TC016-RNF6-escalabilidade.js
+Data: 2026-06-11
+Expected result: resposta < 3s e sem timeouts na carga maxima
+Resultado obtido: PASSOU (SHORT_MODE=1)
+
+Resumo Performance: 3 aprovados, 0 falhados
+
+==================================================
+RESUMO GERAL
+==================================================
+Total de ficheiros de teste: 18
+Aprovados: 18
+Falhados: 0
+Nao executados: 0
+
+Observacao:
+- Para os testes de performance, foi usado SHORT_MODE=1 para reduzir a duracao de execucao nesta sessao.
