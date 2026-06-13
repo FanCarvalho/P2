@@ -143,6 +143,13 @@
       "hora_inicio": "20:00",
       "hora_fim": "06:00",
       "intensidade": 50
+    },
+    {
+      "id_perfil": 11,
+      "nome": "Perfil UAT Noturno",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
     }
   ],
   "sensoresMovimento": [
@@ -52762,6 +52769,26 @@
       "id_poste": 3,
       "id_lampada": null,
       "id_zona": null
+    },
+    {
+      "id_agendamento": 155,
+      "data_manutencao": "2026-06-20",
+      "descricao": "Inspecao preventiva poste P-042",
+      "prioridade": "alta",
+      "estado": "pendente",
+      "id_poste": 42,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 156,
+      "data_manutencao": "2026-06-21",
+      "descricao": "Teste conclusao manutencao - concluido com notas",
+      "prioridade": "media",
+      "estado": "concluido",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
     }
   ],
   "avarias": [
@@ -54390,6 +54417,24 @@
     },
     {
       "id_avaria": 230,
+      "descricao": "Resolvida com sucesso. Tempo total aproximado: 1 min.",
+      "severidade": "media",
+      "estado": "resolvida",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 231,
+      "descricao": "Avaria atribuida ao operador de turno",
+      "severidade": "alta",
+      "estado": "em_resolucao",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 232,
       "descricao": "Resolvida com sucesso. Tempo total aproximado: 1 min.",
       "severidade": "media",
       "estado": "resolvida",
