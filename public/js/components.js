@@ -9,9 +9,11 @@ async function includeComponents() {
   const fallbackComponents = {
     "./components/sidebar.html": `
 <nav class="sidebar">
-  <div class="brand">
-    <img src="/img/Glowpath.png" alt="Glowpath" class="brand-image" />
-  </div>
+  <a href="./dashboard.html" class="brand-link" aria-label="Ir para o Dashboard">
+    <div class="brand">
+      <img src="/img/Glowpath.png" alt="Glowpath" class="brand-image" />
+    </div>
+  </a>
   <div>
     <div class="menu-label">Main Menu</div>
     <div class="nav">
@@ -35,7 +37,9 @@ async function includeComponents() {
     <p class="page-subtitle">Acompanhe portfolio, mercados e configuracoes.</p>
   </div>
   <div class="topbar-right">
-    <div class="avatar" title="${currentUser ? currentUser.email : 'Usuário'}">${userInitials}</div>
+    <a href="./perfil.html" class="avatar-link" aria-label="Abrir definições do perfil">
+      <div class="avatar" title="${currentUser ? currentUser.email : 'Usuário'}">${userInitials}</div>
+    </a>
   </div>
 </header>`,
     "./components/footer.html": `
