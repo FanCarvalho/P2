@@ -18,6 +18,27 @@
       <div data-include="./components/topbar.html"></div>
 
       <section class="admin-grid">
+        <!-- Gestão de Operadores -->
+        <article class="card">
+          <header class="card-header">
+            <h2>Gestão de Operadores</h2>
+            <button id="addOperatorBtn" class="btn btn-outline btn-add-zone" type="button">+ Novo Operador</button>
+          </header>
+          <div class="table-container">
+            <table class="data-table" aria-label="Tabela de operadores">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="operatorsTableBody"></tbody>
+            </table>
+          </div>
+        </article>
+
         <!-- Gestão de Zonas -->
         <article class="card">
           <header class="card-header">
@@ -37,7 +58,7 @@
                    <th>Ações</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="zonesTableBody">
                  <tr>
                    <td>Porto</td>
                    <td>1500</td>
@@ -176,6 +197,53 @@
         </article>
       </section>
 
+      <div class="admin-modal-backdrop" id="operatorModal" hidden>
+        <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="operatorModalTitle">
+          <button type="button" class="admin-modal-close" data-operator-close aria-label="Fechar">✕</button>
+          <h3 id="operatorModalTitle">Novo Operador</h3>
+
+          <form id="operatorForm" class="admin-modal-form">
+            <label>
+              Nome / Username
+              <input type="text" name="nome" required />
+            </label>
+
+            <label>
+              Email
+              <input type="email" name="email" required />
+            </label>
+
+            <label>
+              Nível de Acesso
+              <select name="nivel_acesso" required>
+                <option value="administrador">Administrador</option>
+                <option value="operador">Operador</option>
+              </select>
+            </label>
+
+            <label>
+              Estado
+              <select name="ativo" required>
+                <option value="true">Ativo</option>
+                <option value="false">Inativo</option>
+              </select>
+            </label>
+
+            <label class="admin-modal-full">
+              Palavra-passe
+              <input type="password" name="password" minlength="10" autocomplete="new-password" />
+            </label>
+
+            <div class="admin-modal-note" id="operatorPasswordHint">Na criação, a palavra-passe é obrigatória (mínimo 10 caracteres).</div>
+
+            <div class="admin-modal-actions">
+              <button type="button" class="btn btn-outline" data-operator-cancel>Cancelar</button>
+              <button type="submit" class="btn btn-primary" id="operatorSubmitBtn">Guardar Operador</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <div class="admin-modal-backdrop" id="zoneEditModal" hidden>
         <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="zoneEditModalTitle">
           <button type="button" class="admin-modal-close" data-modal-close aria-label="Fechar">✕</button>
@@ -212,6 +280,7 @@
               <select name="estado" required>
                 <option value="Operacional">Operacional</option>
                 <option value="Atenção">Atenção</option>
+                <option value="Avaria">Avaria</option>
               </select>
             </label>
 
@@ -220,6 +289,17 @@
               <button type="submit" class="btn btn-primary">Salvar Alterações</button>
             </div>
           </form>
+        </div>
+      </div>
+
+      <div class="admin-modal-backdrop" id="duplicateZoneModal" hidden>
+        <div class="admin-modal admin-modal-warning" role="alertdialog" aria-modal="true" aria-labelledby="duplicateZoneModalTitle">
+          <button type="button" class="admin-modal-close" data-duplicate-close aria-label="Fechar">✕</button>
+          <h3 id="duplicateZoneModalTitle">Erro de Validação</h3>
+          <p class="admin-modal-warning-text" id="duplicateZoneMessage">Erro: Esta zona já existe. Por favor, escolha um nome diferente.</p>
+          <div class="admin-modal-actions">
+            <button type="button" class="btn btn-primary" data-duplicate-close>Percebi</button>
+          </div>
         </div>
       </div>
     </main>

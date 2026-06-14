@@ -21,6 +21,7 @@ function parseConsumptionKwh(value) {
 }
 
 const DELETED_ZONES_KEY = 'glowpath_deleted_zones';
+const ZONE_OVERRIDES_KEY = 'glowpath_zone_overrides';
 
 const CITY_COORDINATES = {
   faro: [37.0179, -7.9308],
@@ -70,6 +71,76 @@ function loadDeletedZoneKeys() {
   }
 }
 
+function loadZoneOverrides() {
+  try {
+    const raw = localStorage.getItem(ZONE_OVERRIDES_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveZoneOverrides(overrides) {
+  localStorage.setItem(ZONE_OVERRIDES_KEY, JSON.stringify(overrides || {}));
+}
+
+function getZoneStorageKey(zone) {
+  return String(zone?.id_zona ?? normalizeCityKey(getZoneLabel(zone)));
+}
+
+function toStatusLabel(status) {
+  const value = String(status || '').trim().toLowerCase();
+  if (value === 'atencao' || value === 'atenção') return 'Atenção';
+  if (value === 'manutencao' || value === 'manutenção') return 'Manutenção';
+  if (value === 'avaria') return 'Avaria';
+  if (value === 'operacional') return 'Operacional';
+  return status || 'Operacional';
+}
+
+function toStatusSelectValue(status) {
+  const label = toStatusLabel(status);
+  if (label === 'Atenção') return 'Atencao';
+  if (label === 'Manutenção') return 'Manutencao';
+  return label;
+}
+
+function toStatusBadgeClass(status) {
+  const value = toStatusLabel(status).toLowerCase();
+  if (value.includes('avaria')) return 'status-bad';
+  if (value.includes('aten') || value.includes('manuten')) return 'status-warning';
+  return 'status-ok';
+}
+
+function formatDateForInput(value) {
+  if (!value) return '';
+  const text = String(value).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+  const date = new Date(text);
+  if (Number.isNaN(date.getTime())) return '';
+  const year = String(date.getFullYear());
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function formatDateForDisplay(value) {
+  if (!value) return 'Sem data';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value);
+  return date.toLocaleDateString('pt-PT');
+}
+
+function applyZoneOverride(zone, overridesByZone) {
+  const override = overridesByZone[getZoneStorageKey(zone)];
+  if (!override) return zone;
+  return {
+    ...zone,
+    ...override
+  };
+}
+
 function resolveZoneCoordinates(zone) {
   const cityKey = normalizeCityKey(getZoneLabel(zone));
   if (CITY_COORDINATES[cityKey]) {
@@ -113,7 +184,20 @@ async function loadMapData() {
   };
 }
 
-function renderZoneInfoPanel(zone, metrics) {
+function getZoneMetrics(zone) {
+  const faultCount = normalizeNumber(zone.avarias);
+  const computedStatus = faultCount > 10 ? 'Avaria' : faultCount > 3 ? 'Atenção' : 'Operacional';
+  return {
+    posts: normalizeNumber(zone.postes),
+    faults: faultCount,
+    status: toStatusLabel(zone.status || computedStatus),
+    consumption: parseConsumptionKwh(zone.consumo),
+    lamps: normalizeNumber(zone.vencimento),
+    lastUpdate: zone.substituicao || 'Sem data'
+  };
+}
+
+function renderZoneInfoPanel(zone, zoneKey, metrics) {
   const zoneInfoPanel = document.getElementById('zona-info');
   if (!zoneInfoPanel) return;
 
@@ -129,9 +213,23 @@ function renderZoneInfoPanel(zone, metrics) {
     `<p><strong>Última Substituição:</strong> ${metrics.lastUpdate}</p>`
   ].join('');
 
-  if (typeof isAdmin === 'function' && isAdmin()) {
-    zoneInfoPanel.innerHTML += '<div class="zona-actions"><button type="button">Ver Detalhes</button><button type="button">Editar</button></div>';
+  const canManageZone = typeof isAuthenticated === 'function' && isAuthenticated();
+  if (canManageZone) {
+    zoneInfoPanel.innerHTML += `<div class="zona-actions"><button type="button" class="js-view-details" data-zone="${zoneKey}">Ver Detalhes</button><button type="button" class="js-edit-zone" data-zone="${zoneKey}">Editar</button></div>`;
   }
+}
+
+function calculateRiskLevel(rate) {
+  if (rate >= 10) return 'Alto';
+  if (rate >= 5) return 'Médio';
+  return 'Baixo';
+}
+
+function mapPostStateToStatus(state) {
+  const value = String(state || '').toLowerCase();
+  if (value.includes('avaria') || value.includes('inativo')) return 'status-bad';
+  if (value.includes('manuten') || value.includes('aten')) return 'status-warning';
+  return 'status-ok';
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -139,7 +237,155 @@ document.addEventListener('DOMContentLoaded', async () => {
     const { zones } = await loadMapData();
     const map = L.map('map').setView([39.55, -8.05], 6);
     const deletedZoneKeys = loadDeletedZoneKeys();
+    const zoneOverrides = loadZoneOverrides();
     const markersByCity = {};
+    const zonesByKey = new Map();
+    let activeZoneKey = null;
+
+    const mapCard = document.querySelector('.map-card');
+    const detailsView = document.getElementById('detailsView');
+    const detailsTitle = document.getElementById('detailsTitle');
+    const detailsSubtitle = document.getElementById('detailsSubtitle');
+    const detailsTableBody = document.getElementById('detailsTableBody');
+    const detailsEmpty = document.getElementById('detailsEmpty');
+    const modal = document.getElementById('editRegionModal');
+    const form = document.getElementById('editRegionForm');
+    const faultRateEl = document.getElementById('faultRate');
+    const riskLevelEl = document.getElementById('riskLevel');
+    let modalMessage = null;
+
+    function getZoneByKey(zoneKey) {
+      return zonesByKey.get(zoneKey) || null;
+    }
+
+    function saveZoneOverride(zone, partialOverride) {
+      const key = getZoneStorageKey(zone);
+      const current = zoneOverrides[key] || {};
+      zoneOverrides[key] = {
+        ...current,
+        ...partialOverride
+      };
+      saveZoneOverrides(zoneOverrides);
+    }
+
+    function showModalMessage(message, type) {
+      if (!form) return;
+      if (!modalMessage) {
+        modalMessage = document.createElement('p');
+        modalMessage.className = 'modal-message';
+        form.insertBefore(modalMessage, form.querySelector('.modal-footer'));
+      }
+      modalMessage.textContent = message;
+      modalMessage.classList.remove('is-success', 'is-error');
+      modalMessage.classList.add(type === 'success' ? 'is-success' : 'is-error');
+    }
+
+    function clearModalMessage() {
+      if (!modalMessage) return;
+      modalMessage.textContent = '';
+      modalMessage.classList.remove('is-success', 'is-error');
+    }
+
+    function updateZoneCard(zoneKey) {
+      const zone = getZoneByKey(zoneKey);
+      if (!zone) return;
+      renderZoneInfoPanel(zone, zoneKey, getZoneMetrics(zone));
+    }
+
+    async function loadZonePosts(zone) {
+      if (!zone || !zone.id_zona || typeof authFetch !== 'function') {
+        return [];
+      }
+
+      try {
+        const response = await authFetch(`/zonas/${zone.id_zona}/postes`);
+        if (!response.ok) return [];
+        const payload = await response.json().catch(() => []);
+        return Array.isArray(payload) ? payload : [];
+      } catch {
+        return [];
+      }
+    }
+
+    async function renderDetails(zoneKey) {
+      const zone = getZoneByKey(zoneKey);
+      if (!zone || !detailsView || !mapCard) return;
+
+      const metrics = getZoneMetrics(zone);
+      const zonePosts = await loadZonePosts(zone);
+
+      if (detailsTitle) {
+        detailsTitle.textContent = `Detalhes de ${getZoneLabel(zone)}`;
+      }
+
+      if (detailsSubtitle) {
+        detailsSubtitle.textContent = `${metrics.posts} postes • ${metrics.faults} avarias • ${metrics.lamps} lâmpadas a vencer`;
+      }
+
+      if (detailsTableBody) {
+        detailsTableBody.innerHTML = zonePosts.map(post => {
+          const state = post.estado || 'Operacional';
+          const statusClass = mapPostStateToStatus(state);
+          return [
+            '<tr>',
+            `<td>${post.id_poste || '-'}</td>`,
+            `<td>Zona ${zone.id_zona || '-'}</td>`,
+            `<td>Intensidade ${normalizeNumber(post.intensidade_atual)}%</td>`,
+            `<td><span class="status-pill ${statusClass}">${state}</span></td>`,
+            '<td><button type="button" class="action-btn" disabled>Detalhe</button></td>',
+            '</tr>'
+          ].join('');
+        }).join('');
+      }
+
+      if (detailsEmpty) {
+        detailsEmpty.hidden = zonePosts.length > 0;
+      }
+
+      mapCard.hidden = true;
+      detailsView.hidden = false;
+    }
+
+    function showMapView() {
+      if (detailsView) detailsView.hidden = true;
+      if (mapCard) mapCard.hidden = false;
+    }
+
+    function updateDerivedFields() {
+      if (!form || !faultRateEl || !riskLevelEl) return;
+      const totalPoles = Number(form.elements.poles.value) || 0;
+      const faults = Number(form.elements.faults.value) || 0;
+      const rate = totalPoles > 0 ? (faults / totalPoles) * 100 : 0;
+      faultRateEl.textContent = `${rate.toFixed(1)}%`;
+      riskLevelEl.textContent = calculateRiskLevel(rate);
+    }
+
+    function openEditModal(zoneKey) {
+      const zone = getZoneByKey(zoneKey);
+      if (!zone || !form || !modal) return;
+
+      const metrics = getZoneMetrics(zone);
+
+      form.dataset.zoneKey = zoneKey;
+      form.elements.name.value = getZoneLabel(zone);
+      form.elements.status.value = toStatusSelectValue(metrics.status);
+      form.elements.poles.value = metrics.posts;
+      form.elements.faults.value = metrics.faults;
+      form.elements.consumption.value = metrics.consumption;
+      form.elements.expiring.value = metrics.lamps;
+      form.elements.lastReplacement.value = formatDateForInput(zone.substituicao);
+      form.elements.notes.value = zone.notes || '';
+
+      clearModalMessage();
+      updateDerivedFields();
+      modal.hidden = false;
+    }
+
+    function closeEditModal() {
+      if (!modal) return;
+      modal.hidden = true;
+      clearModalMessage();
+    }
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -147,31 +393,135 @@ document.addEventListener('DOMContentLoaded', async () => {
     }).addTo(map);
 
     zones.forEach(zone => {
+      const hydratedZone = applyZoneOverride(zone, zoneOverrides);
       const zoneKey = normalizeCityKey(getZoneLabel(zone));
       if (deletedZoneKeys.has(zoneKey)) return;
 
-      const coordinates = resolveZoneCoordinates(zone);
+      const coordinates = resolveZoneCoordinates(hydratedZone);
       if (!coordinates) return;
+
+      zonesByKey.set(zoneKey, hydratedZone);
 
       const [latitude, longitude] = coordinates;
 
-      const marker = L.marker([latitude, longitude]).addTo(map).bindPopup(`<b>${getZoneLabel(zone)}</b>`);
+      const marker = L.marker([latitude, longitude]).addTo(map).bindPopup(`<b>${getZoneLabel(hydratedZone)}</b>`);
       markersByCity[zoneKey] = marker;
 
       marker.on('click', () => {
-        const faultCount = normalizeNumber(zone.avarias);
-        const status = faultCount > 10 ? 'Avaria' : faultCount > 3 ? 'Atenção' : 'Operacional';
-        renderZoneInfoPanel(zone, {
-          posts: normalizeNumber(zone.postes),
-          faults: faultCount,
-          status: zone.status || status,
-          consumption: parseConsumptionKwh(zone.consumo),
-          lamps: normalizeNumber(zone.vencimento),
-          lastUpdate: zone.substituicao || 'Sem data'
-        });
+        activeZoneKey = zoneKey;
+        renderZoneInfoPanel(hydratedZone, zoneKey, getZoneMetrics(hydratedZone));
       });
 
     });
+
+    document.addEventListener('click', event => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      if (target.classList.contains('js-view-details')) {
+        const zoneKey = target.getAttribute('data-zone') || activeZoneKey;
+        if (zoneKey) {
+          renderDetails(zoneKey);
+        }
+      }
+
+      if (target.classList.contains('js-edit-zone')) {
+        const zoneKey = target.getAttribute('data-zone') || activeZoneKey;
+        if (zoneKey) {
+          openEditModal(zoneKey);
+        }
+      }
+
+      if (target.classList.contains('js-back-map')) {
+        showMapView();
+      }
+
+      if (target.hasAttribute('data-close')) {
+        closeEditModal();
+      }
+
+      if (target === modal) {
+        closeEditModal();
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && modal && !modal.hidden) {
+        closeEditModal();
+      }
+    });
+
+    if (form) {
+      form.addEventListener('input', event => {
+        const fieldName = event?.target?.name;
+        if (fieldName === 'poles' || fieldName === 'faults') {
+          updateDerivedFields();
+        }
+      });
+
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+
+        const zoneKey = form.dataset.zoneKey;
+        const zone = getZoneByKey(zoneKey);
+        if (!zone) return;
+
+        const statusLabel = toStatusLabel(form.elements.status.value);
+        const nextOverride = {
+          status: statusLabel,
+          avarias: normalizeNumber(form.elements.faults.value),
+          vencimento: normalizeNumber(form.elements.expiring.value),
+          postes: normalizeNumber(form.elements.poles.value),
+          consumo: `${normalizeNumber(form.elements.consumption.value)} kWh`,
+          substituicao: form.elements.lastReplacement.value || null,
+          notes: String(form.elements.notes.value || '').trim()
+        };
+
+        let apiUpdated = false;
+        if (zone.id_zona && typeof authFetch === 'function') {
+          try {
+            const response = await authFetch(`/zonas/${zone.id_zona}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                status: statusLabel,
+                nome: String(form.elements.name.value || getZoneLabel(zone)).trim()
+              })
+            });
+
+            if (response.ok) {
+              apiUpdated = true;
+            }
+          } catch {
+            apiUpdated = false;
+          }
+        }
+
+        const updatedZone = {
+          ...zone,
+          nome: String(form.elements.name.value || getZoneLabel(zone)).trim(),
+          ...nextOverride
+        };
+
+        zonesByKey.set(zoneKey, updatedZone);
+        saveZoneOverride(updatedZone, nextOverride);
+        updateZoneCard(zoneKey);
+
+        if (detailsView && !detailsView.hidden && activeZoneKey === zoneKey) {
+          await renderDetails(zoneKey);
+        }
+
+        if (apiUpdated) {
+          showModalMessage('Alteracoes guardadas com sucesso.', 'success');
+        } else {
+          showModalMessage('Alteracoes guardadas localmente. Nao foi possivel sincronizar tudo com a API.', 'error');
+        }
+
+        setTimeout(() => {
+          closeEditModal();
+        }, 500);
+      });
+    }
 
     window.addEventListener('storage', event => {
       if (event.key !== DELETED_ZONES_KEY) return;

@@ -148,6 +148,16 @@
   color: var(--text);
 }
 
+.admin-modal-warning {
+  width: min(500px, calc(100vw - 32px));
+}
+
+.admin-modal-warning-text {
+  margin: 0;
+  color: #d4dde7;
+  line-height: 1.5;
+}
+
 .admin-modal-close {
   position: absolute;
   top: 10px;
@@ -199,6 +209,22 @@
   background-size: 12px 8px;
 }
 
+.admin-modal-form select[name="estado"]:focus {
+  outline: none;
+  border-color: rgba(30, 144, 255, 0.9);
+  box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.22);
+}
+
+.admin-modal-form select[name="estado"] option {
+  background: #191c20;
+  color: var(--text);
+}
+
+.admin-modal-form select[name="estado"] option:checked {
+  background: rgba(30, 144, 255, 0.35);
+  color: #e9f5ff;
+}
+
 .admin-modal-form input[type="date"] {
   color-scheme: dark;
   padding: 9px 40px 9px 10px;
@@ -218,6 +244,17 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: 6px;
+}
+
+.admin-modal-full {
+  grid-column: 1 / -1;
+}
+
+.admin-modal-note {
+  grid-column: 1 / -1;
+  margin-top: -2px;
+  color: #9fb0c2;
+  font-size: 12px;
 }
 
 @media (max-width: 720px) {

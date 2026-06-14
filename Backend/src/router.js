@@ -16,8 +16,8 @@ function resolveStaticFile(requestPath) {
 
   const topLevelHtmlRoutes = {
     '/dashboard.html': '/html/dashboard.html',
-    '/market.html': '/html/market.html',
-    '/empresa.html': '/html/market.html',
+    '/market.html': '/html/empresa.html',
+    '/empresa.html': '/html/empresa.html',
     '/mapa.html': '/html/mapa.html',
     '/map.html': '/html/mapa.html',
     '/perfil.html': '/html/perfil.html',
@@ -59,6 +59,11 @@ function handleApiRoute(req, res, pathname) {
 
   if (pathname === '/api/user' && req.method === 'POST') {
     handlers.handleApiUserPost(req, res);
+    return true;
+  }
+
+  if (pathname === '/api/user/password' && req.method === 'POST') {
+    handlers.handleApiUserPasswordPost(req, res);
     return true;
   }
 

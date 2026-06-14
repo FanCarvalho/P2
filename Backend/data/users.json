@@ -1,19 +1,11 @@
 [
   {
     "id": 1,
-<<<<<<< HEAD
-    "firstName": "Alex",
-    "lastName": "Morgan",
+    "firstName": "Administrador",
+    "lastName": "",
     "email": "admin@glowpath.com",
-    "phone": "+1 (555) 123-4567",
-    "bio": "smoke test",
-=======
-    "firstName": "da",
-    "lastName": "ada",
-    "email": "admin@glowpath.com",
-    "phone": "+1 (555) 123-4567",
-    "bio": "Updated by Postman collection",
->>>>>>> 1eaf257985d0a137f0223f79f0cbff4f696ee8d1
+    "phone": "",
+    "bio": "Conta administrador da Glowpath.",
     "id_operador": 1
   },
   {

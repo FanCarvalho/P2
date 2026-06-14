@@ -70,7 +70,7 @@
       "email": "ana.silva.9@empresa.com",
       "password": "pass2466",
       "nivel_acesso": "operador",
-      "ativo": false
+      "ativo": true
     }
   ],
   "perfisIluminacao": [
@@ -245,7 +245,8 @@
       "nome": "Zona 3",
       "rua": "Travessa Nova 3",
       "codigo_postal": "2783-165",
-      "id_sensor": 3
+      "id_sensor": 3,
+      "estado_manual": "Atenção"
     },
     {
       "id_zona": 4,

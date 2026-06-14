@@ -1537,6 +1537,58 @@ function handleApiUserPost(req, res) {
     .catch(error => badRequest(res, { body: [error.message] }));
 }
 
+function handleApiUserPasswordPost(req, res) {
+  const currentUser = requireAuth(req, res);
+  if (!currentUser) return;
+
+  const apiDb = getApiDb();
+
+  return readBody(req)
+    .then(body => {
+      const errors = validateBody(
+        {
+          currentPassword: { required: true, label: 'Current password' },
+          newPassword: { required: true, label: 'New password', minLength: 8 },
+          confirmPassword: { required: true, label: 'Confirm password' }
+        },
+        body
+      );
+
+      if (String(body.newPassword || '') !== String(body.confirmPassword || '')) {
+        errors.confirmPassword = [...(errors.confirmPassword || []), 'New password and confirmation must match.'];
+      }
+
+      if (Object.keys(errors).length > 0) {
+        badRequest(res, errors);
+        return;
+      }
+
+      const operator = apiDb.operadores.find(item =>
+        Number(item.id_operador) === Number(currentUser.id_operador)
+        || String(item.email || '').toLowerCase() === String(currentUser.email || '').toLowerCase()
+      );
+
+      if (!operator) {
+        sendJson(res, 404, { description: 'Operador not found' });
+        return;
+      }
+
+      if (String(operator.password) !== String(body.currentPassword)) {
+        sendJson(res, 400, {
+          description: 'Validation failed',
+          errors: { currentPassword: ['Current password is incorrect.'] }
+        });
+        return;
+      }
+
+      operator.password = String(body.newPassword);
+      saveApiDb();
+
+      sendJson(res, 200, { message: 'Password updated successfully.' });
+    })
+    .catch(error => badRequest(res, { body: [error.message] }));
+}
+
 async function getPublicLighting(req, res) {
   const { publicLightingPath } = require('./config');
 
@@ -1580,6 +1632,7 @@ module.exports = {
   handleApiMe,
   handleApiUserGet,
   handleApiUserPost,
+  handleApiUserPasswordPost,
   getPublicLighting,
   handleLogin,
   listAgendamentos,

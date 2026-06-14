@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Empresa | Glowpath</title>
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/empresa.css" />
+  <script src="./js/auth.js"></script>
+  <script defer src="./js/components.js"></script>
+</head>
+<body data-page="empresa">
+  <div class="app-shell">
+    <div data-include="./components/sidebar.html"></div>
+
+    <main class="main-content">
+      <div data-include="./components/topbar.html"></div>
+
+      <section class="card market-hero">
+        <div>
+          <p class="market-kicker">Glowpath Engenharia</p>
+          <h2>Manutenção especializada com liderança técnica em infraestruturas urbanas inteligentes.</h2>
+          <p class="market-lead">
+            A Glowpath Engenharia lidera operações de manutenção de iluminação pública e redes de sensores,
+            com equipas certificadas, planeamento técnico orientado por dados e monitorização contínua 24/7.
+          </p>
+        </div>
+        <div class="market-hero-highlight" aria-label="Indicadores de desempenho">
+          <div>
+            <span>Intervenções técnicas concluídas/ano</span>
+            <strong>18.400+</strong>
+          </div>
+          <div>
+            <span>Ativos urbanos sob manutenção</span>
+            <strong>52.000+</strong>
+          </div>
+          <div>
+            <span>Tempo médio de resposta operacional</span>
+            <strong>2h 10m</strong>
+          </div>
+        </div>
+      </section>
+
+      <section id="servicos" class="grid market-services">
+        <article class="card service-card">
+          <h3>Manutenção Preventiva</h3>
+          <p>Inspeções técnicas programadas e planos de manutenção periódica para reduzir risco de falha e prolongar a vida útil dos ativos.</p>
+        </article>
+        <article class="card service-card">
+          <h3>Manutenção Corretiva</h3>
+          <p>Resolução rápida de avarias com piquetes 24/7, diagnóstico no terreno e reposição imediata da operação crítica.</p>
+        </article>
+        <article class="card service-card">
+          <h3>Gestão e Calibração</h3>
+          <p>Gestão do ciclo de vida dos equipamentos, calibração metrológica e aferição funcional para desempenho consistente em serviço.</p>
+        </article>
+      </section>
+
+      <section id="sede" class="card market-headquarters">
+        <div>
+          <p class="market-kicker">Sede Principal</p>
+          <h3>Porto, Portugal</h3>
+          <p>
+            A sede da Glowpath Engenharia, no Porto, coordena operações para múltiplos municípios,
+            integrando capacidade técnica, resposta de campo e supervisão operacional centralizada.
+          </p>
+          <ul class="market-list">
+            <li>Laboratório técnico para validação e ensaio de equipamentos</li>
+            <li>Centro de formação contínua para equipas de manutenção</li>
+            <li>Equipa certificada para intervenções e trabalhos em altura</li>
+          </ul>
+        </div>
+        <aside class="hq-panel" aria-label="Dados da sede">
+          <h4>Contacto Direto</h4>
+          <p>Rua da Industria Urbana, 88<br />4050-211 Porto</p>
+          <p>+351 22 400 81 00<br />operacoes@glowpath.pt</p>
+          <span class="badge badge-success">Atendimento técnico imediato</span>
+        </aside>
+      </section>
+
+      <div data-include="./components/footer.html"></div>
+    </main>
+  </div>
+</body>
+</html>

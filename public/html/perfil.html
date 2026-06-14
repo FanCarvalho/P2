@@ -19,34 +19,86 @@
       <div data-include="./components/topbar.html"></div>
 
       <section class="card">
-        <div class="settings-tabs">
-          <span class="settings-tab active">Profile</span>
-          <span class="settings-tab">Security</span>
-          <span class="settings-tab">Notifications</span>
-          <span class="settings-tab">Preferences</span>
+        <div class="settings-tabs" role="tablist" aria-label="Settings sections">
+          <button class="settings-tab active" type="button" role="tab" aria-selected="true" data-tab-target="profile-panel">Profile</button>
+          <button class="settings-tab" type="button" role="tab" aria-selected="false" data-tab-target="security-panel">Security</button>
+          <button class="settings-tab" type="button" role="tab" aria-selected="false" data-tab-target="notifications-panel">Notifications</button>
         </div>
 
-        <div class="profile-head">
-          <div class="avatar" style="width:72px; height:72px; border-radius:18px; font-size:24px;">AM</div>
-          <div class="profile-meta">
-            <h2>Conta autenticada</h2>
-            <p class="page-subtitle">A carregar credenciais...</p>
-            <p class="profile-role" id="profileRole">Nivel de acesso</p>
+        <div class="settings-panel" id="profile-panel" role="tabpanel">
+          <div class="profile-head">
+            <div class="avatar" style="width:72px; height:72px; border-radius:18px; font-size:24px;">AM</div>
+            <div class="profile-meta">
+              <h2>Conta autenticada</h2>
+              <p class="page-subtitle">A carregar credenciais...</p>
+              <p class="profile-role" id="profileRole">Nivel de acesso</p>
+            </div>
+          </div>
+
+          <form class="form-grid" id="profile-form">
+            <label>First Name<input type="text" id="firstName" /></label>
+            <label>Last Name<input type="text" id="lastName" /></label>
+            <label>Email<input type="email" id="email" /></label>
+            <label>Access Level<input type="text" id="accessLevel" readonly /></label>
+            <label>Phone<input type="tel" id="phone" /></label>
+            <label>Bio<textarea rows="3" id="bio" placeholder="Descreve esta conta Glowpath."></textarea></label>
+            <div class="actions">
+              <button type="submit" class="btn btn-primary" style="width:auto;">Save Changes</button>
+              <button type="button" class="btn btn-secondary" style="width:auto;" id="profileCancelBtn">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-panel" id="security-panel" role="tabpanel" hidden>
+          <h3 class="panel-title">Security</h3>
+          <p class="panel-subtitle">Atualize a palavra-passe da conta.</p>
+
+          <form class="form-grid" id="security-form">
+            <label>Current Password<input type="password" id="currentPassword" autocomplete="current-password" /></label>
+            <label>New Password<input type="password" id="newPassword" autocomplete="new-password" /></label>
+            <label>Confirm New Password<input type="password" id="confirmPassword" autocomplete="new-password" /></label>
+
+            <div class="actions">
+              <button type="submit" class="btn btn-primary" style="width:auto;">Update Password</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-panel" id="notifications-panel" role="tabpanel" hidden>
+          <h3 class="panel-title">Notifications</h3>
+          <p class="panel-subtitle">Recent infrastructure events across monitored areas.</p>
+
+          <div class="notification-list" aria-label="Recent infrastructure notifications">
+            <article class="notification-card is-alert">
+              <div class="notification-indicator" aria-hidden="true"></div>
+              <div class="notification-content">
+                <h4>Broken Pole Detected</h4>
+                <p>Pole #402 in Sector B went offline due to a power outage.</p>
+              </div>
+              <time class="notification-time" datetime="PT10M">10m ago</time>
+            </article>
+
+            <article class="notification-card is-resolved">
+              <div class="notification-indicator" aria-hidden="true"></div>
+              <div class="notification-content">
+                <h4>Maintenance Completed</h4>
+                <p>Pole #115 has been successfully repaired and is fully operational.</p>
+              </div>
+              <time class="notification-time" datetime="PT2H">2h ago</time>
+            </article>
+
+            <article class="notification-card is-critical">
+              <div class="notification-indicator" aria-hidden="true"></div>
+              <div class="notification-content">
+                <h4>Critical System Alert</h4>
+                <p>High voltage fluctuation detected in the North District network.</p>
+              </div>
+              <time class="notification-time" datetime="P1D">1 day ago</time>
+            </article>
           </div>
         </div>
 
-        <form class="form-grid" id="profile-form">
-          <label>First Name<input type="text" id="firstName" /></label>
-          <label>Last Name<input type="text" id="lastName" /></label>
-          <label>Email<input type="email" id="email" /></label>
-          <label>Access Level<input type="text" id="accessLevel" readonly /></label>
-          <label>Phone<input type="tel" id="phone" /></label>
-          <label>Bio<textarea rows="3" id="bio" placeholder="Descreve esta conta Glowpath."></textarea></label>
-          <div class="actions">
-            <button type="submit" class="btn btn-primary" style="width:auto;">Save Changes</button>
-            <button type="button" class="btn btn-secondary" style="width:auto;">Cancel</button>
-          </div>
-        </form>
+        <p class="settings-feedback" id="settingsFeedback" aria-live="polite"></p>
       </section>
 
       <div data-include="./components/footer.html"></div>

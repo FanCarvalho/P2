@@ -16,7 +16,7 @@ async function includeComponents() {
     <div class="menu-label">Main Menu</div>
     <div class="nav">
       <a href="./dashboard.html" data-page-link="dashboard">Dashboard</a>
-      <a href="./market.html" data-page-link="market">Markets</a>
+      <a href="./empresa.html" data-page-link="empresa">Empresa</a>
       <a href="./mapa.html" data-page-link="mapa">Map</a>${adminMenuItems}
     </div>
   </div>
@@ -35,7 +35,6 @@ async function includeComponents() {
     <p class="page-subtitle">Acompanhe portfolio, mercados e configuracoes.</p>
   </div>
   <div class="topbar-right">
-    <input class="search" type="search" placeholder="Search..." aria-label="Search" />
     <div class="avatar" title="${currentUser ? currentUser.email : 'Usuário'}">${userInitials}</div>
   </div>
 </header>`,
@@ -95,7 +94,8 @@ function applyPageState() {
 
   const titleMap = {
     dashboard: ["Dashboard", "Visao geral do portfolio"],
-    market: ["Glowpath Engenharia", "Promocao da empresa e sede principal no Porto"],
+    empresa: ["Glowpath Engenharia", "Lideranca em manutencao de infraestruturas urbanas inteligentes"],
+    market: ["Glowpath Engenharia", "Lideranca em manutencao de infraestruturas urbanas inteligentes"],
     mapa: ["Map", "Parceiros e cobertura geolocalizada"],
     perfil: ["Settings", "Preferencias e seguranca da conta"],
     admin: ["Admin Panel", "Gerenciar a infraestrutura de rede"]
