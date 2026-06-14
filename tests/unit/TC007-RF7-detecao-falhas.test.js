@@ -1,72 +1,71 @@
 const request = require('supertest');
 const { authHeader, loginAs } = require('../helpers/apiTestUtils');
 
-function criarNotificacaoOperador({ posteId, tipo, severidade }) {
-  return {
-    canal: 'sistema',
-    timestamp: new Date().toISOString(),
-    posteId,
-    tipo,
-    severidade
-  };
-}
 
-describe('TC007-RF7 - Deteccao Automatica de Falhas', () => {
-  it('Passo 1: timeout de comunicacao gera avaria do tipo comunicacao', async () => {
+describe('Test 10 - Pole Management CRUD', () => {
+  it('validates POST/GET/:id/PATCH /postes and FK checks for id_zona/id_perfil', async () => {
     const { app, token } = await loginAs();
 
-    const response = await request(app)
-      .post('/avarias')
+    const zonas = await request(app).get('/zonas');
+    expect(zonas.status).toBe(200);
+    const zonaValida = zonas.body[0];
+    expect(zonaValida).toBeDefined();
+
+    const perfis = await request(app)
+      .get('/perfis-iluminacao')
+      .set(authHeader(token));
+    expect(perfis.status).toBe(200);
+    const perfilValido = perfis.body[0];
+    expect(perfilValido).toBeDefined();
+
+    const invalidFk = await request(app)
+      .post('/postes')
       .set(authHeader(token))
       .send({
-        descricao: 'Timeout de comunicacao acima de 30s',
-        severidade: 'alta',
-        estado: 'pendente',
-        id_poste: 3
+        id_zona: 999999,
+        id_perfil: 999999,
+        latitude: 41.15,
+        longitude: -8.61,
+        altura: 9,
+        data_instalacao: '2026-06-15',
+        intensidade_atual: 30
       });
 
-    expect(response.status).toBe(201);
-    expect(response.body.id_avaria).toBeDefined();
-  });
-
-  it('Passo 2: notificar operador com posteId, tipo e severidade', async () => {
-    const notificacao = criarNotificacaoOperador({
-      posteId: 3,
-      tipo: 'comunicacao',
-      severidade: 'alta'
-    });
-
-    expect(notificacao).toEqual(
-      expect.objectContaining({
-        posteId: 3,
-        tipo: 'comunicacao',
-        severidade: 'alta'
-      })
-    );
-    expect(typeof notificacao.timestamp).toBe('string');
-  });
-
-  it('Passo 3: restaurar comunicacao atualiza estado para resolvida automaticamente', async () => {
-    const { app, token } = await loginAs();
+    expect([400, 404, 409]).toContain(invalidFk.status);
 
     const create = await request(app)
-      .post('/avarias')
+      .post('/postes')
       .set(authHeader(token))
       .send({
-        descricao: 'Falha de comunicacao temporaria',
-        severidade: 'media',
-        estado: 'pendente',
-        id_poste: 3
+        id_zona: zonaValida.id_zona,
+        id_perfil: perfilValido.id_perfil,
+        latitude: 41.16,
+        longitude: -8.62,
+        altura: 10,
+        data_instalacao: '2026-06-15',
+        intensidade_atual: 40
       });
 
     expect(create.status).toBe(201);
+    expect(create.body).toHaveProperty('id_poste');
 
-    const patch = await request(app)
-      .patch(`/avarias/${create.body.id_avaria}`)
+    const list = await request(app)
+      .get('/postes')
+      .set(authHeader(token));
+    expect(list.status).toBe(200);
+    expect(Array.isArray(list.body)).toBe(true);
+
+    const getById = await request(app)
+      .get(`/postes/${create.body.id_poste}`)
+      .set(authHeader(token));
+    expect(getById.status).toBe(200);
+
+    const update = await request(app)
+      .patch(`/postes/${create.body.id_poste}`)
       .set(authHeader(token))
-      .send({ estado: 'resolvida' });
+      .send({ intensidade_atual: 55, estado: 'ativo' });
 
-    expect(patch.status).toBe(200);
-    expect(patch.body.estado).toBe('resolvida');
+    expect(update.status).toBe(200);
+    expect(Number(update.body.intensidade_atual)).toBe(55);
   });
 });

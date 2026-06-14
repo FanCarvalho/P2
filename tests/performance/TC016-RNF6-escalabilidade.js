@@ -1,35 +1,34 @@
-import http from 'k6/http';
-import { check } from 'k6';
+const request = require('supertest');
+const { createApp } = require('../helpers/apiTestUtils');
 
-export const options = {
-  stages: __ENV.SHORT_MODE === '1'
-    ? [
-      { duration: '10s', target: 10 },
-      { duration: '10s', target: 25 },
-      { duration: '10s', target: 0 }
-    ]
-    : [
-      { duration: '2m', target: 20 },
-      { duration: '2m', target: 60 },
-      { duration: '2m', target: 120 },
-      { duration: '2m', target: 200 },
-      { duration: '1m', target: 0 }
-    ],
-  thresholds: {
-    http_req_duration: ['p(95)<3000'],
-    http_req_failed: ['rate==0']
-  }
-};
+describe('Test 17 - Basic performance (short mode) / TC016', () => {
+  jest.setTimeout(30000);
 
-export default function () {
-  const baseUrl = __ENV.BASE_URL || 'http://127.0.0.1:3000';
+  it('scalability short ramp simulation with mixed endpoints', async () => {
+    const app = createApp();
+    const endpoints = ['/zonas', '/api/config', '/dashboard.html'];
 
-  const endpoints = ['/zonas', '/api/config', '/dashboard.html'];
-  const idx = Math.floor(Math.random() * endpoints.length);
-  const response = http.get(`${baseUrl}${endpoints[idx]}`);
+    const durations = [];
+    let failures = 0;
 
-  check(response, {
-    'sem timeout': r => r.timings.duration < 3000,
-    'resposta valida': r => r.status >= 200 && r.status < 500
+    for (let i = 0; i < 30; i += 1) {
+      const endpoint = endpoints[i % endpoints.length];
+      const started = Date.now();
+      const res = await request(app).get(endpoint);
+      const elapsed = Date.now() - started;
+      durations.push(elapsed);
+
+      if (!(res.status >= 200 && res.status < 500)) {
+        failures += 1;
+      }
+    }
+
+    const sorted = [...durations].sort((a, b) => a - b);
+    const p95Index = Math.max(0, Math.ceil(sorted.length * 0.95) - 1);
+    const p95 = sorted[p95Index];
+    const failRate = failures / durations.length;
+
+    expect(p95).toBeLessThanOrEqual(3000);
+    expect(failRate).toBeLessThan(0.01);
   });
-}
+});

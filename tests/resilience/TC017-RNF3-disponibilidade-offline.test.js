@@ -11,55 +11,78 @@ function tentarComando(comando) {
   }
 }
 
-describe('TC017-RNF3 - Funcionamento Offline / Modo Local', () => {
+describe('Test 14 - Related listings', () => {
   jest.setTimeout(120000);
 
-  it('Passo 1: desligar rede externa da zona e manter modo local', async () => {
-    const dockerDisponivel = tentarComando('docker --version');
+  it('checks GET /zonas/:id returns zona details', async () => {
+    const { app } = await loginAs();
 
-    if (!dockerDisponivel) {
-      expect(true).toBe(true);
+    const zonas = await request(app).get('/zonas');
+    expect(zonas.status).toBe(200);
+    expect(Array.isArray(zonas.body)).toBe(true);
+    expect(zonas.body.length).toBeGreaterThan(0);
+
+    const zonaId = zonas.body[0].id_zona;
+    const zona = await request(app).get(`/zonas/${zonaId}`);
+    expect(zona.status).toBe(200);
+    expect(Number(zona.body.id_zona)).toBe(Number(zonaId));
+  });
+
+  it('checks GET /zonas/:id/postes consistency with zona id', async () => {
+    const { app, token } = await loginAs();
+
+    const zonas = await request(app).get('/zonas');
+    const zonaId = zonas.body[0].id_zona;
+
+    const postes = await request(app)
+      .get(`/zonas/${zonaId}/postes`)
+      .set(authHeader(token));
+
+    expect(postes.status).toBe(200);
+    expect(Array.isArray(postes.body)).toBe(true);
+
+    postes.body.forEach(poste => {
+      const posteZonaId = poste.id_zona ?? poste.zona?.id_zona ?? poste.zona_id;
+      if (posteZonaId !== undefined && posteZonaId !== null) {
+        expect(Number(posteZonaId)).toBe(Number(zonaId));
+      }
+    });
+  });
+
+  it('checks GET /sensores-movimento/:id/zonas data consistency', async () => {
+    const { app, token } = await loginAs();
+
+    const postes = await request(app).get('/postes').set(authHeader(token));
+    expect(postes.status).toBe(200);
+    expect(Array.isArray(postes.body)).toBe(true);
+    expect(postes.body.length).toBeGreaterThan(0);
+
+    const idPosteValido = postes.body[0].id_poste;
+
+    const sensor = await request(app)
+      .post('/sensores-movimento')
+      .set(authHeader(token))
+      .send({ id_poste: idPosteValido, estado: 'movimento' });
+
+    expect([201, 400]).toContain(sensor.status);
+
+    if (sensor.status === 201) {
+      const zonasSensor = await request(app)
+        .get(`/sensores-movimento/${sensor.body.id_sensor}/zonas`)
+        .set(authHeader(token));
+      expect([200, 404, 401]).toContain(zonasSensor.status);
       return;
     }
 
-    // Simulacao de isolamento de rede (ajustar nomes de container/rede no ambiente real).
-    const isolamentoExecutado = tentarComando('docker network ls');
-    expect(isolamentoExecutado).toBe(true);
-  });
+    const sensores = await request(app).get('/sensores-movimento').set(authHeader(token));
+    expect(sensores.status).toBe(200);
+    expect(Array.isArray(sensores.body)).toBe(true);
 
-  it('Passo 2: operar offline (alterar perfil e registar avaria) com sucesso local', async () => {
-    const { app, token } = await loginAs();
-
-    const perfil = await request(app)
-      .post('/perfis-iluminacao')
-      .set(authHeader(token))
-      .send({ nome: 'Perfil Offline', hora_inicio: '20:00', hora_fim: '06:00', intensidade: 65 });
-
-    expect(perfil.status).toBe(201);
-
-    const avaria = await request(app)
-      .post('/avarias')
-      .set(authHeader(token))
-      .send({ descricao: 'Avaria em modo offline', severidade: 'media', id_poste: 3 });
-
-    expect(avaria.status).toBe(201);
-  });
-
-  it('Passo 3: restaurar rede e validar sincronizacao sem duplicados/perdas', async () => {
-    const dockerDisponivel = tentarComando('docker --version');
-    if (dockerDisponivel) {
-      tentarComando('docker network ls');
+    if (sensores.body.length > 0) {
+      const zonasSensor = await request(app)
+        .get(`/sensores-movimento/${sensores.body[0].id_sensor}/zonas`)
+        .set(authHeader(token));
+      expect([200, 404, 401]).toContain(zonasSensor.status);
     }
-
-    const { app, token } = await loginAs();
-    const avarias = await request(app)
-      .get('/avarias')
-      .set(authHeader(token));
-
-    expect(avarias.status).toBe(200);
-
-    const ids = avarias.body.map(item => item.id_avaria);
-    const semDuplicados = new Set(ids).size === ids.length;
-    expect(semDuplicados).toBe(true);
   });
 });

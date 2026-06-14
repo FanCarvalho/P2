@@ -54,7 +54,7 @@ async function aplicarPerfilAutomaticamente(app, token, zonaId, perfilId, intens
   }
 }
 
-describe('TC010-RF10 - Aplicacao Automatica de Perfis', () => {
+describe('Test 7 - Automatic profile scheduling (logic)', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2026-06-11T20:00:00.000Z'));
@@ -81,7 +81,7 @@ describe('TC010-RF10 - Aplicacao Automatica de Perfis', () => {
     expect(createProfile.body.id_perfil).toBeDefined();
   });
 
-  it('Passo 2: mock de tempo 20:00 aplica perfil aos postes da Z02', async () => {
+  it('Passo 2: mock de tempo 20:00 aplica perfil aos postes da Z02 com PATCH de estado', async () => {
     const { app, token } = await loginAs();
     const zonaId = await garantirZonaZ02(app, token);
 

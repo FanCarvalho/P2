@@ -9,7 +9,7 @@ function filtrarUltimas24h(registos) {
   });
 }
 
-describe('TC003-RF3 - Registo e Monitorizacao', () => {
+describe('Test 11 - Lamp logs', () => {
   it('Passo 1: GET dos logs retorna lista com timestamp e consumo', async () => {
     const { app, token } = await loginAs();
 

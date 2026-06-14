@@ -46,7 +46,8 @@ async function loginAs(email = 'admin@glowpath.com', password = 'admin123') {
   return {
     app,
     token: response.body.accessToken,
-    operator: response.body.operator
+    operator: response.body.operator,
+    accessToken: response.body.accessToken
   };
 }
 

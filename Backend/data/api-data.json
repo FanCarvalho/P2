@@ -71,6 +71,22 @@
       "password": "pass2466",
       "nivel_acesso": "operador",
       "ativo": false
+    },
+    {
+      "id_operador": 10,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781400943059@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 11,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781400949798@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
     }
   ],
   "perfisIluminacao": [
@@ -147,6 +163,34 @@
     {
       "id_perfil": 11,
       "nome": "Perfil UAT Noturno",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 12,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 13,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 14,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 15,
+      "nome": "Perfil Auto Z02 Aplicacao",
       "hora_inicio": "20:00",
       "hora_fim": "06:00",
       "intensidade": 50
@@ -272,6 +316,22 @@
       "alcance": 12,
       "estado": "movimento",
       "ultimo_calibracao": "2026-06-11"
+    },
+    {
+      "id_sensor": 16,
+      "modelo": "MOV-1781400945005",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 17,
+      "modelo": "MOV-1781400952412",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
     }
   ],
   "zonas": [
@@ -402,6 +462,20 @@
       "rua": "Rua Testes Z02",
       "codigo_postal": "1000-002",
       "id_sensor": 3
+    },
+    {
+      "id_zona": 19,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 20,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
     }
   ],
   "postes": [
@@ -429,7 +503,7 @@
     },
     {
       "id_poste": 3,
-      "estado": "avaria",
+      "estado": "ativo",
       "intensidade_atual": 51,
       "latitude": 41.215108,
       "longitude": -8.566099,
@@ -16475,6 +16549,50 @@
       "data_instalacao": "2026-06-11",
       "id_zona": 18,
       "id_perfil": 7
+    },
+    {
+      "id_poste": 1462,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 19,
+      "id_perfil": 13
+    },
+    {
+      "id_poste": 1463,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1464,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 20,
+      "id_perfil": 15
+    },
+    {
+      "id_poste": 1465,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
     }
   ],
   "lampadas": [
@@ -51519,6 +51637,34 @@
       "luminosidade_max": 1200,
       "luminosidade_min": 180,
       "tempo_vida_horas": 60000
+    },
+    {
+      "id_registo": 1461,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T01:34:44.556Z",
+      "hora_desligar": "2026-06-14T01:35:44.556Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1462,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T01:34:53.741Z",
+      "hora_desligar": "2026-06-14T01:35:53.741Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
     }
   ],
   "agendamentosManutencao": [
@@ -52786,6 +52932,56 @@
       "descricao": "Teste conclusao manutencao - concluido com notas",
       "prioridade": "media",
       "estado": "concluido",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 157,
+      "data_manutencao": "2026-06-28",
+      "descricao": "Manutencao preventiva API",
+      "prioridade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 158,
+      "data_manutencao": "2026-06-28",
+      "descricao": "Manutencao preventiva API",
+      "prioridade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 159,
+      "data_manutencao": "2026-06-28",
+      "descricao": "Manutencao preventiva API",
+      "prioridade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 160,
+      "data_manutencao": "2026-06-28",
+      "descricao": "Manutencao preventiva API",
+      "prioridade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_agendamento": 161,
+      "data_manutencao": "2026-06-28",
+      "descricao": "Manutencao preventiva API",
+      "prioridade": "alta",
+      "estado": "pendente",
       "id_poste": 3,
       "id_lampada": null,
       "id_zona": null
@@ -54438,6 +54634,69 @@
       "descricao": "Resolvida com sucesso. Tempo total aproximado: 1 min.",
       "severidade": "media",
       "estado": "resolvida",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 233,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 234,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 235,
+      "descricao": "Avaria fluxo completo",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 236,
+      "descricao": "Avaria fluxo completo",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 237,
+      "descricao": "Avaria fluxo completo",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 238,
+      "descricao": "Avaria fluxo completo",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 239,
+      "descricao": "Avaria fluxo completo",
+      "severidade": "alta",
+      "estado": "pendente",
       "id_poste": 3,
       "id_lampada": null,
       "id_zona": null

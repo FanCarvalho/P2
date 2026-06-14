@@ -1,0 +1,59 @@
+Functional Requirements (RF)
+
+RF01: O sistema deve autenticar operadores através da página de login e do endpoint POST /operadores/login, retornando accessToken e dados do operador para sessões autenticadas.
+
+RF02: O sistema deve validar sessão autenticada no frontend através de /api/me (auth.js / ensureAuthenticated), mantendo o operador autenticado em armazenamento local de sessão e redirecionando quando necessário.
+
+RF03: O sistema deve disponibilizar listagem pública de zonas via GET /zonas, incluindo campos operacionais por zona (id_zona, nome, postes, avarias, consumo_mensal), com enriquecimento de dados utilizado no dashboard.
+
+RF04: O dashboard deve carregar e renderizar visualizações com dados de /zonas, incluindo os elementos #consumoEnergiaChart, #distribuicaoAvariasChart, #faultsLegendTableA, #faultsLegendTableB, #faultsTableBody e #maintenanceTableBody.
+
+RF05: O sistema deve permitir consulta e agregação de dados para relatórios no frontend (ex.: total de consumo), com fluxo de exportação CSV acionado pela interface do dashboard.
+
+RF06: O backend deve suportar CRUD de perfis de iluminação via /perfis-iluminacao (POST, GET, PATCH, DELETE), exigindo autenticação por token nas rotas protegidas.
+
+RF07: O sistema deve aplicar automaticamente perfis de iluminação conforme horário configurado (ex.: 20:00), atualizando estado/intensidade de postes com base na infraestrutura de registos de lâmpada.
+
+RF08: O backend deve gerir sensores de movimento via /sensores-movimento (POST, GET, GET por id), com estado operacional de sensor ("movimento" ou "sem_movimento").
+
+RF09: O sistema deve reagir a eventos de sensores ajustando intensidade de postes e restaurando o valor base após timeout definido pela lógica de negócio.
+
+RF10: O backend deve gerir postes com operações de criação, listagem, detalhe e atualização (/postes), validando referências para zona e perfil antes de persistir.
+
+RF11: O sistema deve registar e consultar logs de lâmpadas por POST /registos-lampada, GET /lampadas/:id/registos e GET /registos-lampada, incluindo filtros de período (ex.: últimas 24h).
+
+RF12: O sistema deve gerir ciclo de avarias por /avarias (criação, filtragem por estado, atribuição e resolução), com validação de campos mínimos e transição de estados.
+
+RF13: O backend deve permitir agendamento de manutenção por /agendamentos-manutencao (POST, GET, PATCH), com atualização de estado do agendamento e suporte a resposta com metadados de navegação (_links) quando disponível.
+
+RF14: O sistema deve disponibilizar listagens relacionadas entre recursos por endpoints de sub-recurso (ex.: /zonas/:id, /zonas/:id/postes, /sensores-movimento/:id/zonas), mantendo consistência entre entidades.
+
+RF15: O backend deve impor integridade referencial nas operações (ex.: rejeitar inserções com chaves estrangeiras inválidas, como id_poste inexistente em avarias), incluindo fallback de validação em dataStore/apiHandlers.
+
+RF16: O sistema deve aplicar controle de acesso por perfil de operador (nivel_acesso), retornando 401 para ausência/invalidade de token e 403 para operações administrativas sem privilégio (ex.: POST /operadores).
+
+RF17: O frontend deve fornecer páginas funcionais para operação do sistema (login, dashboard, mapa, admin, market e perfil), carregando componentes compartilhados (sidebar, topbar, footer) e scripts específicos por módulo.
+
+RF18: O backend deve servir configuração operacional consumida pelo cliente (ex.: /api/config) para suportar execução das páginas e fluxos de monitorização.
+
+Non-Functional Requirements (RNF)
+
+RNF01: O sistema deve manter desempenho em modo de teste curto com verificação de latência e taxa de erro nos endpoints /dashboard.html, /zonas e /api/config, conforme suíte de performance automatizada.
+
+RNF02: O sistema deve garantir segurança de API com autenticação por Bearer token, validação de autorização por nível de acesso e tratamento seguro de tentativas inválidas (401/403).
+
+RNF03: O sistema deve operar em modo local/offline com continuidade de operações essenciais e sincronização sem duplicação de registos quando a conectividade é restabelecida.
+
+RNF04: O sistema deve preservar fiabilidade dos dados com validações de integridade referencial e consistência entre entidades relacionadas (zonas, postes, sensores, avarias, registos).
+
+RNF05: O frontend deve atender critérios mínimos de usabilidade e acessibilidade medidos por auditoria automatizada (Lighthouse/fallback), com metas de Accessibility >= 90 e Best Practices >= 85.
+
+RNF06: O sistema deve apresentar compatibilidade de execução em ambiente de testes cross-browser automatizado (Cypress), cobrindo fluxo funcional equivalente em cenários de compatibilidade definidos.
+
+RNF07: O projeto deve manter testabilidade automatizada por camadas (unit, e2e, quality, resilience, performance), com scripts de execução em package.json para validação contínua.
+
+RNF08: O backend deve ser resiliente a variações de ambiente (ex.: fallback JSON quando serviços externos indisponíveis), preservando comportamento funcional principal dos endpoints.
+
+RNF09: O sistema deve manter arquitetura modular separando backend (router, handlers, auth, filters, datastore) e frontend (páginas HTML, CSS, JS por domínio), facilitando manutenção e evolução.
+
+RNF10: As respostas dos endpoints devem manter contrato consistente para consumo por UI e testes automatizados, incluindo tratamento de erro previsível e estruturas de payload estáveis.

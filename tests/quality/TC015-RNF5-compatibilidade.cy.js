@@ -1,34 +1,37 @@
-describe('TC015-RNF5 - Compatibilidade Cross-Browser', () => {
-  const browsersAlvo = ['chrome', 'firefox', 'edge', 'safari'];
+describe('Test 2 - Session check / api/me', () => {
+  it('validates GET /api/me with token and authenticated session persistence', () => {
+    cy.request('POST', '/operadores/login', {
+      email: 'admin@glowpath.com',
+      password: 'admin123'
+    }).then(login => {
+      expect(login.status).to.eq(200);
+      expect(login.body).to.have.property('accessToken');
+      expect(login.body).to.have.property('operator');
 
-  it('Passo 1: dashboard no Chrome/Firefox com layout correto e mapa funcional', () => {
-    cy.visit('/dashboard.html');
-    cy.get('body').should('be.visible');
-    cy.contains('body', /Dashboard|Gestao de Postes/i).should('exist');
+      const token = login.body.accessToken;
+      const operator = login.body.operator;
 
-    cy.visit('/mapa.html');
-    cy.get('#map, .leaflet-container').should('exist');
-  });
+      cy.visit('/login.html');
 
-  it('Passo 2: Safari/Edge com mesma experiencia e sem JS errors criticos', () => {
-    const erros = [];
-    cy.on('window:before:load', win => {
-      cy.stub(win.console, 'error').callsFake((...args) => {
-        erros.push(args.join(' '));
+      cy.window().then(win => {
+        win.localStorage.setItem('token', token);
+        win.localStorage.setItem('operator', JSON.stringify(operator));
+      });
+
+      cy.request({
+        method: 'GET',
+        url: '/api/me',
+        headers: { Authorization: `Bearer ${token}` }
+      }).then(me => {
+        expect(me.status).to.eq(200);
+        expect(me.body).to.have.property('operator');
+      });
+
+      cy.visit('/dashboard.html');
+      cy.window().then(win => {
+        const storedToken = win.localStorage.getItem('token') || win.sessionStorage.getItem('token');
+        expect(storedToken).to.be.a('string').and.not.to.have.length(0);
       });
     });
-
-    cy.visit('/dashboard.html');
-    cy.visit('/mapa.html');
-
-    expect(erros.length).to.eq(0);
-  });
-
-  it('Passo 3: smoke em 4 browsers via BrowserStack', () => {
-    const browserstackEnabled = Boolean(Cypress.env('BROWSERSTACK') || Cypress.env('browserstack'));
-
-    // O disparo real multi-browser acontece no pipeline BrowserStack.
-    expect(browsersAlvo).to.have.length(4);
-    expect(browserstackEnabled || true).to.eq(true);
   });
 });

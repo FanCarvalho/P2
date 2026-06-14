@@ -1,7 +1,7 @@
 const request = require('supertest');
 const { authHeader, createApp, loginAs } = require('../helpers/apiTestUtils');
 
-describe('TC012-RNF2 - Seguranca (Autenticacao e Autorizacao)', () => {
+describe('Test 16 - Security / Authorization', () => {
   it('Passo 1: request sem Authorization para /api/postes devolve 401', async () => {
     const app = createApp();
 

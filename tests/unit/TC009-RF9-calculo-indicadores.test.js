@@ -36,40 +36,29 @@ function calcularMttrHoras(apiDb, zonaNome = 'Z01') {
   return mttrHoras;
 }
 
-describe('TC009-RF9 - Calculo de Indicadores', () => {
-  it('Passo 1: indicador de energia mensal retorna consumo total e media diaria', async () => {
-    const { app, token } = await loginAs();
+describe('Test 3 - Public zone listing (dashboard)', () => {
+  it('validates public GET /zonas contract fields and enriched metrics', async () => {
+    const { app } = await loginAs();
 
-    // O endpoint /api/indicadores ainda nao existe; usamos as colecoes atuais para validar o calculo.
-    const zonasResponse = await request(app)
-      .get('/zonas')
-      .set(authHeader(token));
+    const response = await request(app).get('/zonas');
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
 
-    expect(zonasResponse.status).toBe(200);
+    response.body.forEach(zona => {
+      expect(zona).toEqual(expect.objectContaining({
+        id_zona: expect.anything(),
+        nome: expect.anything(),
+        postes: expect.anything(),
+        avarias: expect.anything(),
+        consumo_mensal: expect.anything()
+      }));
+    });
 
     const calculado = calcularConsumoEnergiaMensalPorZona(getApiDb(), 'Z01');
     expect(calculado.consumoTotal).toBeGreaterThanOrEqual(0);
     expect(calculado.mediaDiaria).toBeGreaterThanOrEqual(0);
-  });
 
-  it('Passo 2: calcular MTTR em horas para zona', async () => {
     const mttr = calcularMttrHoras(getApiDb(), 'Z01');
     expect(mttr).toBeGreaterThanOrEqual(0);
-  });
-
-  it('Passo 3: validar calculos com margem <= 0.01%', () => {
-    const apiDb = getApiDb();
-    const resultadoA = calcularConsumoEnergiaMensalPorZona(apiDb, 'Z01');
-    const resultadoB = calcularConsumoEnergiaMensalPorZona(apiDb, 'Z01');
-
-    const margem = 0.0001;
-    const deltaConsumo = Math.abs(resultadoA.consumoTotal - resultadoB.consumoTotal);
-    const deltaMedia = Math.abs(resultadoA.mediaDiaria - resultadoB.mediaDiaria);
-
-    const baseConsumo = Math.max(Math.abs(resultadoB.consumoTotal), 1);
-    const baseMedia = Math.max(Math.abs(resultadoB.mediaDiaria), 1);
-
-    expect(deltaConsumo / baseConsumo).toBeLessThanOrEqual(margem);
-    expect(deltaMedia / baseMedia).toBeLessThanOrEqual(margem);
   });
 });

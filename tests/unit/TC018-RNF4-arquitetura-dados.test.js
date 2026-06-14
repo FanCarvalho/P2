@@ -35,7 +35,7 @@ async function tabelaExiste(nome) {
   return Number(rows[0].total) > 0;
 }
 
-describe('TC018-RNF4 - Integridade da Arquitetura de Dados', () => {
+describe('Test 15 - Referential integrity / FK validation', () => {
   it('Passo 1: validar FK constraints principais', async () => {
     if (!(await dbDisponivel())) {
       expect(true).toBe(true);

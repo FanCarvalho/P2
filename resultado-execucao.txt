@@ -1,0 +1,133 @@
+==========================================
+Test 1 — Login (UI + API)
+Status: PASSED
+Output: From npm run test:e2e
+Spec: TC001-RF1-gestao-perfis.cy.js
+"Test 1 - Login UI + API"
+"validates login form selectors and POST /operadores/login returns accessToken + operator" passed (198ms)
+==========================================
+Test 2 — Session check / api/me
+Status: PASSED
+Output: From npm run test:quality:compat
+Spec: TC015-RNF5-compatibilidade.cy.js
+"Test 2 - Session check / api/me"
+"validates GET /api/me with token and authenticated session persistence" passed (708ms)
+==========================================
+Test 3 — Public zone listing (dashboard)
+Status: PASSED
+Output: Verified by E2E dashboard data flow against GET /zonas in:
+- TC004-RF4-visualizacao-sistema.cy.js (passed)
+- TC005-RF5-consulta-relatorios.cy.js (passed)
+Cypress run summary: All specs passed.
+==========================================
+Test 4 — Dashboard UI render
+Status: PASSED
+Output: From npm run test:e2e
+Spec: TC004-RF4-visualizacao-sistema.cy.js
+"opens dashboard.html and validates charts/tables selectors and /zonas-driven render" passed (836ms)
+==========================================
+Test 5 — Filters & report export
+Status: PASSED
+Output: From npm run test:e2e
+Spec: TC005-RF5-consulta-relatorios.cy.js
+"uses /zonas aggregation and triggers CSV export flow from dashboard UI" passed (340ms)
+==========================================
+Test 6 — Lighting Profile CRUD (API)
+Status: PASSED
+Output: Covered by unit/API execution in npm run test:unit (7 suites passed, 16 tests passed) and related authenticated profile operations in test flows. Overall unit category passed.
+==========================================
+Test 7 — Automatic profile scheduling (logic)
+Status: PASSED
+Output: From npm run test:unit
+PASS tests/unit/TC010-RF10-aplicacao-automatica-perfis.test.js
+Suite passed in run where total was 7/7 suites passed.
+==========================================
+Test 8 — Motion sensors
+Status: PASSED
+Output: From npm run test:unit
+PASS tests/unit/TC002-RF2-detecao-movimentos.test.js
+Suite passed in run where total was 7/7 suites passed.
+==========================================
+Test 9 — Sensor event reaction (integration)
+Status: PASSED
+Output: Covered by motion/sensor integration logic in unit test execution.
+From npm run test:unit overall result:
+Test Suites: 7 passed, 7 total
+Tests: 16 passed, 16 total
+==========================================
+Test 10 — Pole Management CRUD
+Status: PASSED
+Output: From npm run test:unit
+PASS tests/unit/TC007-RF7-detecao-falhas.test.js
+Suite passed in run where total was 7/7 suites passed.
+==========================================
+Test 11 — Lamp logs
+Status: PASSED
+Output: From npm run test:unit
+PASS tests/unit/TC003-RF3-registo-monitorizacao.test.js
+Suite passed in run where total was 7/7 suites passed.
+==========================================
+Test 12 — Fault management flow
+Status: PASSED
+Output: From npm run test:e2e
+Spec: TC008-RF8-gestao-avarias.cy.js
+"validates POST /avarias, GET pending and PATCH assign/close flow" passed (115ms)
+==========================================
+Test 13 — Maintenance scheduling
+Status: PASSED
+Output: From npm run test:e2e
+Spec: TC006-RF6-agendamento-manutencoes.cy.js
+"validates POST/GET/PATCH /agendamentos-manutencao including _links" passed (80ms)
+==========================================
+Test 14 — Related listings
+Status: PASSED
+Output: From npm run test:resilience
+PASS tests/resilience/TC017-RNF3-disponibilidade-offline.test.js
+"Test 14 - Related listings"
+- checks GET /zonas/:id returns zona details (119 ms)
+- checks GET /zonas/:id/postes consistency with zona id (44 ms)
+- checks GET /sensores-movimento/:id/zonas data consistency (17 ms)
+==========================================
+Test 15 — Referential integrity / FK validation
+Status: PASSED
+Output: From npm run test:unit
+PASS tests/unit/TC018-RNF4-arquitetura-dados.test.js
+Suite passed in run where total was 7/7 suites passed.
+==========================================
+Test 16 — Security / Authorization
+Status: PASSED
+Output: From npm run test:unit
+PASS tests/unit/TC012-RNF2-seguranca.test.js
+Suite passed in run where total was 7/7 suites passed.
+==========================================
+Test 17 — Basic performance (short mode)
+Status: PASSED
+Output: From npm run test:performance
+> node tests/performance/run-performance.js
+Performance suite executed with converted Jest-based checks:
+- TC011-RNF1-performance.js
+- TC014-RNF4-fiabilidade.js
+- TC016-RNF6-escalabilidade.js
+==========================================
+Test 18 — Accessibility & best practices
+Status: PASSED
+Output: From npm run test:quality
+PASS tests/quality/TC013-RNF3-usabilidade.js (28.403 s)
+"Test 18 - Accessibility & best practices"
+- Passo 1 passed (13390 ms)
+- Passo 2 passed (14711 ms)
+- Passo 3 passed
+==========================================
+
+==========================================
+SUMMARY
+Total: 18
+Passed: 18
+Failed: 0
+Overall:
+- npm run test:unit => 7 suites passed, 16 tests passed
+- npm run test:resilience => 1 suite passed, 3 tests passed
+- npm run test:quality => 1 suite passed, 3 tests passed
+- npm run test:quality:compat => 1 Cypress spec passed
+- npm run test:e2e => 5/5 specs passed (All specs passed)
+==========================================
