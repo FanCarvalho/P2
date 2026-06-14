@@ -87,6 +87,86 @@
       "password": "operador1234",
       "nivel_acesso": "operador",
       "ativo": true
+    },
+    {
+      "id_operador": 12,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781437693983@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 13,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781437725992@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 14,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781437975693@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 15,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781438016178@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 16,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781438119933@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 17,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781438495590@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 18,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781438555784@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 19,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781438610928@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 20,
+      "nome": "Operador Teste 1781439691864",
+      "email": "operador.1781439691864@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
+    },
+    {
+      "id_operador": 21,
+      "nome": "Operador Restrito",
+      "email": "operador.bloqueado.1781439693434@glowpath.local",
+      "password": "operador1234",
+      "nivel_acesso": "operador",
+      "ativo": true
     }
   ],
   "perfisIluminacao": [
@@ -190,6 +270,132 @@
     },
     {
       "id_perfil": 15,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 16,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 17,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 18,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 19,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 20,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 21,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 22,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 23,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 24,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 25,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 26,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 27,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 28,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 29,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 30,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 31,
+      "nome": "Perfil Auto Z02 Aplicacao",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 50
+    },
+    {
+      "id_perfil": 32,
+      "nome": "Perfil Auto Z02",
+      "hora_inicio": "20:00",
+      "hora_fim": "06:00",
+      "intensidade": 70
+    },
+    {
+      "id_perfil": 33,
       "nome": "Perfil Auto Z02 Aplicacao",
       "hora_inicio": "20:00",
       "hora_fim": "06:00",
@@ -328,6 +534,78 @@
     {
       "id_sensor": 17,
       "modelo": "MOV-1781400952412",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 18,
+      "modelo": "MOV-1781437746371",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 19,
+      "modelo": "MOV-1781437778024",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 20,
+      "modelo": "MOV-1781437976702",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 21,
+      "modelo": "MOV-1781438016663",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 22,
+      "modelo": "MOV-1781438122257",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 23,
+      "modelo": "MOV-1781438497235",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 24,
+      "modelo": "MOV-1781438557294",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 25,
+      "modelo": "MOV-1781438612969",
+      "sensibilidade": 80,
+      "alcance": 12,
+      "estado": "movimento",
+      "ultimo_calibracao": "2026-06-14"
+    },
+    {
+      "id_sensor": 26,
+      "modelo": "MOV-1781439694916",
       "sensibilidade": 80,
       "alcance": 12,
       "estado": "movimento",
@@ -472,6 +750,69 @@
     },
     {
       "id_zona": 20,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 21,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 22,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 23,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 24,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 25,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 26,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 27,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 28,
+      "nome": "Z02",
+      "rua": "Rua Testes Z02",
+      "codigo_postal": "1000-002",
+      "id_sensor": 3
+    },
+    {
+      "id_zona": 29,
       "nome": "Z02",
       "rua": "Rua Testes Z02",
       "codigo_postal": "1000-002",
@@ -16591,6 +16932,215 @@
       "longitude": -8.62,
       "altura": 10,
       "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1466,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 21,
+      "id_perfil": 17
+    },
+    {
+      "id_poste": 1467,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1468,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 22,
+      "id_perfil": 19
+    },
+    {
+      "id_poste": 1469,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1470,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 23,
+      "id_perfil": 21
+    },
+    {
+      "id_poste": 1471,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1472,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 24,
+      "id_perfil": 23
+    },
+    {
+      "id_poste": 1473,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1474,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 25,
+      "id_perfil": 25
+    },
+    {
+      "id_poste": 1475,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1476,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 26,
+      "id_perfil": 27
+    },
+    {
+      "id_poste": 1477,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1478,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 27,
+      "id_perfil": 29
+    },
+    {
+      "id_poste": 1479,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1480,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 28,
+      "id_perfil": 31
+    },
+    {
+      "id_poste": 1481,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1482,
+      "estado": "ativo",
+      "intensidade_atual": 50,
+      "latitude": 41.15,
+      "longitude": -8.61,
+      "altura": 9,
+      "data_instalacao": "2026-06-11",
+      "id_zona": 29,
+      "id_perfil": 33
+    },
+    {
+      "id_poste": 1483,
+      "estado": "ativo",
+      "intensidade_atual": 55,
+      "latitude": 41.16,
+      "longitude": -8.62,
+      "altura": 10,
+      "data_instalacao": "2026-06-15",
+      "id_zona": 1,
+      "id_perfil": 1
+    },
+    {
+      "id_poste": 1484,
+      "estado": "ativo",
+      "intensidade_atual": 45,
+      "latitude": 41.151,
+      "longitude": -8.611,
+      "altura": 10,
+      "data_instalacao": "2026-01-01",
       "id_zona": 1,
       "id_perfil": 1
     }
@@ -51665,6 +52215,132 @@
       "luminosidade_max": 800,
       "luminosidade_min": 200,
       "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1463,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T11:47:56.005Z",
+      "hora_desligar": "2026-06-14T11:48:56.005Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1464,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T11:48:27.665Z",
+      "hora_desligar": "2026-06-14T11:49:27.665Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1465,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T11:51:57.199Z",
+      "hora_desligar": "2026-06-14T11:52:57.199Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1466,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T11:52:38.331Z",
+      "hora_desligar": "2026-06-14T11:53:38.331Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1467,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T11:54:22.771Z",
+      "hora_desligar": "2026-06-14T11:55:22.771Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1468,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T12:00:37.797Z",
+      "hora_desligar": "2026-06-14T12:01:37.797Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1469,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T12:01:37.810Z",
+      "hora_desligar": "2026-06-14T12:02:37.810Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1470,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T12:02:32.510Z",
+      "hora_desligar": "2026-06-14T12:03:32.510Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
+    },
+    {
+      "id_registo": 1471,
+      "id_lampada": 3,
+      "id_poste": 3,
+      "modelo": "LED-URBAN",
+      "hora_ligar": "2026-06-14T12:20:35.410Z",
+      "hora_desligar": "2026-06-14T12:21:35.410Z",
+      "luminosidade": 500,
+      "estado": "off",
+      "potencia_watts": 50,
+      "luminosidade_max": 800,
+      "luminosidade_min": 200,
+      "tempo_vida_horas": null
     }
   ],
   "agendamentosManutencao": [
@@ -54695,6 +55371,87 @@
     {
       "id_avaria": 239,
       "descricao": "Avaria fluxo completo",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 240,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 241,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 242,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 243,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 244,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 245,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 246,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 247,
+      "descricao": "' OR 1=1 --",
+      "severidade": "alta",
+      "estado": "pendente",
+      "id_poste": 3,
+      "id_lampada": null,
+      "id_zona": null
+    },
+    {
+      "id_avaria": 248,
+      "descricao": "' OR 1=1 --",
       "severidade": "alta",
       "estado": "pendente",
       "id_poste": 3,

@@ -120,14 +120,90 @@ PASS tests/quality/TC013-RNF3-usabilidade.js (28.403 s)
 ==========================================
 
 ==========================================
+Test 19 — Frontend páginas funcionais e componentes partilhados
+Status: PASSED
+Output: From Cypress E2E execution
+Spec: tests/e2e/TC019-RF17-paginas-funcionais.cy.js
+"TC019 - RF17 paginas funcionais"
+All assertions passed for pages and shared components render.
+==========================================
+Test 20 — Configuração operacional /api/config
+Status: PASSED
+Output: From Jest execution
+Command: npx jest tests/unit/TC020-RF18-config-operacional.test.js --runInBand
+PASS tests/unit/TC020-RF18-config-operacional.test.js
+==========================================
+Test 21 — Segurança de API (Bearer, 401/403)
+Status: PASSED
+Output: From Jest execution
+Command: npx jest tests/unit/TC021-RNF02-seguranca-api.test.js --runInBand
+PASS tests/unit/TC021-RNF02-seguranca-api.test.js
+==========================================
+Test 22 — Continuidade local/offline sem duplicação
+Status: PASSED
+Output: From Jest execution
+Command: npx jest tests/resilience/TC022-RNF03-operacao-local-offline.test.js --runInBand
+PASS tests/resilience/TC022-RNF03-operacao-local-offline.test.js
+Test Suites: 1 passed, 1 total
+Tests: 3 passed, 3 total
+==========================================
+Test 23 — Fiabilidade de dados e integridade referencial
+Status: PASSED
+Output: From Jest execution
+Command: npx jest tests/unit/TC023-RNF04-fiabilidade-dados.test.js --runInBand
+PASS tests/unit/TC023-RNF04-fiabilidade-dados.test.js
+Test Suites: 1 passed, 1 total
+Tests: 3 passed, 3 total
+==========================================
+Test 24 — Compatibilidade de execução cross-browser (baseline)
+Status: PASSED
+Output: From Cypress execution after fix
+Command: npm run test:e2e -- --spec "tests/quality/TC024-RNF06-compatibilidade-execucao.cy.js"
+Spec: tests/quality/TC024-RNF06-compatibilidade-execucao.cy.js
+All page baseline compatibility checks passed after correcting selector scope.
+==========================================
+Test 25 — Testabilidade automatizada por camadas
+Status: PASSED
+Output: From Jest execution
+Command: npx jest tests/unit/TC025-RNF07-testabilidade-camadas.test.js --runInBand
+PASS tests/unit/TC025-RNF07-testabilidade-camadas.test.js
+Test Suites: 1 passed, 1 total
+Tests: 3 passed, 3 total
+==========================================
+Test 26 — Resiliência backend com fallback
+Status: PASSED
+Output: From Jest execution
+Command: npx jest tests/resilience/TC026-RNF08-resiliencia-fallback.test.js --runInBand
+PASS tests/resilience/TC026-RNF08-resiliencia-fallback.test.js
+Test Suites: 1 passed, 1 total
+Tests: 3 passed, 3 total
+==========================================
+Test 27 — Arquitetura modular backend/frontend
+Status: PASSED
+Output: From Jest execution
+Command: npx jest tests/unit/TC027-RNF09-arquitetura-modular.test.js --runInBand
+PASS tests/unit/TC027-RNF09-arquitetura-modular.test.js
+Test Suites: 1 passed, 1 total
+Tests: 3 passed, 3 total
+==========================================
+Test 28 — Contrato consistente de respostas
+Status: PASSED
+Output: From Jest execution
+Command: npx jest tests/unit/TC028-RNF10-contrato-respostas.test.js --runInBand
+PASS tests/unit/TC028-RNF10-contrato-respostas.test.js
+Test Suites: 1 passed, 1 total
+Tests: 3 passed, 3 total
+==========================================
+
+==========================================
 SUMMARY
-Total: 18
-Passed: 18
+Total: 28
+Passed: 28
 Failed: 0
 Overall:
-- npm run test:unit => 7 suites passed, 16 tests passed
-- npm run test:resilience => 1 suite passed, 3 tests passed
-- npm run test:quality => 1 suite passed, 3 tests passed
-- npm run test:quality:compat => 1 Cypress spec passed
-- npm run test:e2e => 5/5 specs passed (All specs passed)
+- npm run test:unit => previous suites + TC020, TC021, TC023, TC025, TC027, TC028 passed
+- npm run test:resilience => TC017, TC022, TC026 passed
+- npm run test:quality => TC013 passed
+- npm run test:quality:compat => TC015 passed
+- npm run test:e2e => RF e2e specs passed including TC019 and fixed TC024 compatibility baseline
 ==========================================

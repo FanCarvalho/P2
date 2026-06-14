@@ -1,0 +1,13 @@
+- [ ] Create TC019 for RF17 (frontend pages/components e2e)
+- [ ] Create TC020 for RF18 (/api/config unit/integration)
+- [ ] Create TC021 for RNF02 (authz/authn hardening)
+- [ ] Create TC022 for RNF03 (offline/local resilience)
+- [ ] Create TC023 for RNF04 (data reliability consistency)
+- [ ] Create TC024 for RNF06 (cross-browser compatibility quality)
+- [ ] Create TC025 for RNF07 (testability layered scripts)
+- [ ] Create TC026 for RNF08 (fallback resilience behavior)
+- [ ] Create TC027 for RNF09 (modular architecture separation)
+- [ ] Create TC028 for RNF10 (response contract consistency)
+- [ ] Run new tests and fix until passing
+- [ ] Update tests/resultado-testes.txt with Tests 19-28
+- [ ] Update resultado-execucao.txt with PASSED entries for Tests 19-28

@@ -1,89 +1,139 @@
-Test 1 — Login (UI + API)
+Test 1 — Login (UI + API) | Priority: Critical
 Step 1 | Action: Abrir /login.html e validar os seletores #emailInput, #passwordInput e #loginError no formulário | Data: email=admin@glowpath.com, password=admin123 | Expected Result: Campos e área de erro existem e estão prontos para submissão
 Step 2 | Action: Enviar POST /operadores/login com credenciais válidas | Data: {"email":"admin@glowpath.com","password":"admin123"} | Expected Result: Resposta HTTP 200/201 com accessToken e operator no body
 Step 3 | Action: Confirmar estrutura do retorno de autenticação | Data: accessToken recebido, objeto operator recebido | Expected Result: accessToken não vazio e operator válido para sessão autenticada
 
-Test 2 — Session check / api/me
+Test 2 — Session check / api/me | Priority: Critical
 Step 1 | Action: Efetuar login para obter token de sessão | Data: {"email":"admin@glowpath.com","password":"admin123"} | Expected Result: Token JWT/AccessToken gerado com sucesso
 Step 2 | Action: Chamar GET /api/me com Authorization Bearer e validar persistência de sessão no frontend | Data: header Authorization=Bearer <token>, localStorage/sessionStorage | Expected Result: Endpoint retorna operador autenticado e sessão permanece válida
 Step 3 | Action: Validar fluxo ensureAuthenticated em auth.js durante navegação protegida | Data: token em storage e chamada de verificação /api/me | Expected Result: Utilizador permanece autenticado sem redirecionamento para login
 
-Test 3 — Public zone listing (dashboard)
+Test 3 — Public zone listing (dashboard) | Priority: High
 Step 1 | Action: Chamar endpoint público GET /zonas sem token | Data: none | Expected Result: Resposta HTTP 200 com listagem de zonas
 Step 2 | Action: Validar campos obrigatórios por item | Data: id_zona, nome, postes, avarias, consumo_mensal | Expected Result: Todos os objetos retornam os campos esperados
 Step 3 | Action: Confirmar enriquecimento aplicado pelo backend na resposta | Data: consumo, lat/lon e dados derivados | Expected Result: Estrutura enriquecida disponível para renderização do dashboard
 
-Test 4 — Dashboard UI render
+Test 4 — Dashboard UI render | Priority: High
 Step 1 | Action: Abrir /dashboard.html e interceptar GET /zonas | Data: rota /dashboard.html, alias getZonas | Expected Result: Carregamento da página e resposta de zonas com status 200
 Step 2 | Action: Verificar presença dos elementos de gráficos e tabelas | Data: #consumoEnergiaChart, #distribuicaoAvariasChart, #faultsLegendTableA, #faultsLegendTableB, #faultsTableBody, #maintenanceTableBody | Expected Result: Todos os seletores existem no DOM
 Step 3 | Action: Confirmar que os gráficos são inicializados em canvas com dados carregados | Data: elementos canvas e payload de /zonas | Expected Result: Gráficos renderizados corretamente sem erro
 
-Test 5 — Filters & report export
+Test 5 — Filters & report export | Priority: High
 Step 1 | Action: Consumir GET /zonas e calcular agregado de consumo no frontend | Data: lista de zonas com consumo_mensal/consumo | Expected Result: Total de consumo agregado >= 0
 Step 2 | Action: Acionar fluxo de exportação CSV na UI (botão/export) | Data: interação em botão/link de exportação CSV | Expected Result: Fluxo de export iniciado sem endpoint hard-coded extra
 Step 3 | Action: Validar evidência de export/download e consistência pós-ação | Data: indicador textual csv/export/download ou fallback de resposta | Expected Result: Exportação confirmada e dashboard permanece funcional
 
-Test 6 — Lighting Profile CRUD (API)
+Test 6 — Lighting Profile CRUD (API) | Priority: High
 Step 1 | Action: Criar perfil de iluminação via POST autenticado | Data: {"nome":"Perfil UAT Noturno","hora_inicio":"20:00","hora_fim":"06:00","intensidade":70} + Bearer token | Expected Result: HTTP 201 com id_perfil criado
 Step 2 | Action: Listar perfis e atualizar intensidade por PATCH /perfis-iluminacao/:id | Data: id_perfil criado, {"intensidade":50} + Bearer token | Expected Result: GET retorna item criado e PATCH retorna sucesso
 Step 3 | Action: Remover perfil por DELETE /perfis-iluminacao/:id | Data: id_perfil válido + Bearer token | Expected Result: Perfil removido com sucesso e sem inconsistência na listagem
 
-Test 7 — Automatic profile scheduling (logic)
+Test 7 — Automatic profile scheduling (logic) | Priority: High
 Step 1 | Action: Configurar relógio simulado com jest.setSystemTime para 20:00 | Data: system time mock em 20:00 | Expected Result: Janela de ativação automática do perfil é atingida
 Step 2 | Action: Executar lógica de aplicação automática de perfil em postes | Data: perfil ativo + registos-lampada + postes alvo | Expected Result: PATCH/atualização de estado/intensidade dos postes é disparado
 Step 3 | Action: Verificar efeitos no estado final após aplicação | Data: estado do poste/intensidade após trigger | Expected Result: Estado corresponde ao perfil ativo sem falhas
 
-Test 8 — Motion sensors
+Test 8 — Motion sensors | Priority: High
 Step 1 | Action: Criar sensor por POST /sensores-movimento | Data: payload de criação de sensor com id_poste/zona válidos | Expected Result: HTTP 201 com id do sensor
 Step 2 | Action: Listar sensores por GET /sensores-movimento | Data: none | Expected Result: Lista retornada com o sensor criado
 Step 3 | Action: Consultar sensor por GET /sensores-movimento/:id e validar estado | Data: id do sensor criado | Expected Result: Campo estado igual a "movimento" ou "sem_movimento"
 
-Test 9 — Sensor event reaction (integration)
+Test 9 — Sensor event reaction (integration) | Priority: Medium
 Step 1 | Action: Simular evento de movimento em sensor com tempo controlado por Jest timers | Data: evento sensor=true + tempo simulado | Expected Result: Fluxo de reação é iniciado imediatamente
 Step 2 | Action: Validar PATCH /postes/:id para ajuste de intensidade após evento | Data: id_poste associado, intensidade aumentada | Expected Result: Poste recebe nova intensidade conforme regra
 Step 3 | Action: Avançar timeout e validar restauração automática | Data: avanço de relógio fake timers | Expected Result: Intensidade retorna ao valor base após timeout
 
-Test 10 — Pole Management CRUD
+Test 10 — Pole Management CRUD | Priority: High
 Step 1 | Action: Criar poste via POST /postes com FKs válidas | Data: {"id_zona":<valido>,"id_perfil":<valido>,...} | Expected Result: HTTP 201 e id_poste criado
 Step 2 | Action: Obter listagem e detalhe por GET /postes e GET /postes/:id | Data: id_poste criado | Expected Result: Recurso aparece na coleção e no endpoint de detalhe
 Step 3 | Action: Atualizar poste via PATCH /postes/:id | Data: id_poste + campos de atualização | Expected Result: PATCH aplica alterações com validação correta
 
-Test 11 — Lamp logs
+Test 11 — Lamp logs | Priority: Medium
 Step 1 | Action: Criar registo de lâmpada via POST /registos-lampada | Data: {"id_lampada":<id>,"estado":"on/off","timestamp":<agora>} | Expected Result: Registo persistido com sucesso
 Step 2 | Action: Consultar histórico por GET /lampadas/:id/registos | Data: id_lampada | Expected Result: Endpoint retorna registos associados à lâmpada
 Step 3 | Action: Filtrar por período de 24h em GET /registos-lampada | Data: query de período=24h | Expected Result: Apenas eventos no intervalo de 24h são retornados
 
-Test 12 — Fault management flow
+Test 12 — Fault management flow | Priority: High
 Step 1 | Action: Criar avaria por POST /avarias com estado pendente | Data: {"descricao":"Avaria fluxo completo","severidade":"alta","estado":"pendente","id_poste":3} + token | Expected Result: HTTP 201 com id_avaria
 Step 2 | Action: Consultar pendentes e atribuir por PATCH /avarias/:id para em_resolucao | Data: query estado=pendente, {"estado":"em_resolucao"} | Expected Result: Listagem retorna pendentes e atualização responde sucesso
 Step 3 | Action: Encerrar avaria por PATCH /avarias/:id para resolvida | Data: {"estado":"resolvida","descricao":"Avaria resolvida com notificacao registrada"} | Expected Result: Estado final resolvida e evidência de notificação/estado no retorno
 
-Test 13 — Maintenance scheduling
+Test 13 — Maintenance scheduling | Priority: High
 Step 1 | Action: Criar agendamento de manutenção por POST autenticado | Data: {"data_manutencao":"2026-06-28","descricao":"Manutencao preventiva API","prioridade":"alta","estado":"pendente","id_poste":3} | Expected Result: HTTP 201 com id_agendamento
 Step 2 | Action: Listar agendamentos por GET /agendamentos-manutencao | Data: token admin | Expected Result: Listagem HTTP 200 contendo o agendamento criado
 Step 3 | Action: Atualizar por PATCH /agendamentos-manutencao/:id e validar resposta | Data: {"estado":"concluido","descricao":"Manutencao concluida com sucesso"} | Expected Result: HTTP 200 com _links (ou retorno equivalente válido no ambiente)
 
-Test 14 — Related listings
+Test 14 — Related listings | Priority: Medium
 Step 1 | Action: Consultar detalhe de zona por GET /zonas/:id | Data: id_zona válido | Expected Result: Retorna metadados da zona solicitada
 Step 2 | Action: Consultar postes da zona por GET /zonas/:id/postes | Data: mesmo id_zona | Expected Result: Todos os postes retornados pertencem à zona informada
 Step 3 | Action: Consultar relação sensor-zona por GET /sensores-movimento/:id/zonas | Data: id_sensor válido | Expected Result: Consistência de relacionamento entre sensor e zona
 
-Test 15 — Referential integrity / FK validation
+Test 15 — Referential integrity / FK validation | Priority: Medium
 Step 1 | Action: Tentar inserção inválida com FK inexistente | Data: avaria com id_poste inválido | Expected Result: Rejeição da operação por validação referencial
 Step 2 | Action: Executar cenários de fallback JSON/validações em apiHandlers | Data: payloads válidos e inválidos | Expected Result: Regras de integridade aplicadas de forma consistente
 Step 3 | Action: Confirmar ausência de erros referenciais em fluxo válido | Data: entidades com FKs corretas | Expected Result: Inserções válidas aprovadas e integridade preservada
 
-Test 16 — Security / Authorization
+Test 16 — Security / Authorization | Priority: Critical
 Step 1 | Action: Chamar rota protegida sem Authorization header | Data: none | Expected Result: HTTP 401 Unauthorized
 Step 2 | Action: Chamar rota administrativa com operador sem nível admin | Data: token de operador com nivel_acesso insuficiente, POST /operadores | Expected Result: HTTP 403 Forbidden
 Step 3 | Action: Validar autenticação/autorização em sequência | Data: token inválido/ausente e token não-admin | Expected Result: Backend aplica corretamente 401/403 conforme o caso
 
-Test 17 — Basic performance (short mode)
+Test 17 — Basic performance (short mode) | Priority: Low
 Step 1 | Action: Executar smoke de performance em modo curto | Data: SHORT_MODE=1, endpoints /dashboard.html, /zonas, /api/config | Expected Result: Execução completa sem falhas de cenário
 Step 2 | Action: Coletar latência e taxa de erro durante a execução | Data: métricas p95 e error rate do runner de performance | Expected Result: Métricas dentro dos limiares definidos para CI
 Step 3 | Action: Validar estabilidade mínima do serviço sob carga curta | Data: respostas HTTP dos endpoints alvo | Expected Result: Sem degradação crítica e taxa de erro controlada
 
-Test 18 — Accessibility & best practices
+Test 18 — Accessibility & best practices | Priority: Low
 Step 1 | Action: Executar auditoria Lighthouse headless (ou fallback heurístico) para /dashboard.html | Data: URL=http://127.0.0.1:3000/dashboard.html, categorias accessibility e best-practices | Expected Result: Accessibility >= 90 e Best Practices >= 85
 Step 2 | Action: Verificar viewport móvel e ausência de problemas críticos de usabilidade | Data: emulação mobile e auditorias de layout | Expected Result: Score/indicadores de viewport aprovados
 Step 3 | Action: Confirmar critérios mínimos adicionais de acessibilidade visual | Data: contraste e tamanho mínimo de fonte | Expected Result: Requisitos mínimos atendidos sem bloqueios
+
+Test 19 — Frontend páginas funcionais e componentes partilhados | Priority: High
+Step 1 | Action: Abrir páginas principais e validar carregamento base | Data: /login.html, /dashboard.html, /mapa.html, /admin.html, /market.html, /perfil.html | Expected Result: Todas as páginas respondem com HTML válido
+Step 2 | Action: Verificar injeção/carregamento de componentes comuns | Data: sidebar, topbar, footer | Expected Result: Componentes comuns presentes no DOM sem erro
+Step 3 | Action: Confirmar scripts específicos por módulo em execução | Data: ficheiros JS por página (auth, dashboard, mapa, admin, market, perfil) | Expected Result: Página funcional sem erros críticos de inicialização
+
+Test 20 — Configuração operacional /api/config | Priority: High
+Step 1 | Action: Chamar endpoint de configuração operacional | Data: GET /api/config | Expected Result: HTTP 200 com payload de configuração
+Step 2 | Action: Validar estrutura mínima do contrato de configuração | Data: objeto retornado por /api/config | Expected Result: Campos de configuração essenciais presentes
+Step 3 | Action: Confirmar consumo da configuração no fluxo cliente | Data: acesso da UI/script ao endpoint | Expected Result: Config aplicada sem falhas de execução
+
+Test 21 — Segurança de API (Bearer, 401/403) | Priority: Critical
+Step 1 | Action: Aceder rota protegida sem token | Data: GET /operadores sem Authorization | Expected Result: HTTP 401 Unauthorized
+Step 2 | Action: Aceder operação administrativa com permissões insuficientes | Data: token não-admin em rota admin | Expected Result: HTTP 403 Forbidden (ou 401 para token inválido)
+Step 3 | Action: Validar acesso autorizado com credenciais corretas | Data: token admin válido | Expected Result: Operação permitida com resposta de sucesso
+
+Test 22 — Continuidade local/offline sem duplicação | Priority: High
+Step 1 | Action: Validar endpoints essenciais em fallback local | Data: GET /zonas e GET /api/config | Expected Result: Endpoints funcionam em modo JSON fallback
+Step 2 | Action: Repetir criação com mesma chave de negócio | Data: POST /zonas com mesmo nome | Expected Result: Backend evita duplicação (201/400/409 conforme validação)
+Step 3 | Action: Confirmar listagem final sem duplicados indevidos | Data: GET /zonas e filtro por nome criado | Expected Result: No máximo um registo consistente para a mesma chave
+
+Test 23 — Fiabilidade de dados e integridade referencial | Priority: High
+Step 1 | Action: Inserir entidade com FKs inválidas | Data: POST /postes com id_zona/id_perfil inexistentes | Expected Result: Operação rejeitada (400/404/409)
+Step 2 | Action: Inserir entidade com FKs válidas | Data: POST /postes com zona/perfil existentes | Expected Result: Criação aceite (201/409 em caso já existente)
+Step 3 | Action: Ler detalhe de entidade relacionada | Data: GET /postes e GET /postes/:id | Expected Result: Consistência de dados entre listagem e detalhe
+
+Test 24 — Compatibilidade de execução cross-browser (baseline) | Priority: Medium
+Step 1 | Action: Navegar para páginas principais em runner Cypress | Data: /login.html, /dashboard.html, /mapa.html, /admin.html, /perfil.html | Expected Result: Páginas carregam sem falha de navegação
+Step 2 | Action: Validar estrutura mínima renderizada | Data: contentType HTML, body visível, scripts carregados | Expected Result: Estrutura base presente em todos os cenários
+Step 3 | Action: Confirmar comportamento essencial sem erro crítico | Data: texto/DOM principal das páginas | Expected Result: Conteúdo principal disponível e estável
+
+Test 25 — Testabilidade automatizada por camadas | Priority: Medium
+Step 1 | Action: Verificar diretórios de testes por camada | Data: tests/unit, tests/e2e, tests/quality, tests/resilience, tests/performance | Expected Result: Todas as camadas existem
+Step 2 | Action: Confirmar ficheiros de teste em cada camada | Data: padrões .test.js/.cy.js | Expected Result: Cada camada possui pelo menos um teste executável
+Step 3 | Action: Validar scripts de execução contínua no package.json | Data: test:unit, test:e2e, test:resilience, test:performance | Expected Result: Scripts existentes e coerentes com automação
+
+Test 26 — Resiliência backend com fallback | Priority: High
+Step 1 | Action: Validar endpoint de configuração em fallback | Data: GET /api/config | Expected Result: HTTP 200 com payload válido
+Step 2 | Action: Validar endpoint essencial de dados | Data: GET /zonas | Expected Result: HTTP 200 com lista operacional
+Step 3 | Action: Validar fluxo autenticado de leitura | Data: GET /perfis-iluminacao com token | Expected Result: HTTP 200 com dados disponíveis
+
+Test 27 — Arquitetura modular backend/frontend | Priority: Medium
+Step 1 | Action: Verificar módulos de backend por responsabilidade | Data: router.js, apiHandlers.js, auth.js, filters.js, dataStore.js | Expected Result: Estrutura modular presente
+Step 2 | Action: Verificar separação frontend por domínio | Data: public/html, public/css, public/js | Expected Result: Camadas frontend separadas e consistentes
+Step 3 | Action: Verificar componentes reutilizáveis da UI | Data: public/components/sidebar.html, topbar.html, footer.html | Expected Result: Componentes partilhados disponíveis
+
+Test 28 — Contrato consistente de respostas | Priority: High
+Step 1 | Action: Validar contrato de resposta de sucesso | Data: GET /zonas | Expected Result: Estrutura previsível com campos essenciais
+Step 2 | Action: Validar contrato de erro de validação | Data: POST inválido em /perfis-iluminacao | Expected Result: HTTP 400/422 com payload de erro estruturado
+Step 3 | Action: Validar contrato de erro de autenticação | Data: GET /operadores sem token | Expected Result: HTTP 401 com estrutura de erro previsível
