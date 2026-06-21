@@ -2,49 +2,49 @@ async function includeComponents() {
   const placeholders = [...document.querySelectorAll("[data-include]")];
   const currentUser = getAuthenticatedUser();
   const userInitials = currentUser ? currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'AM';
-  
+
   const adminMenuItems = isAdmin() ? `
-      <a href="./admin.html" data-page-link="admin">Admin Panel</a>` : '';
-  
+      <a href="./admin.html" data-page-link="admin">Painel de Administração</a>` : '';
+
   const fallbackComponents = {
     "./components/sidebar.html": `
 <nav class="sidebar">
-  <a href="./dashboard.html" class="brand-link" aria-label="Ir para o Dashboard">
+  <a href="./dashboard.html" class="brand-link" aria-label="Ir para o Painel de Controlo">
     <div class="brand">
       <img src="/img/Glowpath.png" alt="Glowpath" class="brand-image" />
     </div>
   </a>
   <div>
-    <div class="menu-label">Main Menu</div>
+    <div class="menu-label">Menu Principal</div>
     <div class="nav">
-      <a href="./dashboard.html" data-page-link="dashboard">Dashboard</a>
+      <a href="./dashboard.html" data-page-link="dashboard">Painel de Controlo</a>
       <a href="./empresa.html" data-page-link="empresa">Empresa</a>
-      <a href="./mapa.html" data-page-link="mapa">Map</a>${adminMenuItems}
+      <a href="./mapa.html" data-page-link="mapa">Mapa</a>${adminMenuItems}
     </div>
   </div>
   <div>
-    <div class="menu-label">Account</div>
+    <div class="menu-label">Conta</div>
     <div class="nav">
-      <a href="./perfil.html" data-page-link="perfil">Settings</a>
-      <a href="#" onclick="logout(); return false;">Logout</a>
+      <a href="./perfil.html" data-page-link="perfil">Definições</a>
+      <a href="#" onclick="logout(); return false;">Sair</a>
     </div>
   </div>
 </nav>`,
     "./components/topbar.html": `
 <header class="topbar">
   <div>
-    <h1 class="page-title">Crypto Dashboard</h1>
-    <p class="page-subtitle">Acompanhe portfolio, mercados e configuracoes.</p>
+    <h1 class="page-title">Painel de Controlo</h1>
+    <p class="page-subtitle">Gerir a infraestrutura de rede, localizações e sensores.</p>
   </div>
   <div class="topbar-right">
     <a href="./perfil.html" class="avatar-link" aria-label="Abrir definições do perfil">
-      <div class="avatar" title="${currentUser ? currentUser.email : 'Usuário'}">${userInitials}</div>
+      <div class="avatar" title="${currentUser ? currentUser.email : 'Visitante'}">${userInitials}</div>
     </a>
   </div>
 </header>`,
     "./components/footer.html": `
 <footer class="footer">
-  Copyright 2026 CryptoVault. UI refatorada para estrutura modular HTML + CSS.
+  Glowpath • 2026
 </footer>`
   };
 
@@ -73,7 +73,7 @@ function updateTopbarAvatar() {
 
   const currentUser = getAuthenticatedUser();
   if (!currentUser) {
-    avatar.innerHTML = '<img src="../img/user.png" alt="Guest user" class="avatar-image">';
+    avatar.innerHTML = '<img src="../img/user.png" alt="Utilizador visitante" class="avatar-image">';
     avatar.setAttribute('title', 'Visitante');
     return;
   }
@@ -97,22 +97,22 @@ function applyPageState() {
   if (activeLink) activeLink.classList.add("active");
 
   const titleMap = {
-    dashboard: ["Dashboard", "Visao geral do portfolio"],
-    empresa: ["Glowpath Engenharia", "Lideranca em manutencao de infraestruturas urbanas inteligentes"],
-    market: ["Glowpath Engenharia", "Lideranca em manutencao de infraestruturas urbanas inteligentes"],
-    mapa: ["Map", "Parceiros e cobertura geolocalizada"],
-    perfil: ["Settings", "Preferencias e seguranca da conta"],
-    admin: ["Admin Panel", "Gerenciar a infraestrutura de rede"]
+    dashboard: ["Painel de Controlo", "Visão geral do sistema de iluminação pública"],
+    empresa: ["Glowpath Engenharia", "Liderança em manutenção de infraestruturas urbanas inteligentes"],
+    market: ["Glowpath Engenharia", "Liderança em manutenção de infraestruturas urbanas inteligentes"],
+    mapa: ["Mapa", "Zonas e cobertura geolocalizada"],
+    perfil: ["Definições", "Preferências e segurança da conta"],
+    admin: ["Painel de Administração", "Gerir a infraestrutura de rede, localizações e sensores"]
   };
 
-  const [title, subtitle] = titleMap[page] || ["Crypto Dashboard", ""];
+  const [title, subtitle] = titleMap[page] || ["Painel de Controlo", ""];
   const titleNode = document.querySelector(".page-title");
   const subtitleNode = document.querySelector(".page-subtitle");
   if (titleNode) titleNode.textContent = title;
   if (subtitleNode) subtitleNode.textContent = subtitle;
 }
 
-// Adicionar Admin Panel ao menu lateral apenas para admins
+// Adicionar Painel de Administração ao menu lateral apenas para admins
 function addAdminMenuItemIfNeeded() {
   if (isAdmin()) {
     const mainMenu = document.querySelector('.sidebar .nav');
@@ -120,7 +120,7 @@ function addAdminMenuItemIfNeeded() {
       const adminLink = document.createElement('a');
       adminLink.href = './admin.html';
       adminLink.setAttribute('data-page-link', 'admin');
-      adminLink.textContent = 'Admin Panel';
+      adminLink.textContent = 'Painel de Administração';
       mainMenu.appendChild(adminLink);
     }
   }
@@ -140,7 +140,7 @@ function applyGuestNavigationState() {
   if (logoutLink) {
     logoutLink.removeAttribute('onclick');
     logoutLink.setAttribute('href', './login.html');
-    logoutLink.textContent = 'Login';
+    logoutLink.textContent = 'Entrar';
   }
 }
 

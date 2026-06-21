@@ -68,6 +68,63 @@
   padding: 10px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.02);
+  position: relative;
+  border: 1px solid transparent;
+  cursor: default;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+              border-color 0.18s ease, background 0.18s ease;
+}
+
+.market-hero-highlight > div:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(30, 144, 255, 0.14);
+  border-color: rgba(30, 144, 255, 0.38);
+  background: rgba(30, 144, 255, 0.05);
+}
+
+/* ── Stat tooltip (popover) ───────────────────────────────────────────────── */
+.stat-tooltip {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  width: max-content;
+  max-width: 210px;
+  padding: 8px 12px;
+  background: #181b22;
+  border: 1px solid rgba(30, 144, 255, 0.32);
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b8cde0;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  white-space: normal;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  /* hide: delay visibility until after opacity fades */
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+  z-index: 200;
+}
+
+.stat-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top: none;
+  border-bottom-color: rgba(30, 144, 255, 0.32);
+}
+
+.market-hero-highlight > div:hover .stat-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  /* show: no delay on visibility */
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 .market-hero-highlight span {

@@ -1,37 +1,48 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const modalBackdrop = document.getElementById('staticPageModal');
-  if (!modalBackdrop) return;
+  // ── Inject tooltip spans ──────────────────────────────────────────────────
+  document.querySelectorAll('.market-hero-highlight > div[data-tooltip]').forEach(card => {
+    const tip = document.createElement('span');
+    tip.className = 'stat-tooltip';
+    tip.setAttribute('role', 'tooltip');
+    tip.textContent = card.dataset.tooltip;
+    card.appendChild(tip);
+  });
 
-  const closeIcon = modalBackdrop.querySelector('.close-btn');
-
-  const closeModal = () => {
-    modalBackdrop.style.display = 'none';
-    modalBackdrop.hidden = true;
-    document.body.style.overflow = '';
-  };
-
-  const openModal = () => {
-    modalBackdrop.style.display = 'grid';
-    modalBackdrop.hidden = false;
-    document.body.style.overflow = 'hidden';
-  };
-
-  if (closeIcon) {
-    closeIcon.addEventListener('click', closeModal);
+  // ── Count-up animation ────────────────────────────────────────────────────
+  function formatThousands(n) {
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
-  modalBackdrop.addEventListener('click', event => {
-    const clickedClose = event.target.closest('[data-modal-close]');
-    if (clickedClose || event.target === modalBackdrop) {
-      closeModal();
-    }
-  });
+  function formatTime(totalMinutes) {
+    const h = Math.floor(totalMinutes / 60);
+    const m = Math.round(totalMinutes % 60);
+    return `${h}h ${String(m).padStart(2, '0')}m`;
+  }
 
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && !modalBackdrop.hidden) {
-      closeModal();
-    }
-  });
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
 
-  openModal();
+  function animateCountUp(el) {
+    const end = parseFloat(el.dataset.countup);
+    const format = el.dataset.format || 'thousands';
+    const suffix = el.dataset.suffix ?? '';
+    const duration = 1400;
+    const startTime = performance.now();
+
+    function tick(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const current = easeOutCubic(progress) * end;
+
+      el.textContent = format === 'time'
+        ? formatTime(current)
+        : formatThousands(current) + suffix;
+
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  document.querySelectorAll('[data-countup]').forEach(animateCountUp);
 });

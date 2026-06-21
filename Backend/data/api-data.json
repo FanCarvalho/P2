@@ -9,14 +9,6 @@
       "ativo": true
     },
     {
-      "id_operador": 2,
-      "nome": "Operador Demo",
-      "email": "operador@glowpath.com",
-      "password": "operador123",
-      "nivel_acesso": "operador",
-      "ativo": true
-    },
-    {
       "id_operador": 3,
       "nome": "Rui Ferreira",
       "email": "rui.ferreira.3@empresa.com",
@@ -53,7 +45,7 @@
       "nome": "Luis Pereira",
       "email": "luis.pereira.7@empresa.com",
       "password": "pass1609",
-      "nivel_acesso": "visualizador",
+      "nivel_acesso": "operador",
       "ativo": true
     },
     {
@@ -230,7 +222,8 @@
       "nome": "Zona 1",
       "rua": "Rua Principal 1",
       "codigo_postal": "4248-655",
-      "id_sensor": 14
+      "id_sensor": 14,
+      "estado_manual": "Operacional"
     },
     {
       "id_zona": 2,

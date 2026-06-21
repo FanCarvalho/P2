@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,7 +25,7 @@
             <button id="addOperatorBtn" class="btn btn-outline btn-add-zone" type="button">+ Novo Operador</button>
           </header>
           <div class="table-container">
-            <table class="data-table" aria-label="Tabela de operadores">
+            <table class="data-table" id="operatorsTable" aria-label="Tabela de operadores">
               <thead>
                 <tr>
                   <th>Nome</th>
@@ -46,7 +46,7 @@
             <button id="addZoneBtn" class="btn btn-outline btn-add-zone" type="button">+ Nova Zona</button>
           </header>
           <div class="table-container">
-            <table class="data-table">
+            <table class="data-table" id="zonesTable">
               <thead>
                 <tr>
                    <th>Nome / Região</th>
@@ -54,7 +54,7 @@
                    <th>Avarias</th>
                    <th>Consumo</th>
                    <th>Última Substituição</th>
-                   <th>Estado</th>
+                   <th>Status</th>
                    <th>Ações</th>
                 </tr>
               </thead>
@@ -64,7 +64,7 @@
                    <td>1500</td>
                    <td>5</td>
                    <td>2500 kWh</td>
-                   <td>2023-10-15</td>
+                   <td class="date-editable" data-date-cell>2023-10-15</td>
                    <td><span class="badge badge-success">Operacional</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -76,7 +76,7 @@
                    <td>2200</td>
                    <td>12</td>
                    <td>3200 kWh</td>
-                   <td>2023-11-01</td>
+                   <td class="date-editable" data-date-cell>2023-11-01</td>
                    <td><span class="badge badge-success">Operacional</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -88,7 +88,7 @@
                    <td>800</td>
                    <td>2</td>
                    <td>1200 kWh</td>
-                   <td>2024-01-20</td>
+                   <td class="date-editable" data-date-cell>2024-01-20</td>
                    <td><span class="badge badge-success">Operacional</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -100,7 +100,7 @@
                    <td>400</td>
                    <td>1</td>
                    <td>600 kWh</td>
-                   <td>2024-02-10</td>
+                   <td class="date-editable" data-date-cell>2024-02-10</td>
                    <td><span class="badge badge-success">Operacional</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -112,7 +112,7 @@
                    <td>1100</td>
                    <td>3</td>
                    <td>1600 kWh</td>
-                   <td>2023-12-05</td>
+                   <td class="date-editable" data-date-cell>2023-12-05</td>
                    <td><span class="badge badge-success">Operacional</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -124,7 +124,7 @@
                    <td>950</td>
                    <td>7</td>
                    <td>1400 kWh</td>
-                   <td>2023-11-22</td>
+                   <td class="date-editable" data-date-cell>2023-11-22</td>
                    <td><span class="badge badge-warning">Atenção</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -136,7 +136,7 @@
                    <td>700</td>
                    <td>4</td>
                    <td>1000 kWh</td>
-                   <td>2024-01-05</td>
+                   <td class="date-editable" data-date-cell>2024-01-05</td>
                    <td><span class="badge badge-success">Operacional</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -148,7 +148,7 @@
                    <td>1800</td>
                    <td>15</td>
                    <td>2800 kWh</td>
-                   <td>2023-09-10</td>
+                   <td class="date-editable" data-date-cell>2023-09-10</td>
                    <td><span class="badge badge-danger">Avaria</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -160,7 +160,7 @@
                    <td>1300</td>
                    <td>6</td>
                    <td>2000 kWh</td>
-                   <td>2023-10-30</td>
+                   <td class="date-editable" data-date-cell>2023-10-30</td>
                    <td><span class="badge badge-success">Operacional</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -172,7 +172,7 @@
                    <td>600</td>
                    <td>2</td>
                    <td>900 kWh</td>
-                   <td>2024-02-15</td>
+                   <td class="date-editable" data-date-cell>2024-02-15</td>
                    <td><span class="badge badge-success">Operacional</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -184,7 +184,7 @@
                    <td>500</td>
                    <td>1</td>
                    <td>750 kWh</td>
-                   <td>2024-03-01</td>
+                   <td class="date-editable" data-date-cell>2024-03-01</td>
                    <td><span class="badge badge-success">Operacional</span></td>
                    <td>
                      <button class="btn btn-outline btn-sm">Editar</button> 
@@ -222,7 +222,7 @@
             </label>
 
             <label>
-              Estado
+              Status
               <select name="ativo" required>
                 <option value="true">Ativo</option>
                 <option value="false">Inativo</option>
@@ -276,7 +276,7 @@
             </label>
 
             <label>
-              Estado
+              Status
               <select name="estado" required>
                 <option value="Operacional">Operacional</option>
                 <option value="Atenção">Atenção</option>

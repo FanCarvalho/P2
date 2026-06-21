@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./css/empresa.css" />
   <script src="./js/auth.js"></script>
   <script defer src="./js/components.js"></script>
+  <script defer src="./js/empresa.js"></script>
 </head>
 <body data-page="empresa">
   <div class="app-shell">
@@ -27,17 +28,17 @@
           </p>
         </div>
         <div class="market-hero-highlight" aria-label="Indicadores de desempenho">
-          <div>
+          <div data-tooltip="Média de ~1.530 intervenções resolvidas por mês.">
             <span>Intervenções técnicas concluídas/ano</span>
-            <strong>18.400+</strong>
+            <strong data-countup="18400" data-format="thousands" data-suffix="+">18.400+</strong>
           </div>
-          <div>
+          <div data-tooltip="Inclui iluminação pública, sensores ambientais e semáforos.">
             <span>Ativos urbanos sob manutenção</span>
-            <strong>52.000+</strong>
+            <strong data-countup="52000" data-format="thousands" data-suffix="+">52.000+</strong>
           </div>
-          <div>
+          <div data-tooltip="Meta operacional interna fixada abaixo das 3h00m.">
             <span>Tempo médio de resposta operacional</span>
-            <strong>2h 10m</strong>
+            <strong data-countup="130" data-format="time">2h 10m</strong>
           </div>
         </div>
       </section>

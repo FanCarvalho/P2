@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login | Glowpath</title>
+  <title>Entrar | Glowpath</title>
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/login.css" />
   <script src="./js/auth.js"></script>
@@ -41,7 +41,7 @@
   <div class="login-layout">
     <section class="login-brand">
       <img src="/img/Glowpath2.png" alt="Glowpath" class="login-brand-logo" />
-      <p>Sua plataforma centralizada para monitorização, gestão e eficiência energética em infraestruturas urbanas.</p>
+      <p>A sua plataforma centralizada para monitorização, gestão e eficiência energética em infraestruturas urbanas.</p>
       <ul>
         <li>Eficiência energética e controlo em tempo real</li>
         <li>Gestão avançada de sensores IoT e avarias</li>
@@ -50,23 +50,23 @@
     </section>
 
     <section class="login-form">
-      <h2>Welcome Back</h2>
-      <p class="page-subtitle">Entre para acessar sua conta.</p>
+      <h2>Bem-vindo de volta</h2>
+      <p class="page-subtitle">Inicie sessão para aceder à sua conta.</p>
 
       <div class="login-error" id="loginError"></div>
 
       <form id="loginForm">
         <label class="form-field">
           <span>Email</span>
-          <input class="input" type="email" placeholder="Enter your email" id="emailInput" required />
+          <input class="input" type="email" placeholder="Introduza o seu email" id="emailInput" required />
         </label>
 
         <label class="form-field">
-          <span>Password</span>
-          <input class="input" type="password" placeholder="Enter your password" id="passwordInput" required />
+          <span>Palavra-passe</span>
+          <input class="input" type="password" placeholder="Introduza a sua palavra-passe" id="passwordInput" required />
         </label>
 
-        <button class="btn btn-primary" type="submit">Sign In</button>
+        <button class="btn btn-primary" type="submit">Entrar</button>
       </form>
 
       <div class="demo-users">
@@ -80,27 +80,22 @@
   <script>
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      
+
       const email = document.getElementById('emailInput').value.trim();
       const password = document.getElementById('passwordInput').value;
       const errorDiv = document.getElementById('loginError');
-      
+
       const result = await login(email, password);
-      
+
       if (result.success) {
-        // Login bem-sucedido - redirecionar para dashboard
         window.location.href = './dashboard.html';
       } else {
-        // Mostrar erro
         errorDiv.textContent = result.message;
         errorDiv.classList.add('show');
-        
-        // Limpar formulário
         document.getElementById('passwordInput').value = '';
       }
     });
 
-    // Limpar mensagem de erro ao digitar
     document.getElementById('emailInput').addEventListener('input', function() {
       document.getElementById('loginError').classList.remove('show');
     });

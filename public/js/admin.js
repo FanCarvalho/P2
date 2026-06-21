@@ -129,9 +129,16 @@ function parseConsumptionKwh(value) {
 }
 
 function parseDateForInput(value) {
-  const text = String(value || '').trim();
+  if (!value) return '';
+  const text = String(value).trim();
   if (!text || text.toLowerCase() === 'sem data') return '';
-  return /^\d{4}-\d{2}-\d{2}$/.test(text) ? text : '';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+  const date = new Date(text);
+  if (Number.isNaN(date.getTime())) return '';
+  const year = String(date.getFullYear());
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 function normalizeStatus(value) {
@@ -164,7 +171,7 @@ function createZoneTableRow({ zoneId, nome, postes, avarias, consumo, substituic
     <td><span class="badge ${statusClass}">${normalizedStatus}</span></td>
     <td>
       <button class="btn btn-outline btn-sm">Editar</button>
-      <button class="btn btn-danger btn-sm">Excluir</button>
+      <button class="btn btn-danger btn-sm">Eliminar</button>
     </td>
   `;
   return row;
@@ -298,7 +305,7 @@ function setupOperatorManagement() {
     const operatorName = row?.querySelector('td')?.textContent?.trim() || 'este operador';
     if (!row || !operatorId) return;
 
-    if (!confirm(`Tem certeza que deseja excluir ${operatorName}?`)) return;
+    if (!confirm(`Tem a certeza que deseja eliminar ${operatorName}?`)) return;
 
     try {
       const response = await authFetch(`/operadores/${operatorId}`, { method: 'DELETE' });
@@ -519,6 +526,11 @@ function setupZoneEditModal() {
   duplicateModal.style.display = 'none';
   duplicateModal.hidden = true;
 
+  const dateInput = form.querySelector('input[type="date"]');
+  if (dateInput) {
+    dateInput.addEventListener('click', () => { try { dateInput.showPicker(); } catch {} });
+  }
+
   addZoneButton.addEventListener('click', () => {
     openZoneCreateModal();
   });
@@ -531,7 +543,7 @@ function setupZoneEditModal() {
 
       const zoneName = row.querySelector('td')?.textContent?.trim() || 'esta zona';
       const zoneId = row.dataset.zoneId || null;
-      const confirmed = confirm(`Tem certeza que deseja excluir a zona ${zoneName}?`);
+      const confirmed = confirm(`Tem a certeza que deseja eliminar a zona ${zoneName}?`);
       if (!confirmed) return;
 
       registerDeletedZone(zoneName);
@@ -618,7 +630,10 @@ function setupZoneEditModal() {
         await authFetch(`/zonas/${zoneId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ estado_manual: estado })
+          body: JSON.stringify({
+            estado_manual: estado,
+            substituicao: substituicao !== 'Sem data' ? substituicao : null
+          })
         });
       } catch (error) {
         console.error('Não foi possível persistir estado manual da zona:', error);
@@ -698,6 +713,85 @@ function renderAdminTable({ zones }) {
   });
 }
 
+function setupInlineDateEditing(tableBody) {
+  if (!tableBody || tableBody.dataset.inlineDateBound === 'true') return;
+  tableBody.dataset.inlineDateBound = 'true';
+
+  tableBody.addEventListener('click', event => {
+    const cell = event.target.closest('[data-date-cell]');
+    if (!cell || cell.querySelector('input')) return;
+
+    const row = cell.closest('tr');
+    if (!row) return;
+
+    const originalText = cell.textContent.trim();
+    const inputValue = parseDateForInput(originalText);
+
+    const input = document.createElement('input');
+    input.type = 'date';
+    input.value = inputValue;
+    input.className = 'inline-date-input';
+
+    cell.textContent = '';
+    cell.appendChild(input);
+    input.addEventListener('click', () => { try { input.showPicker(); } catch {} });
+    input.focus();
+    try { input.showPicker(); } catch { }
+
+    let committed = false;
+
+    function commit() {
+      if (committed) return;
+      committed = true;
+
+      const newValue = input.value;
+      const displayText = newValue || 'Sem data';
+      cell.textContent = displayText;
+
+      if (newValue === inputValue) return;
+
+      const cells = row.querySelectorAll('td');
+      if (cells.length < 7) return;
+
+      const zoneId = row.dataset.zoneId || null;
+      const zoneName = cells[0].textContent.trim();
+      const postes = parseNumericText(cells[1].textContent);
+      const avarias = parseNumericText(cells[2].textContent);
+      const consumo = parseNumericText(cells[3].textContent);
+      const substituicao = newValue || 'Sem data';
+      const estado = normalizeStatus(cells[5].textContent);
+
+      persistZoneOverride({ zoneId, zoneName, postes, avarias, consumo, substituicao, estado });
+
+      if (zoneId) {
+        authFetch(`/zonas/${zoneId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ substituicao: newValue || null })
+        }).catch(err => console.error('Erro ao guardar data da zona:', err));
+      }
+    }
+
+    function cancel() {
+      if (committed) return;
+      committed = true;
+      cell.textContent = originalText;
+    }
+
+    input.addEventListener('change', commit);
+    input.addEventListener('blur', commit);
+    input.addEventListener('keydown', ev => {
+      if (ev.key === 'Enter') {
+        ev.preventDefault();
+        commit();
+      } else if (ev.key === 'Escape') {
+        ev.preventDefault();
+        cancel();
+      }
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   if (typeof ensureAuthenticated === 'function') {
     const ok = await ensureAuthenticated();
@@ -713,7 +807,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderAdminTable(data);
     setupOperatorManagement();
     setupZoneEditModal();
+    setupInlineDateEditing(document.getElementById('zonesTableBody'));
   } catch (error) {
-    console.error('Error loading admin data:', error);
+    console.error('Erro ao carregar dados do painel de administração:', error);
   }
 });

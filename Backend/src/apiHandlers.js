@@ -137,7 +137,7 @@ function toPublicZone(zone, apiDb) {
     consumo: `${totalConsumption} kWh`,
     consumo_mensal: consumoMensal,
     vencimento: lampsAtRisk,
-    substituicao: maintenanceDates[0] || null,
+    substituicao: zone.substituicao_manual !== undefined ? zone.substituicao_manual : (maintenanceDates[0] || null),
     lat: latitudes.length ? latitudes.reduce((sum, value) => sum + value, 0) / latitudes.length : null,
     lon: longitudes.length ? longitudes.reduce((sum, value) => sum + value, 0) / longitudes.length : null
   };
@@ -692,6 +692,7 @@ function patchZone(req, res, id) {
       if (body.id_sensor !== undefined) zone.id_sensor = Number(body.id_sensor);
       if (body.estado_manual !== undefined) zone.estado_manual = body.estado_manual === null ? null : String(body.estado_manual);
       if (body.status !== undefined) zone.estado_manual = body.status === null ? null : String(body.status);
+      if (body.substituicao !== undefined) zone.substituicao_manual = body.substituicao === null ? null : String(body.substituicao);
 
       saveApiDb();
       sendJson(res, 200, { message: 'Zona atualizada com sucesso' });

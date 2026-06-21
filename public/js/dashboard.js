@@ -318,7 +318,12 @@ function openFaultModal(entry, mode) {
   modal.querySelector('[data-fault-field="zoneName"]').textContent = entry.zoneName;
   modal.querySelector('[data-fault-field="faultCount"]').value = entry.faultCount;
   modal.querySelector('[data-fault-field="status"]').value = entry.status;
-  modal.querySelector('[data-fault-field="lastUpdate"]').value = entry.lastUpdate ? new Date(entry.lastUpdate).toISOString().slice(0, 10) : '';
+  const dateField = modal.querySelector('[data-fault-field="lastUpdate"]');
+  dateField.value = entry.lastUpdate ? new Date(entry.lastUpdate).toISOString().slice(0, 10) : '';
+  if (!dateField.dataset.pickerBound) {
+    dateField.dataset.pickerBound = 'true';
+    dateField.addEventListener('click', () => { try { dateField.showPicker(); } catch {} });
+  }
   modal.querySelector('[data-fault-field="notes"]').value = entry.notes || '';
 
   const canEdit = mode === 'edit' && canEditFaultEntries();

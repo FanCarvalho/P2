@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const response = await authFetch('/api/user');
             if (!response.ok) {
-                throw new Error('Failed to load user data');
+                throw new Error('Erro ao carregar os dados do utilizador');
             }
             const user = await response.json();
 
@@ -189,11 +189,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to save user data');
+                throw new Error('Erro ao guardar os dados do utilizador');
             }
 
             const result = await response.json();
-            showFeedback(result.message || 'Changes saved successfully!', 'success');
+            showFeedback(result.message || 'Alterações guardadas com sucesso!', 'success');
             
             // Atualizar o cabeçalho do perfil
             const displayName = buildDisplayName(updatedUser.firstName, updatedUser.lastName, currentUser?.name || 'Utilizador');
@@ -206,14 +206,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         } catch (error) {
             console.error('Error saving user data:', error);
-            showFeedback('Error saving changes. Please try again.', 'error');
+            showFeedback('Erro ao guardar as alterações. Por favor, tente novamente.', 'error');
         }
     });
 
     if (profileCancelBtn) {
         profileCancelBtn.addEventListener('click', () => {
             applyProfileState(initialProfileState);
-            showFeedback('Profile changes reverted.', 'success');
+            showFeedback('Alterações do perfil revertidas.', 'success');
         });
     }
 
@@ -226,17 +226,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             const confirmPwd = confirmPasswordInput.value;
 
             if (!currentPwd || !newPwd || !confirmPwd) {
-                showFeedback('Please fill in all password fields.', 'error');
+                showFeedback('Por favor, preencha todos os campos da palavra-passe.', 'error');
                 return;
             }
 
             if (newPwd.length < 8) {
-                showFeedback('New password must have at least 8 characters.', 'error');
+                showFeedback('A nova palavra-passe deve ter pelo menos 8 caracteres.', 'error');
                 return;
             }
 
             if (newPwd !== confirmPwd) {
-                showFeedback('New password and confirmation do not match.', 'error');
+                showFeedback('A nova palavra-passe e a confirmação não coincidem.', 'error');
                 return;
             }
 
@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         || payload?.errors?.newPassword?.[0]
                         || payload?.errors?.confirmPassword?.[0]
                         || payload?.description
-                        || 'Failed to update password.';
+                        || 'Erro ao atualizar a palavra-passe.';
                     showFeedback(msg, 'error');
                     return;
                 }
@@ -267,10 +267,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 currentPasswordInput.value = '';
                 newPasswordInput.value = '';
                 confirmPasswordInput.value = '';
-                showFeedback('Password updated successfully.', 'success');
+                showFeedback('Palavra-passe atualizada com sucesso.', 'success');
             } catch (error) {
                 console.error('Error updating password:', error);
-                showFeedback('Error updating password. Please try again.', 'error');
+                showFeedback('Erro ao atualizar a palavra-passe. Por favor, tente novamente.', 'error');
             }
         });
     }

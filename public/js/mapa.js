@@ -210,7 +210,7 @@ function renderZoneInfoPanel(zone, zoneKey, metrics) {
     `<p><strong>Status:</strong> ${metrics.status}</p>`,
     `<p><strong>Consumo Médio:</strong> ${metrics.consumption} kWh</p>`,
     `<p><strong>Lâmpadas a Vencer:</strong> ${metrics.lamps}</p>`,
-    `<p><strong>Última Substituição:</strong> ${metrics.lastUpdate}</p>`
+    `<p><strong>Última Substituição:</strong> ${formatDateForDisplay(metrics.lastUpdate)}</p>`
   ].join('');
 
   const canManageZone = typeof isAuthenticated === 'function' && isAuthenticated();
@@ -332,7 +332,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             `<td>Zona ${zone.id_zona || '-'}</td>`,
             `<td>Intensidade ${normalizeNumber(post.intensidade_atual)}%</td>`,
             `<td><span class="status-pill ${statusClass}">${state}</span></td>`,
-            '<td><button type="button" class="action-btn" disabled>Detalhe</button></td>',
             '</tr>'
           ].join('');
         }).join('');
@@ -375,6 +374,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       form.elements.expiring.value = metrics.lamps;
       form.elements.lastReplacement.value = formatDateForInput(zone.substituicao);
       form.elements.notes.value = zone.notes || '';
+
+      if (!form.elements.lastReplacement.dataset.pickerBound) {
+        form.elements.lastReplacement.dataset.pickerBound = 'true';
+        form.elements.lastReplacement.addEventListener('click', () => {
+          try { form.elements.lastReplacement.showPicker(); } catch {}
+        });
+      }
 
       clearModalMessage();
       updateDerivedFields();
@@ -485,7 +491,8 @@ document.addEventListener('DOMContentLoaded', async () => {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 status: statusLabel,
-                nome: String(form.elements.name.value || getZoneLabel(zone)).trim()
+                nome: String(form.elements.name.value || getZoneLabel(zone)).trim(),
+                substituicao: nextOverride.substituicao || null
               })
             });
 

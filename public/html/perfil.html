@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Settings | Glowpath</title>
+  <title>Definições | Glowpath</title>
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/perfil.css" />
@@ -19,10 +19,10 @@
       <div data-include="./components/topbar.html"></div>
 
       <section class="card">
-        <div class="settings-tabs" role="tablist" aria-label="Settings sections">
-          <button class="settings-tab active" type="button" role="tab" aria-selected="true" data-tab-target="profile-panel">Profile</button>
-          <button class="settings-tab" type="button" role="tab" aria-selected="false" data-tab-target="security-panel">Security</button>
-          <button class="settings-tab" type="button" role="tab" aria-selected="false" data-tab-target="notifications-panel">Notifications</button>
+        <div class="settings-tabs" role="tablist" aria-label="Secções de definições">
+          <button class="settings-tab active" type="button" role="tab" aria-selected="true" data-tab-target="profile-panel">Perfil</button>
+          <button class="settings-tab" type="button" role="tab" aria-selected="false" data-tab-target="security-panel">Segurança</button>
+          <button class="settings-tab" type="button" role="tab" aria-selected="false" data-tab-target="notifications-panel">Notificações</button>
         </div>
 
         <div class="settings-panel" id="profile-panel" role="tabpanel">
@@ -31,69 +31,114 @@
             <div class="profile-meta">
               <h2>Conta autenticada</h2>
               <p class="page-subtitle">A carregar credenciais...</p>
-              <p class="profile-role" id="profileRole">Nivel de acesso</p>
+              <p class="profile-role" id="profileRole">Nível de acesso</p>
             </div>
           </div>
 
           <form class="form-grid" id="profile-form">
-            <label>First Name<input type="text" id="firstName" /></label>
-            <label>Last Name<input type="text" id="lastName" /></label>
+            <label>Primeiro Nome<input type="text" id="firstName" /></label>
+            <label>Apelido<input type="text" id="lastName" /></label>
             <label>Email<input type="email" id="email" /></label>
-            <label>Access Level<input type="text" id="accessLevel" readonly /></label>
-            <label>Phone<input type="tel" id="phone" /></label>
-            <label>Bio<textarea rows="3" id="bio" placeholder="Descreve esta conta Glowpath."></textarea></label>
+            <label>Nível de Acesso<input type="text" id="accessLevel" readonly /></label>
+            <label>Telefone<input type="tel" id="phone" /></label>
+            <label>Biografia<textarea rows="3" id="bio" placeholder="Descreve esta conta Glowpath."></textarea></label>
             <div class="actions">
-              <button type="submit" class="btn btn-primary" style="width:auto;">Save Changes</button>
-              <button type="button" class="btn btn-secondary" style="width:auto;" id="profileCancelBtn">Cancel</button>
+              <button type="submit" class="btn btn-primary" style="width:auto;">Guardar Alterações</button>
+              <button type="button" class="btn btn-secondary" style="width:auto;" id="profileCancelBtn">Cancelar</button>
             </div>
           </form>
         </div>
 
         <div class="settings-panel" id="security-panel" role="tabpanel" hidden>
-          <h3 class="panel-title">Security</h3>
+          <h3 class="panel-title">Segurança</h3>
           <p class="panel-subtitle">Atualize a palavra-passe da conta.</p>
 
           <form class="form-grid" id="security-form">
-            <label>Current Password<input type="password" id="currentPassword" autocomplete="current-password" /></label>
-            <label>New Password<input type="password" id="newPassword" autocomplete="new-password" /></label>
-            <label>Confirm New Password<input type="password" id="confirmPassword" autocomplete="new-password" /></label>
+            <label>Palavra-passe Atual<input type="password" id="currentPassword" autocomplete="current-password" /></label>
+            <label>Nova Palavra-passe<input type="password" id="newPassword" autocomplete="new-password" /></label>
+            <label>Confirmar Nova Palavra-passe<input type="password" id="confirmPassword" autocomplete="new-password" /></label>
 
             <div class="actions">
-              <button type="submit" class="btn btn-primary" style="width:auto;">Update Password</button>
+              <button type="submit" class="btn btn-primary" style="width:auto;">Atualizar Palavra-passe</button>
             </div>
           </form>
         </div>
 
         <div class="settings-panel" id="notifications-panel" role="tabpanel" hidden>
-          <h3 class="panel-title">Notifications</h3>
-          <p class="panel-subtitle">Recent infrastructure events across monitored areas.</p>
+          <h3 class="panel-title">Notificações</h3>
+          <p class="panel-subtitle">Eventos recentes de infraestrutura nas áreas monitorizadas.</p>
 
-          <div class="notification-list" aria-label="Recent infrastructure notifications">
+          <div class="notification-list" aria-label="Notificações recentes de infraestrutura">
             <article class="notification-card is-alert">
               <div class="notification-indicator" aria-hidden="true"></div>
               <div class="notification-content">
-                <h4>Broken Pole Detected</h4>
-                <p>Pole #402 in Sector B went offline due to a power outage.</p>
+                <h4>Poste Danificado Detetado</h4>
+                <p>O poste #402 no Setor B ficou offline devido a uma falha de energia.</p>
               </div>
-              <time class="notification-time" datetime="PT10M">10m ago</time>
+              <time class="notification-time" datetime="PT10M">há 10m</time>
             </article>
 
             <article class="notification-card is-resolved">
               <div class="notification-indicator" aria-hidden="true"></div>
               <div class="notification-content">
-                <h4>Maintenance Completed</h4>
-                <p>Pole #115 has been successfully repaired and is fully operational.</p>
+                <h4>Manutenção Concluída</h4>
+                <p>O poste #115 foi reparado com sucesso e encontra-se totalmente operacional.</p>
               </div>
-              <time class="notification-time" datetime="PT2H">2h ago</time>
+              <time class="notification-time" datetime="PT2H">há 2h</time>
             </article>
 
             <article class="notification-card is-critical">
               <div class="notification-indicator" aria-hidden="true"></div>
               <div class="notification-content">
-                <h4>Critical System Alert</h4>
-                <p>High voltage fluctuation detected in the North District network.</p>
+                <h4>Alerta Crítico do Sistema</h4>
+                <p>Detetada oscilação de alta tensão na rede do Distrito Norte.</p>
               </div>
-              <time class="notification-time" datetime="P1D">1 day ago</time>
+              <time class="notification-time" datetime="P1D">há 1 dia</time>
+            </article>
+
+            <article class="notification-card is-resolved">
+              <div class="notification-indicator" aria-hidden="true"></div>
+              <div class="notification-content">
+                <h4>Atualização de Firmware Concluída</h4>
+                <p>As unidades de controlo da Zona 3 foram atualizadas para o firmware v4.2.1 sem interrupções de serviço.</p>
+              </div>
+              <time class="notification-time" datetime="PT35M">há 35m</time>
+            </article>
+
+            <article class="notification-card is-alert">
+              <div class="notification-indicator" aria-hidden="true"></div>
+              <div class="notification-content">
+                <h4>Alerta de Eficiência de Lâmpada</h4>
+                <p>O poste #228 no Setor D está a operar com 61% de eficiência. Recomenda-se substituição nos próximos 14 dias.</p>
+              </div>
+              <time class="notification-time" datetime="PT1H20M">há 1h 20m</time>
+            </article>
+
+            <article class="notification-card is-warning">
+              <div class="notification-indicator" aria-hidden="true"></div>
+              <div class="notification-content">
+                <h4>Manutenção Preventiva Agendada</h4>
+                <p>Uma equipa de manutenção foi alocada à Zona 7. Os trabalhos estão agendados para amanhã às 09:00.</p>
+              </div>
+              <time class="notification-time" datetime="PT3H">há 3h</time>
+            </article>
+
+            <article class="notification-card is-resolved">
+              <div class="notification-indicator" aria-hidden="true"></div>
+              <div class="notification-content">
+                <h4>Oscilação de Corrente Normalizada</h4>
+                <p>As irregularidades de tensão no Setor F estabilizaram por completo. Não foram reportados danos em equipamentos.</p>
+              </div>
+              <time class="notification-time" datetime="PT8H">há 8h</time>
+            </article>
+
+            <article class="notification-card is-critical">
+              <div class="notification-indicator" aria-hidden="true"></div>
+              <div class="notification-content">
+                <h4>Falha de Cobertura na Zona Detetada</h4>
+                <p>Os postes #311 e #312 na Zona 2 (Setor A) estão a reportar perda intermitente de sinal. Investigação em curso.</p>
+              </div>
+              <time class="notification-time" datetime="P2D">há 2 dias</time>
             </article>
           </div>
         </div>

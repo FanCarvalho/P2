@@ -110,6 +110,10 @@
   background: #4ade80;
 }
 
+.notification-card.is-warning .notification-indicator {
+  background: #fbbf24;
+}
+
 .notification-content h4 {
   margin: 0;
   color: var(--text);

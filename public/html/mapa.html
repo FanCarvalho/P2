@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Map | Glowpath</title>
+  <title>Mapa | Glowpath</title>
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./css/components.css" />
   <link rel="stylesheet" href="./css/mapa.css" />
@@ -52,8 +52,7 @@
                 <th>ID do Poste</th>
                 <th>Rua/Localizacao</th>
                 <th>Tipo de Lampada</th>
-                <th>Estado</th>
-                <th>Acoes</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody id="detailsTableBody"></tbody>
@@ -207,7 +206,6 @@
             '<td>' + poste.rua + '</td>' +
             '<td>' + poste.lampada + '</td>' +
             '<td><span class="status-pill ' + getStatusClass(poste.estado) + '">' + poste.estado + '</span></td>' +
-            '<td><button type="button" class="action-btn">Ver</button></td>' +
           '</tr>';
         }).join('');
 
